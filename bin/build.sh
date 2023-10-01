@@ -2,7 +2,7 @@
 
 mkdir -p build/
 
-g++ -std=c++17 -o build/main src/main.cpp -Iincludes \
+g++ -std=c++17 -o build/main src/*.cpp -Iincludes \
     -I/opt/homebrew/Cellar/sdl2/2.28.3/include/SDL2 -L/opt/homebrew/Cellar/sdl2/2.28.3/lib \
     -I/opt/homebrew/Cellar/sdl2_image/2.6.3_2/include/SDL2 -L/opt/homebrew/Cellar/sdl2_image/2.6.3_2/lib \
     -I/opt/homebrew/Cellar/sdl2_ttf/2.20.2/include/SDL2 -L/opt/homebrew/Cellar/sdl2_ttf/2.20.2/lib \
