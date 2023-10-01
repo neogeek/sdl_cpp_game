@@ -7,6 +7,7 @@
 
 #include "RenderObject.h"
 #include "lib/SDL_Utilities.h"
+#include "lib/SDL_Image_Utilities.h"
 #include "lib/SDL_TTF_Utilities.h"
 
 const Uint32 SCREEN_WIDTH = 800;
@@ -68,7 +69,7 @@ int main()
     SDL_Rect rect = {100, 100, 200, 150};
     SDL_Rect rect2 = {90, 90, 200, 150};
 
-    SDL_Texture *galagaShipTexture = SDL_Utilities::loadTexture(renderer, "../images/galaga_ship.png");
+    SDL_Texture *galagaShipTexture = SDL_Image_Utilities::loadTexture(renderer, "../images/galaga_ship.png");
     SDL_Rect galagaShipRect = {0, 0, 15 * 4, 16 * 4};
 
     SDL_Rect textRect = {100, 0, 250, 50};
