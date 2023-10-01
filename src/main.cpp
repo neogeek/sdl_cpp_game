@@ -76,11 +76,11 @@ int main()
 
     TTF_Font *font = SDL_TTF_Utilities::LoadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
 
-    RenderObject square1(renderer, rect);
+    RenderObject square1(renderer, &rect);
 
     square1.SetColor(Red);
 
-    RenderObject square2(renderer, rect2);
+    RenderObject square2(renderer, &rect2);
 
     square2.SetColor(White);
 
