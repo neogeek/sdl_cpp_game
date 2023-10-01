@@ -11,6 +11,7 @@ private:
     SDL_Rect rect;
 
 public:
+    RenderObject(SDL_Renderer *_renderer);
     RenderObject(SDL_Renderer *_renderer, SDL_Rect _rect);
 
     void Render();
