@@ -5,8 +5,8 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include "RenderObject.h"
 #include "ImageRenderObject.h"
+#include "RectRenderObject.h"
 
 #include "lib/SDL_Utilities.h"
 #include "lib/SDL_Image_Utilities.h"
@@ -81,11 +81,11 @@ int main()
 
     TTF_Font *font = SDL_TTF_Utilities::LoadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
 
-    RenderObject square1(renderer, &rect);
+    RectRenderObject square1(renderer, &rect);
 
     square1.SetColor(Red);
 
-    RenderObject square2(renderer, &rect2);
+    RectRenderObject square2(renderer, &rect2);
 
     square2.SetColor(White);
 

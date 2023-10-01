@@ -4,15 +4,15 @@
 
 #include <GameObject.h>
 
-class RenderObject : public GameObject
+class RectRenderObject : public GameObject
 {
 
 private:
     SDL_Color color;
 
 public:
-    RenderObject(SDL_Renderer *_renderer);
-    RenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
+    RectRenderObject(SDL_Renderer *_renderer);
+    RectRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
 
     void SetColor(SDL_Color _color);
 
