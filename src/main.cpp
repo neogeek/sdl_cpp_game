@@ -6,6 +6,8 @@
 #include <SDL_ttf.h>
 
 #include "RenderObject.h"
+#include "lib/SDL_Utilities.h"
+#include "lib/SDL_TTF_Utilities.h"
 
 const Uint32 SCREEN_WIDTH = 800;
 const Uint32 SCREEN_HEIGHT = 600;
@@ -40,87 +42,6 @@ typedef struct Keybindings
 
 const Keybindings LocalKeybindings = {};
 
-/**
- * Fills the screen with a color.
- *
- * @param renderer A structure representing rendering state.
- * @param color Color struct.
- */
-void clearRect(SDL_Renderer *renderer, SDL_Color color)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-
-    SDL_RenderClear(renderer);
-}
-
-/**
- * Render a rect with a color.
- *
- * @param renderer A structure representing rendering state.
- * @param rect A rectangle, with the origin at the upper left (integer).
- * @param color Color struct.
- */
-void renderRect(SDL_Renderer *renderer, SDL_Rect rect, SDL_Color color)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-
-    SDL_RenderFillRect(renderer, &rect);
-}
-
-SDL_Texture *loadTexture(SDL_Renderer *renderer, const char *path)
-{
-    SDL_Surface *surface = IMG_Load(path);
-
-    if (!surface)
-    {
-        return NULL;
-    }
-
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-
-    if (!texture)
-    {
-        return NULL;
-    }
-
-    return texture;
-}
-
-TTF_Font *loadFont(const char *path, int ptSize = 24)
-{
-    TTF_Font *font = TTF_OpenFont(path, ptSize);
-
-    if (!font)
-    {
-        return NULL;
-    }
-
-    return font;
-}
-
-void renderText(SDL_Renderer *renderer, TTF_Font *font, SDL_Color color, SDL_Rect rect, const char *content)
-{
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, content, color);
-
-    if (!textSurface)
-    {
-        return;
-    }
-
-    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-    if (!textTexture)
-    {
-        return;
-    }
-
-    SDL_RenderCopy(renderer, textTexture, NULL, &rect);
-
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
-}
-
 int main()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -147,12 +68,12 @@ int main()
     SDL_Rect rect = {100, 100, 200, 150};
     SDL_Rect rect2 = {90, 90, 200, 150};
 
-    SDL_Texture *galagaShipTexture = loadTexture(renderer, "../images/galaga_ship.png");
+    SDL_Texture *galagaShipTexture = SDL_Utilities::loadTexture(renderer, "../images/galaga_ship.png");
     SDL_Rect galagaShipRect = {0, 0, 15 * 4, 16 * 4};
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
-    TTF_Font *font = loadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
+    TTF_Font *font = SDL_TTF_Utilities::loadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
 
     RenderObject square(renderer, rect2);
 
@@ -211,13 +132,13 @@ int main()
             rect.y = 0;
         }
 
-        clearRect(renderer, Black);
+        SDL_Utilities::clearRect(renderer, Black);
 
-        renderRect(renderer, rect, Red);
+        SDL_Utilities::renderRect(renderer, rect, Red);
 
         SDL_RenderCopy(renderer, galagaShipTexture, NULL, &galagaShipRect);
 
-        renderText(renderer, font, White, textRect, "Hello World");
+        SDL_TTF_Utilities::renderText(renderer, font, White, textRect, "Hello World");
 
         square.Render();
 
