@@ -7,6 +7,7 @@
 
 #include "ImageRenderObject.h"
 #include "RectRenderObject.h"
+#include "TextRenderObject.h"
 
 #include "lib/SDL_Utilities.h"
 #include "lib/SDL_Image_Utilities.h"
@@ -81,6 +82,12 @@ int main()
 
     TTF_Font *font = SDL_TTF_Utilities::LoadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
 
+    TextRenderObject label(renderer, &textRect);
+
+    label.SetFont(font);
+    label.SetColor(White);
+    label.SetText("Hello, World!");
+
     RectRenderObject square1(renderer, &rect);
 
     square1.SetColor(Red);
@@ -148,7 +155,7 @@ int main()
 
         galagaShip.Render();
 
-        SDL_TTF_Utilities::RenderText(renderer, font, White, textRect, "Hello World");
+        label.Render();
 
         square1.Render();
         square2.Render();
@@ -169,6 +176,7 @@ int main()
     galagaShip.Clean();
 
     TTF_CloseFont(font);
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
