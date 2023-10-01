@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include <RenderObject.h>
+#include <GameObject.h>
 
-class ImageRenderObject : public RenderObject
+class ImageRenderObject : public GameObject
 {
 
 private:
@@ -14,9 +14,9 @@ public:
     ImageRenderObject(SDL_Renderer *_renderer);
     ImageRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
 
-    void Render();
-
     void LoadTexture(const char *path);
 
-    void Clean();
+    void Render() override;
+
+    void Clean() override;
 };

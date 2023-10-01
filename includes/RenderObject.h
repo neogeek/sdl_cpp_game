@@ -2,24 +2,21 @@
 
 #include <SDL.h>
 
-class RenderObject
+#include <GameObject.h>
+
+class RenderObject : public GameObject
 {
 
-protected:
-    SDL_Renderer *renderer;
-
-    SDL_Rect *rect;
-
+private:
     SDL_Color color;
 
 public:
     RenderObject(SDL_Renderer *_renderer);
     RenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
 
-    void Render();
-
-    void SetRect(SDL_Rect *_rect);
     void SetColor(SDL_Color _color);
 
-    void Clean();
+    void Render() override;
+
+    void Clean() override;
 };
