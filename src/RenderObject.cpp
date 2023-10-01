@@ -21,3 +21,7 @@ void RenderObject::SetColor(SDL_Color _color)
 {
     color = _color;
 }
+
+void RenderObject::Clean()
+{
+}

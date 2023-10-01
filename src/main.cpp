@@ -6,6 +6,8 @@
 #include <SDL_ttf.h>
 
 #include "RenderObject.h"
+#include "ImageRenderObject.h"
+
 #include "lib/SDL_Utilities.h"
 #include "lib/SDL_Image_Utilities.h"
 #include "lib/SDL_TTF_Utilities.h"
@@ -69,8 +71,11 @@ int main()
     SDL_Rect rect = {100, 100, 200, 150};
     SDL_Rect rect2 = {90, 90, 200, 150};
 
-    SDL_Texture *galagaShipTexture = SDL_Image_Utilities::LoadTexture(renderer, "../images/galaga_ship.png");
     SDL_Rect galagaShipRect = {0, 0, 15 * 4, 16 * 4};
+
+    ImageRenderObject galagaShip(renderer, &galagaShipRect);
+
+    galagaShip.LoadTexture("../images/galaga_ship.png");
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
@@ -141,7 +146,7 @@ int main()
 
         SDL_Utilities::ClearRect(renderer, Black);
 
-        SDL_RenderCopy(renderer, galagaShipTexture, NULL, &galagaShipRect);
+        galagaShip.Render();
 
         SDL_TTF_Utilities::RenderText(renderer, font, White, textRect, "Hello World");
 
@@ -161,7 +166,8 @@ int main()
         prevTicks = currentTicks;
     }
 
-    SDL_DestroyTexture(galagaShipTexture);
+    galagaShip.Clean();
+
     TTF_CloseFont(font);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

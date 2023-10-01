@@ -5,7 +5,7 @@
 class RenderObject
 {
 
-private:
+protected:
     SDL_Renderer *renderer;
 
     SDL_Rect *rect;
@@ -20,4 +20,6 @@ public:
 
     void SetRect(SDL_Rect *_rect);
     void SetColor(SDL_Color _color);
+
+    void Clean();
 };
