@@ -76,7 +76,13 @@ int main()
 
     TTF_Font *font = SDL_TTF_Utilities::LoadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
 
-    RenderObject square(renderer, rect2);
+    RenderObject square1(renderer, rect);
+
+    square1.SetColor(Red);
+
+    RenderObject square2(renderer, rect2);
+
+    square2.SetColor(White);
 
     while (!quit)
     {
@@ -135,13 +141,12 @@ int main()
 
         SDL_Utilities::ClearRect(renderer, Black);
 
-        SDL_Utilities::RenderRect(renderer, rect, Red);
-
         SDL_RenderCopy(renderer, galagaShipTexture, NULL, &galagaShipRect);
 
         SDL_TTF_Utilities::RenderText(renderer, font, White, textRect, "Hello World");
 
-        square.Render();
+        square1.Render();
+        square2.Render();
 
         SDL_RenderPresent(renderer);
 
