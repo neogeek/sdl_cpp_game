@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(sdl_cpp_game)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${sdl_cpp_game_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
