@@ -1,5 +1,4 @@
-#ifndef RENDER_OBJECT_H
-#define RENDER_OBJECT_H
+#pragma once
 
 #include <SDL.h>
 
@@ -16,5 +15,3 @@ public:
 
     void Render();
 };
-
-#endif
