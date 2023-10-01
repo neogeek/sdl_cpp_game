@@ -7,7 +7,7 @@ class SDL_Image_Utilities
 {
 
 public:
-    static SDL_Texture *loadTexture(SDL_Renderer *renderer, const char *path)
+    static SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *path)
     {
         SDL_Surface *surface = IMG_Load(path);
 

@@ -7,7 +7,7 @@ class SDL_TTF_Utilities
 {
 
 public:
-    static TTF_Font *loadFont(const char *path, int ptSize = 24)
+    static TTF_Font *LoadFont(const char *path, int ptSize = 24)
     {
         TTF_Font *font = TTF_OpenFont(path, ptSize);
 
@@ -19,7 +19,7 @@ public:
         return font;
     }
 
-    static void renderText(SDL_Renderer *renderer, TTF_Font *font, SDL_Color color, SDL_Rect rect, const char *content)
+    static void RenderText(SDL_Renderer *renderer, TTF_Font *font, SDL_Color color, SDL_Rect rect, const char *content)
     {
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, content, color);
 

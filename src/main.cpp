@@ -69,12 +69,12 @@ int main()
     SDL_Rect rect = {100, 100, 200, 150};
     SDL_Rect rect2 = {90, 90, 200, 150};
 
-    SDL_Texture *galagaShipTexture = SDL_Image_Utilities::loadTexture(renderer, "../images/galaga_ship.png");
+    SDL_Texture *galagaShipTexture = SDL_Image_Utilities::LoadTexture(renderer, "../images/galaga_ship.png");
     SDL_Rect galagaShipRect = {0, 0, 15 * 4, 16 * 4};
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
-    TTF_Font *font = SDL_TTF_Utilities::loadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
+    TTF_Font *font = SDL_TTF_Utilities::LoadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
 
     RenderObject square(renderer, rect2);
 
@@ -133,13 +133,13 @@ int main()
             rect.y = 0;
         }
 
-        SDL_Utilities::clearRect(renderer, Black);
+        SDL_Utilities::ClearRect(renderer, Black);
 
-        SDL_Utilities::renderRect(renderer, rect, Red);
+        SDL_Utilities::RenderRect(renderer, rect, Red);
 
         SDL_RenderCopy(renderer, galagaShipTexture, NULL, &galagaShipRect);
 
-        SDL_TTF_Utilities::renderText(renderer, font, White, textRect, "Hello World");
+        SDL_TTF_Utilities::RenderText(renderer, font, White, textRect, "Hello World");
 
         square.Render();
 

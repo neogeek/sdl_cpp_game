@@ -6,7 +6,7 @@ class SDL_Utilities
 {
 
 public:
-    static void clearRect(SDL_Renderer *renderer, SDL_Color color)
+    static void ClearRect(SDL_Renderer *renderer, SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
@@ -20,7 +20,7 @@ public:
      * @param rect A rectangle, with the origin at the upper left (integer).
      * @param color Color struct.
      */
-    static void renderRect(SDL_Renderer *renderer, SDL_Rect rect, SDL_Color color)
+    static void RenderRect(SDL_Renderer *renderer, SDL_Rect rect, SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
