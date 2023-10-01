@@ -11,3 +11,13 @@ void RenderObject::Render()
 {
     SDL_Utilities::RenderRect(renderer, rect, color);
 }
+
+void RenderObject::SetRect(SDL_Rect _rect)
+{
+    rect = _rect;
+}
+
+void RenderObject::SetColor(SDL_Color _color)
+{
+    color = _color;
+}
