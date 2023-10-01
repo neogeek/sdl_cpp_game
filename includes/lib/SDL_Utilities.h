@@ -6,6 +6,12 @@ class SDL_Utilities
 {
 
 public:
+    /**
+     * Clears a rect with a color.
+     *
+     * @param renderer A structure representing rendering state.
+     * @param color Color struct.
+     */
     static void ClearRect(SDL_Renderer *renderer, SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
