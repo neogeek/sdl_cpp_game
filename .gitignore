@@ -11,5 +11,3 @@ CTestTestfile.cmake
 _deps
 
 build/
-
-sdl_cpp_game
