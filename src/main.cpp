@@ -1,10 +1,12 @@
 #include <iostream>
+#include <list>
 #include <string>
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+#include "GameObject.h"
 #include "ImageRenderObject.h"
 #include "RectRenderObject.h"
 #include "TextRenderObject.h"
@@ -22,18 +24,6 @@ const Uint32 SCREEN_HEIGHT = 600;
 
 SDL_Window *window;
 SDL_Renderer *renderer;
-
-void input()
-{
-}
-
-void update()
-{
-}
-
-void render()
-{
-}
 
 const SDL_Color Black = {};
 const SDL_Color White = {255, 255, 255};
@@ -68,6 +58,8 @@ int main()
 
     bool quit = false;
 
+    std::list<GameObject *> gos;
+
     SDL_Event event;
 
     Uint32 prevTicks = SDL_GetTicks();
@@ -79,26 +71,29 @@ int main()
     SDL_Rect galagaShipRect = {0, 0, 15 * 4, 16 * 4};
 
     ImageRenderObject galagaShip(renderer, &galagaShipRect);
-
     galagaShip.LoadTextureRW(images_galaga_ship_png, images_galaga_ship_png_len);
+
+    gos.push_back(&galagaShip);
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
     TTF_Font *font = SDL_TTF_Utilities::LoadFontRW(fonts_Roboto_Roboto_Regular_ttf, fonts_Roboto_Roboto_Regular_ttf_len, 200);
 
     TextRenderObject label(renderer, &textRect);
-
     label.SetFont(font);
     label.SetColor(White);
     label.SetText("Hello, World!");
 
-    RectRenderObject square1(renderer, &rect);
+    gos.push_back(&label);
 
+    RectRenderObject square1(renderer, &rect);
     square1.SetColor(Red);
 
     RectRenderObject square2(renderer, &rect2);
-
     square2.SetColor(White);
+
+    gos.push_back(&square1);
+    gos.push_back(&square2);
 
     while (!quit)
     {
@@ -157,12 +152,10 @@ int main()
 
         SDL_Utilities::ClearRect(renderer, Black);
 
-        galagaShip.Render();
-
-        label.Render();
-
-        square1.Render();
-        square2.Render();
+        for (std::list<GameObject *>::iterator iter = gos.begin(); iter != gos.end(); iter++)
+        {
+            (*iter)->Render();
+        }
 
         SDL_RenderPresent(renderer);
 
@@ -177,7 +170,10 @@ int main()
         prevTicks = currentTicks;
     }
 
-    galagaShip.Clean();
+    for (std::list<GameObject *>::iterator iter = gos.begin(); iter != gos.end(); iter++)
+    {
+        (*iter)->Clean();
+    }
 
     TTF_CloseFont(font);
 

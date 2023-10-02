@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 
+GameObject::GameObject() {}
 GameObject::GameObject(SDL_Renderer *_renderer) : renderer(_renderer) {}
 GameObject::GameObject(SDL_Renderer *_renderer, SDL_Rect *_rect) : renderer(_renderer), rect(_rect) {}
 
