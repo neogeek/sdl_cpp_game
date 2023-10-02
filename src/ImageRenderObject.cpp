@@ -4,8 +4,7 @@
 
 #include <SDL.h>
 
-ImageRenderObject::ImageRenderObject(SDL_Renderer *_renderer) : GameObject(_renderer) {}
-ImageRenderObject::ImageRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect) : GameObject(_renderer, _rect) {}
+ImageRenderObject::ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
 /**
  * Load textures by path.
@@ -13,7 +12,7 @@ ImageRenderObject::ImageRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect) :
  *
  * @deprecated DEVELOPMENT USE ONLY! Use LoadTextureRW to load textures in a final build.
  */
-void ImageRenderObject::LoadTexture(const char *path)
+void ImageRenderObject::LoadTexture(SDL_Renderer *renderer, const char *path)
 {
     texture = SDL_Image_Utilities::LoadTexture(renderer, path);
 }
@@ -23,7 +22,7 @@ void ImageRenderObject::LoadTexture(const char *path)
  * @param mem Pointer to a read-only buffer. (texture loaded in via header file)
  * @param size Length of a buffer in bytes.
  */
-void ImageRenderObject::LoadTextureRW(const void *mem, int size)
+void ImageRenderObject::LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
 {
     texture = SDL_Image_Utilities::LoadTextureRW(renderer, mem, size);
 }
@@ -31,7 +30,7 @@ void ImageRenderObject::LoadTextureRW(const void *mem, int size)
 /**
  * Render image to the scene.
  */
-void ImageRenderObject::Render()
+void ImageRenderObject::Render(SDL_Renderer *renderer)
 {
     SDL_RenderCopy(renderer, texture, NULL, rect);
 }

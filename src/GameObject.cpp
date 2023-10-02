@@ -4,8 +4,7 @@
 
 #include <SDL.h>
 
-GameObject::GameObject(SDL_Renderer *_renderer) : renderer(_renderer) {}
-GameObject::GameObject(SDL_Renderer *_renderer, SDL_Rect *_rect) : renderer(_renderer), rect(_rect) {}
+GameObject::GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
 /**
  * Set rect position and size to the GameObject.
@@ -19,7 +18,7 @@ void GameObject::SetRect(SDL_Rect *_rect)
 /**
  * Render GameObject to the scene.
  */
-void GameObject::Render()
+void GameObject::Render(SDL_Renderer *_renderer)
 {
 }
 

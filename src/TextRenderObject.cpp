@@ -5,8 +5,7 @@
 
 #include <SDL.h>
 
-TextRenderObject::TextRenderObject(SDL_Renderer *_renderer) : GameObject(_renderer) {}
-TextRenderObject::TextRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect) : GameObject(_renderer, _rect) {}
+TextRenderObject::TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
 /**
  * Set text font.
@@ -38,7 +37,7 @@ void TextRenderObject::SetText(const char *_text)
 /**
  * Render text to the scene.
  */
-void TextRenderObject::Render()
+void TextRenderObject::Render(SDL_Renderer *renderer)
 {
     SDL_TTF_Utilities::RenderText(renderer, font, color, *rect, text);
 }

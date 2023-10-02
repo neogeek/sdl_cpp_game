@@ -4,8 +4,7 @@
 
 #include <SDL.h>
 
-RectRenderObject::RectRenderObject(SDL_Renderer *_renderer) : GameObject(_renderer) {}
-RectRenderObject::RectRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect) : GameObject(_renderer, _rect) {}
+RectRenderObject::RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
 /**
  * Set rect color.
@@ -19,7 +18,7 @@ void RectRenderObject::SetColor(SDL_Color _color)
 /**
  * Render rect to the scene.
  */
-void RectRenderObject::Render()
+void RectRenderObject::Render(SDL_Renderer *renderer)
 {
     SDL_Utilities::RenderRect(renderer, rect, color);
 }

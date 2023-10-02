@@ -16,8 +16,7 @@ private:
     const char *text;
 
 public:
-    TextRenderObject(SDL_Renderer *_renderer);
-    TextRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
+    TextRenderObject(SDL_Rect *_rect);
 
     void SetFont(TTF_Font *_font);
 
@@ -25,7 +24,7 @@ public:
 
     void SetText(const char *text);
 
-    void Render() override;
+    void Render(SDL_Renderer *renderer) override;
 
     void Clean() override;
 };
