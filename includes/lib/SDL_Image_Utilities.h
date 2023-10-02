@@ -27,4 +27,27 @@ public:
 
         return texture;
     }
+
+    static SDL_Texture *LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
+    {
+        SDL_RWops *rw = SDL_RWFromConstMem(mem, size);
+
+        SDL_Surface *surface = IMG_Load_RW(rw, 1);
+
+        if (!surface)
+        {
+            return NULL;
+        }
+
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+        SDL_FreeSurface(surface);
+
+        if (!texture)
+        {
+            return NULL;
+        }
+
+        return texture;
+    }
 };

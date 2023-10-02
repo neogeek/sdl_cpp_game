@@ -15,6 +15,7 @@ public:
     ImageRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
 
     void LoadTexture(const char *path);
+    void LoadTextureRW(const void *mem, int size);
 
     void Render() override;
 

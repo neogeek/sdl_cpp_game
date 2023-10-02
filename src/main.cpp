@@ -9,6 +9,8 @@
 #include "RectRenderObject.h"
 #include "TextRenderObject.h"
 
+#include "galaga_ship.h"
+
 #include "lib/SDL_Utilities.h"
 #include "lib/SDL_Image_Utilities.h"
 #include "lib/SDL_TTF_Utilities.h"
@@ -76,7 +78,7 @@ int main()
 
     ImageRenderObject galagaShip(renderer, &galagaShipRect);
 
-    galagaShip.LoadTexture("../images/galaga_ship.png");
+    galagaShip.LoadTextureRW(images_galaga_ship_png, images_galaga_ship_png_len);
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
