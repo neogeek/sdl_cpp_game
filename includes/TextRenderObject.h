@@ -11,7 +11,7 @@ class TextRenderObject : public GameObject
 private:
     TTF_Font *font;
 
-    SDL_Color color;
+    SDL_Color color{255, 255, 255, 255};
 
     const char *text;
 

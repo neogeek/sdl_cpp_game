@@ -10,7 +10,7 @@ class Game
 {
 
 private:
-    SDL_Color clearColor;
+    SDL_Color clearColor{0, 0, 0, 255};
 
     bool quit;
 

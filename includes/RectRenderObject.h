@@ -8,7 +8,7 @@ class RectRenderObject : public GameObject
 {
 
 private:
-    SDL_Color color;
+    SDL_Color color{0, 0, 0, 255};
 
 public:
     RectRenderObject(SDL_Rect *_rect);
