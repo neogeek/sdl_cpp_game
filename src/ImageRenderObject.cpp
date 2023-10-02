@@ -28,11 +28,17 @@ void ImageRenderObject::LoadTextureRW(const void *mem, int size)
     texture = SDL_Image_Utilities::LoadTextureRW(renderer, mem, size);
 }
 
+/**
+ * Render image to the scene.
+ */
 void ImageRenderObject::Render()
 {
     SDL_RenderCopy(renderer, texture, NULL, rect);
 }
 
+/**
+ * Cleanup function to run after the scene is unloaded.
+ */
 void ImageRenderObject::Clean()
 {
     SDL_DestroyTexture(texture);
