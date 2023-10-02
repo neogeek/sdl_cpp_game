@@ -31,8 +31,13 @@ bool Game::GetQuit()
     return quit;
 }
 
-bool Game::HandleInput()
+void Game::HandleInput()
 {
+    if (SDL_PollEvent(&event) == 0)
+    {
+        return;
+    }
+
     if (event.type == SDL_QUIT)
     {
         quit = true;
@@ -46,8 +51,6 @@ bool Game::HandleInput()
             quit = true;
         }
     }
-
-    return SDL_PollEvent(&event) != 0;
 }
 
 void Game::Update()

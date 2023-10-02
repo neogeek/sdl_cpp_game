@@ -32,7 +32,7 @@ public:
 
     bool GetQuit();
 
-    bool HandleInput();
+    void HandleInput();
 
     void Update();
 

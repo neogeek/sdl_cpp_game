@@ -25,10 +25,9 @@ int main()
 
     while (!game.GetQuit())
     {
-        while (game.HandleInput())
-        {
-            game.Render();
-        }
+        game.HandleInput();
+
+        game.Render();
     }
 
     game.Clean();
