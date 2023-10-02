@@ -19,6 +19,18 @@ public:
         return font;
     }
 
+    static TTF_Font *LoadFontRW(const void *mem, int size, int ptSize = 24)
+    {
+        TTF_Font *font = TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
+
+        if (!font)
+        {
+            return NULL;
+        }
+
+        return font;
+    }
+
     static void RenderText(SDL_Renderer *renderer, TTF_Font *font, SDL_Color color, SDL_Rect rect, const char *content)
     {
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, content, color);

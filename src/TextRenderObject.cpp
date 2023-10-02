@@ -13,6 +13,11 @@ void TextRenderObject::SetFont(TTF_Font *_font)
     font = _font;
 }
 
+void TextRenderObject::SetFontRW(TTF_Font *_font)
+{
+    font = _font;
+}
+
 void TextRenderObject::SetColor(SDL_Color _color)
 {
     color = _color;

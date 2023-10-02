@@ -20,6 +20,7 @@ public:
     TextRenderObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
 
     void SetFont(TTF_Font *_font);
+    void SetFontRW(TTF_Font *_font);
 
     void SetColor(SDL_Color _color);
 

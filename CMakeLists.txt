@@ -19,6 +19,7 @@ include_directories(${SDL2_INCLUDE_DIR}
                     ${SDL2_IMAGE_INCLUDE_DIR}
                     ${SDL2_TTF_INCLUDE_DIR})
 
+include_directories("fonts")
 include_directories("images")
 include_directories("includes")
 

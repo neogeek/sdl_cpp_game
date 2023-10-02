@@ -9,6 +9,8 @@
 #include "RectRenderObject.h"
 #include "TextRenderObject.h"
 
+#include "Roboto/Roboto-Regular.h"
+
 #include "galaga_ship.h"
 
 #include "lib/SDL_Utilities.h"
@@ -82,7 +84,7 @@ int main()
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
-    TTF_Font *font = SDL_TTF_Utilities::LoadFont("../fonts/Roboto/Roboto-Regular.ttf", 200);
+    TTF_Font *font = SDL_TTF_Utilities::LoadFontRW(fonts_Roboto_Roboto_Regular_ttf, fonts_Roboto_Roboto_Regular_ttf_len);
 
     TextRenderObject label(renderer, &textRect);
 
