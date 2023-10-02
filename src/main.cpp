@@ -84,7 +84,7 @@ int main()
 
     SDL_Rect textRect = {100, 0, 250, 50};
 
-    TTF_Font *font = SDL_TTF_Utilities::LoadFontRW(fonts_Roboto_Roboto_Regular_ttf, fonts_Roboto_Roboto_Regular_ttf_len);
+    TTF_Font *font = SDL_TTF_Utilities::LoadFontRW(fonts_Roboto_Roboto_Regular_ttf, fonts_Roboto_Roboto_Regular_ttf_len, 200);
 
     TextRenderObject label(renderer, &textRect);
 
