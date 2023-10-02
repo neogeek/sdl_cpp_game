@@ -11,6 +11,16 @@ Game::Game()
     SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN, &window, &renderer);
 }
 
+bool Game::Setup()
+{
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 void Game::SetScreenSize(int width, int height)
 {
     SDL_SetWindowSize(window, width, height);

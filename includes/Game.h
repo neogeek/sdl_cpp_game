@@ -24,6 +24,8 @@ public:
 
     Game();
 
+    bool Setup();
+
     void SetScreenSize(int width, int height);
 
     void SetTitle(const char *name);

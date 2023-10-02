@@ -10,7 +10,7 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    if (!game.Setup())
     {
         return 1;
     }
