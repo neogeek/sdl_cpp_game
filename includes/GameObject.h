@@ -11,7 +11,6 @@ protected:
     SDL_Rect *rect;
 
 public:
-    GameObject();
     GameObject(SDL_Renderer *_renderer);
     GameObject(SDL_Renderer *_renderer, SDL_Rect *_rect);
 
