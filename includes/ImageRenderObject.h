@@ -11,7 +11,7 @@ private:
     SDL_Texture *texture;
 
 public:
-    ImageRenderObject(SDL_Rect *_rect);
+    explicit ImageRenderObject(SDL_Rect *_rect);
 
     void LoadTexture(SDL_Renderer *renderer, const char *path);
     void LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size);

@@ -16,7 +16,7 @@ private:
     const char *text;
 
 public:
-    TextRenderObject(SDL_Rect *_rect);
+    explicit TextRenderObject(SDL_Rect *_rect);
 
     void SetFont(TTF_Font *_font);
 

@@ -11,7 +11,7 @@ private:
     SDL_Color color{0, 0, 0, 255};
 
 public:
-    RectRenderObject(SDL_Rect *_rect);
+    explicit RectRenderObject(SDL_Rect *_rect);
 
     void SetColor(SDL_Color _color);
 

@@ -9,7 +9,7 @@ protected:
     SDL_Rect *rect;
 
 public:
-    GameObject(SDL_Rect *_rect);
+    explicit GameObject(SDL_Rect *_rect);
 
     void SetRect(SDL_Rect *_rect);
 
