@@ -28,9 +28,16 @@ int main()
                              temp.x = 0;
                          }
 
+                         if (temp.y > 400)
+                         {
+                             temp.y = 0;
+                         }
+
                          std::printf("%d\n", deltaTime);
 
-                         temp.x += 1; });
+                         temp.x += 1;
+                         temp.y += 1;
+                     });
 
     square.SetColor({255, 255, 255});
 
