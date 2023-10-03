@@ -6,6 +6,11 @@
 
 ImageRenderObject::ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
+ImageRenderObject::~ImageRenderObject()
+{
+    SDL_DestroyTexture(texture);
+}
+
 /**
  * Load textures by path.
  * @param path Path to a local texture.
@@ -40,5 +45,4 @@ void ImageRenderObject::Render(SDL_Renderer *renderer)
  */
 void ImageRenderObject::Clean()
 {
-    SDL_DestroyTexture(texture);
 }

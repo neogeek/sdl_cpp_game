@@ -7,6 +7,10 @@
 
 TextRenderObject::TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
+TextRenderObject::~TextRenderObject()
+{
+}
+
 /**
  * Set text font.
  * @param font Font value to set.

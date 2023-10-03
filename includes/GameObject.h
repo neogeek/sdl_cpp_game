@@ -11,6 +11,8 @@ protected:
 public:
     explicit GameObject(SDL_Rect *_rect);
 
+    ~GameObject();
+
     void SetRect(SDL_Rect *_rect);
 
     virtual void Render(SDL_Renderer *renderer);

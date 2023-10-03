@@ -13,6 +13,8 @@ private:
 public:
     explicit RectRenderObject(SDL_Rect *_rect);
 
+    ~RectRenderObject();
+
     void SetColor(SDL_Color _color);
 
     void Render(SDL_Renderer *renderer) override;

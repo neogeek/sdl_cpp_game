@@ -18,6 +18,8 @@ private:
 public:
     explicit TextRenderObject(SDL_Rect *_rect);
 
+    ~TextRenderObject();
+
     void SetFont(TTF_Font *_font);
 
     void SetColor(SDL_Color _color);

@@ -6,6 +6,10 @@
 
 RectRenderObject::RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
+RectRenderObject::~RectRenderObject()
+{
+}
+
 /**
  * Set rect color.
  * @param color Color value to set.

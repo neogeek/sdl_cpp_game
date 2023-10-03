@@ -6,6 +6,8 @@
 
 GameObject::GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
+GameObject::~GameObject() {}
+
 /**
  * Set rect position and size to the GameObject.
  * @param rect A rectangle, with the origin at the upper left (integer).
