@@ -3,6 +3,9 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "lib/SDL_Utilities.h"
+#include "lib/SDL_TTF_Utilities.h"
+
 #include <GameObject.h>
 
 class TextRenderObject : public GameObject
@@ -16,17 +19,51 @@ private:
     const char *text;
 
 public:
-    explicit TextRenderObject(SDL_Rect *_rect);
+    explicit TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~TextRenderObject();
+    ~TextRenderObject()
+    {
+    }
 
-    void SetFont(TTF_Font *_font);
+    /**
+     * Set text font.
+     * @param font Font value to set.
+     */
+    inline void SetFont(TTF_Font *_font)
+    {
+        font = _font;
+    }
 
-    void SetColor(SDL_Color _color);
+    /**
+     * Set text color.
+     * @param color Color value to set.
+     */
+    inline void SetColor(SDL_Color _color)
+    {
+        color = _color;
+    }
 
-    void SetText(const char *text);
+    /**
+     * Set text content.
+     * @param text Text value to set.
+     */
+    inline void SetText(const char *_text)
+    {
+        text = _text;
+    }
 
-    void Render(SDL_Renderer *renderer) override;
+    /**
+     * Render text to the scene.
+     */
+    inline void Render(SDL_Renderer *renderer)
+    {
+        SDL_TTF_Utilities::RenderText(renderer, font, color, *rect, text);
+    }
 
-    void Clean() override;
+    /**
+     * Cleanup function to run after the scene is unloaded.
+     */
+    inline void Clean()
+    {
+    }
 };

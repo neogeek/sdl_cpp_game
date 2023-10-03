@@ -4,6 +4,8 @@
 
 #include <SDL.h>
 
+#include "lib/SDL_Utilities.h"
+
 #include "GameObject.h"
 
 class Game
@@ -22,25 +24,94 @@ public:
 
     std::list<GameObject *> gameObjects;
 
-    Game();
+    Game()
+    {
+        SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_SHOWN, &window, &renderer);
+    }
 
-    bool Setup();
+    bool Setup()
+    {
+        if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        {
+            return false;
+        }
 
-    void SetScreenSize(int width, int height);
+        return true;
+    }
 
-    void SetTitle(const char *name);
+    void SetScreenSize(int width, int height)
+    {
+        SDL_SetWindowSize(window, width, height);
+    }
 
-    void SetClearColor(SDL_Color _color);
+    void SetTitle(const char *name)
+    {
+        SDL_SetWindowTitle(window, name);
+    }
 
-    bool GetQuit();
+    void SetClearColor(SDL_Color _color)
+    {
+        clearColor = _color;
+    }
 
-    void HandleInput();
+    bool GetQuit()
+    {
+        return quit;
+    }
 
-    void Update();
+    void HandleInput()
+    {
+        if (SDL_PollEvent(&event) == 0)
+        {
+            return;
+        }
 
-    void Render();
+        if (event.type == SDL_QUIT)
+        {
+            quit = true;
+        }
+        else if (event.type == SDL_KEYDOWN)
+        {
+            SDL_Keycode key = event.key.keysym.sym;
 
-    void Clean();
+            if (key == SDLK_ESCAPE)
+            {
+                quit = true;
+            }
+        }
+    }
 
-    void Quit();
+    void Update()
+    {
+    }
+
+    void Render()
+    {
+        SDL_Utilities::ClearRect(renderer, clearColor);
+
+        for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        {
+            (*iter)->Render(renderer);
+        }
+
+        SDL_RenderPresent(renderer);
+    }
+
+    void Clean()
+    {
+        for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        {
+            (*iter)->Clean();
+        }
+
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+
+        SDL_Quit();
+    }
+
+    void Quit()
+    {
+        quit = true;
+    }
 };

@@ -9,13 +9,30 @@ protected:
     SDL_Rect *rect;
 
 public:
-    explicit GameObject(SDL_Rect *_rect);
+    explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
-    ~GameObject();
+    ~GameObject() {}
 
-    void SetRect(SDL_Rect *_rect);
+    /**
+     * Set rect position and size to the GameObject.
+     * @param rect A rectangle, with the origin at the upper left (integer).
+     */
+    inline void SetRect(SDL_Rect *_rect)
+    {
+        rect = _rect;
+    }
 
-    virtual void Render(SDL_Renderer *renderer);
+    /**
+     * Render GameObject to the scene.
+     */
+    inline virtual void Render(SDL_Renderer *_renderer)
+    {
+    }
 
-    virtual void Clean();
+    /**
+     * Cleanup function to run after the scene is unloaded.
+     */
+    inline virtual void Clean()
+    {
+    }
 };
