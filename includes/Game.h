@@ -87,13 +87,11 @@ public:
 
     void Update()
     {
-
         Uint32 currentTicks = SDL_GetTicks();
         Uint32 elapsedTicks = currentTicks - prevTicks;
 
         if (elapsedTicks > frameTime)
         {
-
             for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
             {
                 (*iter)->Update(elapsedTicks);
