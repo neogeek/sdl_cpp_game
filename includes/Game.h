@@ -18,6 +18,10 @@ private:
 
     SDL_Event event;
 
+    Uint32 prevTicks;
+
+    Uint32 frameTime = 1000 / 60;
+
 public:
     SDL_Window *window;
     SDL_Renderer *renderer;
@@ -83,6 +87,20 @@ public:
 
     void Update()
     {
+
+        Uint32 currentTicks = SDL_GetTicks();
+        Uint32 elapsedTicks = currentTicks - prevTicks;
+
+        if (elapsedTicks > frameTime)
+        {
+
+            for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+            {
+                (*iter)->Update(elapsedTicks);
+            }
+
+            prevTicks = currentTicks;
+        }
     }
 
     void Render()

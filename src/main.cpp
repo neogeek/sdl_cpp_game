@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <SDL.h>
 
 #include "Game.h"
@@ -19,6 +21,17 @@ int main()
 
     RectRenderObject square(&temp);
 
+    square.SetUpdate([&temp](Uint32 deltaTime)
+                     {
+                         if (temp.x > 400)
+                         {
+                             temp.x = 0;
+                         }
+
+                         std::printf("%d\n", deltaTime);
+
+                         temp.x += 1; });
+
     square.SetColor({255, 255, 255});
 
     game.gameObjects.push_back(&square);
@@ -27,6 +40,7 @@ int main()
     {
         game.HandleInput();
 
+        game.Update();
         game.Render();
     }
 

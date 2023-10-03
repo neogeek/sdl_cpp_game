@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include <SDL.h>
 
 class GameObject
@@ -8,10 +10,25 @@ class GameObject
 protected:
     SDL_Rect *rect;
 
+    std::function<void(int)> updateFunction;
+
 public:
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
     ~GameObject() {}
+
+    inline void SetUpdate(std::function<void(Uint32)> _updateFunction = nullptr)
+    {
+        updateFunction = _updateFunction;
+    }
+
+    inline void Update(Uint32 deltaTime)
+    {
+        if (updateFunction)
+        {
+            updateFunction(deltaTime);
+        }
+    }
 
     /**
      * Set rect position and size to the GameObject.
