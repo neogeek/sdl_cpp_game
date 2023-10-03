@@ -87,7 +87,7 @@ public:
 
     void Update()
     {
-        Uint32 currentTicks = SDL_GetTicks();
+        Uint32 currentTicks = SDL_GetTicks64();
         Uint32 elapsedTicks = currentTicks - prevTicks;
 
         if (elapsedTicks > frameTime)
