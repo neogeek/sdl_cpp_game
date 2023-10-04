@@ -65,22 +65,20 @@ public:
 
     void HandleInput()
     {
-        if (SDL_PollEvent(&event) == 0)
+        while (SDL_PollEvent(&event) != 0)
         {
-            return;
-        }
-
-        if (event.type == SDL_QUIT)
-        {
-            quit = true;
-        }
-        else if (event.type == SDL_KEYDOWN)
-        {
-            SDL_Keycode key = event.key.keysym.sym;
-
-            if (key == SDLK_ESCAPE)
+            if (event.type == SDL_QUIT)
             {
                 quit = true;
+            }
+            else if (event.type == SDL_KEYDOWN)
+            {
+                SDL_Keycode key = event.key.keysym.sym;
+
+                if (key == SDLK_ESCAPE)
+                {
+                    quit = true;
+                }
             }
         }
     }
