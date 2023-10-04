@@ -38,6 +38,23 @@ int main()
                          temp.x += 1;
                          temp.y += 1; });
 
+    // square.SetFixedUpdate([&temp](double fixedDeltaTime)
+    //                       {
+    //                      if (temp.x > 400)
+    //                      {
+    //                          temp.x = 0;
+    //                      }
+
+    //                      if (temp.y > 400)
+    //                      {
+    //                          temp.y = 0;
+    //                      }
+
+    //                      std::printf("%f\n", fixedDeltaTime);
+
+    //                      temp.x += 1;
+    //                      temp.y += 1; });
+
     square.SetColor({255, 255, 255});
 
     game.gameObjects.push_back(&square);
@@ -47,6 +64,7 @@ int main()
         game.HandleInput();
 
         game.Update();
+        game.FixedUpdate();
         game.Render();
     }
 

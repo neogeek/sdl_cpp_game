@@ -12,6 +12,8 @@ protected:
 
     std::function<void(int)> updateFunction;
 
+    std::function<void(int)> fixedUpdateFunction;
+
 public:
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
@@ -22,11 +24,24 @@ public:
         updateFunction = _updateFunction;
     }
 
+    inline void SetFixedUpdate(std::function<void(double)> _fixedUpdateFunction = nullptr)
+    {
+        fixedUpdateFunction = _fixedUpdateFunction;
+    }
+
     inline void Update(double deltaTime)
     {
         if (updateFunction)
         {
             updateFunction(deltaTime);
+        }
+    }
+
+    inline void FixedUpdate(double fixedDeltaTime)
+    {
+        if (fixedUpdateFunction)
+        {
+            fixedUpdateFunction(fixedDeltaTime);
         }
     }
 

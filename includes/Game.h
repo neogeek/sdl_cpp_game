@@ -19,8 +19,13 @@ private:
     SDL_Event event;
 
     double previousTime;
+    double previousFixedTime;
 
-    const double targetFrameTime = 1.0 / 60.0;
+    const double frameRate = 60;
+
+    const double targetFrameTime = 1.0 / frameRate;
+
+    const double fixedFrameTime = 0.02;
 
 public:
     SDL_Window *window;
@@ -104,6 +109,25 @@ public:
             double delayMilliseconds = delayTime * 1000.0;
 
             SDL_Delay(delayMilliseconds);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        double currentTime = static_cast<double>(SDL_GetTicks64()) / 1000;
+
+        double elapsedTime = currentTime - previousFixedTime;
+
+        if (elapsedTime >= fixedFrameTime)
+        {
+            std::cout << elapsedTime << std::endl;
+
+            for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+            {
+                (*iter)->FixedUpdate(elapsedTime);
+            }
+
+            previousFixedTime = currentTime;
         }
     }
 
