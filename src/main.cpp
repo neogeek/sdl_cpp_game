@@ -17,43 +17,23 @@ int main()
         return 1;
     }
 
-    SDL_Rect temp{0, 0, 100, 100};
+    RectRenderObject square;
 
-    RectRenderObject square(&temp);
+    square.SetStart([](GameObject *ref)
+                    {
+                        std::cout << "start" << std::endl;
 
-    square.SetUpdate([&temp](GameObject *ref, double deltaTime)
+                        (*ref).GetRect()->w = 100;
+                        (*ref).GetRect()->h = 100; });
+
+    square.SetUpdate([](GameObject *ref, double deltaTime)
                      {
-                         if (temp.x > 400)
-                         {
-                             temp.x = 0;
-                         }
+                         std::cout << "update" << std::endl;
 
-                         if (temp.y > 400)
-                         {
-                             temp.y = 0;
-                         }
+                         (*ref).GetRect()->x += 1; });
 
-                        //  std::printf("%f\n", deltaTime);
-
-                         temp.x += 1;
-                         temp.y += 1; });
-
-    // square.SetFixedUpdate([&temp](GameObject *ref, double fixedDeltaTime)
-    //                       {
-    //                      if (temp.x > 400)
-    //                      {
-    //                          temp.x = 0;
-    //                      }
-
-    //                      if (temp.y > 400)
-    //                      {
-    //                          temp.y = 0;
-    //                      }
-
-    //                      std::printf("%f\n", fixedDeltaTime);
-
-    //                      temp.x += 1;
-    //                      temp.y += 1; });
+    square.SetFixedUpdate([](GameObject *ref, double deltaTime)
+                          { std::cout << "fixed update" << std::endl; });
 
     square.SetColor({255, 255, 255});
 

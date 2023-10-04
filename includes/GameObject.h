@@ -16,8 +16,17 @@ protected:
 
     std::function<void(GameObject *, double)> fixedUpdateFunction;
 
+    bool hasStarted;
+
 public:
-    explicit GameObject() {}
+    explicit GameObject()
+    {
+        rect = new SDL_Rect;
+        rect->x = 0;
+        rect->y = 0;
+        rect->w = 1;
+        rect->h = 1;
+    }
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
     ~GameObject() {}
@@ -54,6 +63,13 @@ public:
 
     inline void Update(double deltaTime)
     {
+        if (!hasStarted)
+        {
+            startFunction(this);
+
+            hasStarted = true;
+        }
+
         if (updateFunction)
         {
             updateFunction(this, deltaTime);
