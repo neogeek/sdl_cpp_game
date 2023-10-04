@@ -97,7 +97,7 @@ public:
 
         previousTime = currentTime;
 
-        for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
             (*iter)->Update(deltaTime);
         }
@@ -121,7 +121,7 @@ public:
 
         if (elapsedTime >= fixedFrameTime)
         {
-            for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+            for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
             {
                 (*iter)->FixedUpdate(elapsedTime);
             }
@@ -134,7 +134,7 @@ public:
     {
         SDL_Utilities::ClearRect(renderer, clearColor);
 
-        for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
             (*iter)->Render(renderer);
         }
@@ -144,7 +144,7 @@ public:
 
     void Clean()
     {
-        for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
             (*iter)->Clean();
         }
