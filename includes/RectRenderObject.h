@@ -13,6 +13,7 @@ private:
     SDL_Color color{0, 0, 0, 255};
 
 public:
+    explicit RectRenderObject() : GameObject() {}
     explicit RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
     ~RectRenderObject()

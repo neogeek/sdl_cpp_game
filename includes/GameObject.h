@@ -15,6 +15,7 @@ protected:
     std::function<void(int)> fixedUpdateFunction;
 
 public:
+    explicit GameObject() {}
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
     ~GameObject() {}

@@ -13,6 +13,7 @@ private:
     SDL_Texture *texture;
 
 public:
+    explicit ImageRenderObject() : GameObject() {}
     explicit ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
     ~ImageRenderObject()

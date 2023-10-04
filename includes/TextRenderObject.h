@@ -19,6 +19,7 @@ private:
     const char *text;
 
 public:
+    explicit TextRenderObject() : GameObject() {}
     explicit TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
     ~TextRenderObject()
