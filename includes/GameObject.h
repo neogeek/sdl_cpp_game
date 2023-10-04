@@ -22,11 +22,21 @@ public:
 
     inline void SetUpdate(std::function<void(GameObject *, double)> _updateFunction = nullptr)
     {
+        if (updateFunction)
+        {
+            std::cerr << "WARNING! Update function has already been set. Overriding with new function.\n";
+        }
+
         updateFunction = _updateFunction;
     }
 
     inline void SetFixedUpdate(std::function<void(GameObject *, double)> _fixedUpdateFunction = nullptr)
     {
+        if (fixedUpdateFunction)
+        {
+            std::cerr << "WARNING! Fixed update function has already been set. Overriding with new function.\n";
+        }
+
         fixedUpdateFunction = _fixedUpdateFunction;
     }
 
