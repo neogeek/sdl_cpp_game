@@ -24,8 +24,8 @@ public:
         rect = new SDL_Rect;
         rect->x = 0;
         rect->y = 0;
-        rect->w = 1;
-        rect->h = 1;
+        rect->w = 100;
+        rect->h = 100;
     }
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 

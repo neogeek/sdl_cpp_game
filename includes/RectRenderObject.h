@@ -10,7 +10,7 @@ class RectRenderObject : public GameObject
 {
 
 private:
-    SDL_Color color{0, 0, 0, 255};
+    SDL_Color color{255, 255, 255, 255};
 
 public:
     explicit RectRenderObject() : GameObject() {}
