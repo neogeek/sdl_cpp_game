@@ -46,6 +46,11 @@ public:
         }
     }
 
+    inline SDL_Rect *GetRect()
+    {
+        return rect;
+    }
+
     /**
      * Set rect position and size to the GameObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
