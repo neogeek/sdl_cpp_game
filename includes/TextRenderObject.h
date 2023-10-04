@@ -3,8 +3,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "lib/SDL_Utilities.h"
-#include "lib/SDL_TTF_Utilities.h"
+#include "sdl/SDL_Utilities.h"
+#include "sdl/SDL_TTF_Utilities.h"
 
 #include <GameObject.h>
 

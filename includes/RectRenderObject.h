@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include "lib/SDL_Utilities.h"
+#include "sdl/SDL_Utilities.h"
 
 #include <GameObject.h>
 
