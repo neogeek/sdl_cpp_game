@@ -65,7 +65,10 @@ public:
     {
         if (!hasStarted)
         {
-            startFunction(this);
+            if (startFunction)
+            {
+                startFunction(this);
+            }
 
             hasStarted = true;
         }
