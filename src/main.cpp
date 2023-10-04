@@ -21,7 +21,7 @@ int main()
 
     RectRenderObject square(&temp);
 
-    square.SetUpdate([&temp](Uint32 deltaTime)
+    square.SetUpdate([&temp](double deltaTime)
                      {
                          if (temp.x > 400)
                          {
@@ -33,11 +33,10 @@ int main()
                              temp.y = 0;
                          }
 
-                         std::printf("%d\n", deltaTime);
+                        //  std::printf("%f\n", deltaTime);
 
                          temp.x += 1;
-                         temp.y += 1;
-                     });
+                         temp.y += 1; });
 
     square.SetColor({255, 255, 255});
 

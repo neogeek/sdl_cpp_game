@@ -18,9 +18,9 @@ private:
 
     SDL_Event event;
 
-    Uint32 prevTicks;
+    double previousTime;
 
-    Uint32 frameTime = 1000 / 60;
+    const double targetFrameTime = 1.0 / 60.0;
 
 public:
     SDL_Window *window;
@@ -85,17 +85,25 @@ public:
 
     void Update()
     {
-        Uint32 currentTicks = SDL_GetTicks64();
-        Uint32 elapsedTicks = currentTicks - prevTicks;
+        double currentTime = static_cast<double>(SDL_GetPerformanceCounter());
 
-        if (elapsedTicks > frameTime)
+        double deltaTime = (currentTime - previousTime) / static_cast<double>(SDL_GetPerformanceFrequency());
+
+        previousTime = currentTime;
+
+        for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
-            {
-                (*iter)->Update(elapsedTicks);
-            }
+            (*iter)->Update(deltaTime);
+        }
 
-            prevTicks = currentTicks;
+        double frameTime = (static_cast<double>(SDL_GetPerformanceCounter()) - currentTime) / static_cast<double>(SDL_GetPerformanceFrequency());
+
+        if (frameTime < targetFrameTime)
+        {
+            double delayTime = targetFrameTime - frameTime;
+            double delayMilliseconds = delayTime * 1000.0;
+
+            SDL_Delay(delayMilliseconds);
         }
     }
 

@@ -17,12 +17,12 @@ public:
 
     ~GameObject() {}
 
-    inline void SetUpdate(std::function<void(Uint32)> _updateFunction = nullptr)
+    inline void SetUpdate(std::function<void(double)> _updateFunction = nullptr)
     {
         updateFunction = _updateFunction;
     }
 
-    inline void Update(Uint32 deltaTime)
+    inline void Update(double deltaTime)
     {
         if (updateFunction)
         {
