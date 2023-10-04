@@ -24,11 +24,13 @@ int main()
 
     double nextTick;
 
-    spawner.SetUpdate([&nextTick](GameObject *ref, double deltaTime)
+    int spawnedBullets = 0;
+
+    spawner.SetUpdate([&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
                       {
         nextTick += deltaTime;
 
-        if (nextTick < 0.2)
+        if (nextTick < 0.02)
         {
             return;
         }
@@ -43,7 +45,7 @@ int main()
                                  {
                                      SDL_Rect *position = ref->GetRect();
 
-                                     position->y -= 10;
+                                     position->y -= 20;
 
                                      if (position->y < 100) {
                                         ref->Destroy();
@@ -52,7 +54,9 @@ int main()
 
         game.gameObjects.push_back(bullet);
 
-        nextTick = 0; });
+        nextTick = 0;
+
+        spawnedBullets++; });
 
     game.gameObjects.push_back(&spawner);
 
@@ -65,6 +69,8 @@ int main()
         game.Render();
 
         game.DestroyGameObjects();
+
+        std::cout << spawnedBullets << std::endl;
     }
 
     game.Clean();
