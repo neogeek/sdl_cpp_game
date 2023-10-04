@@ -121,8 +121,6 @@ public:
 
         if (elapsedTime >= fixedFrameTime)
         {
-            std::cout << elapsedTime << std::endl;
-
             for (std::list<GameObject *>::iterator iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
             {
                 (*iter)->FixedUpdate(elapsedTime);
