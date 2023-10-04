@@ -21,7 +21,7 @@ int main()
 
     RectRenderObject square(&temp);
 
-    square.SetUpdate([&temp](double deltaTime)
+    square.SetUpdate([&temp](GameObject *ref, double deltaTime)
                      {
                          if (temp.x > 400)
                          {
@@ -38,7 +38,7 @@ int main()
                          temp.x += 1;
                          temp.y += 1; });
 
-    // square.SetFixedUpdate([&temp](double fixedDeltaTime)
+    // square.SetFixedUpdate([&temp](GameObject *ref, double fixedDeltaTime)
     //                       {
     //                      if (temp.x > 400)
     //                      {

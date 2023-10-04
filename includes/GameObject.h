@@ -10,9 +10,9 @@ class GameObject
 protected:
     SDL_Rect *rect;
 
-    std::function<void(int)> updateFunction;
+    std::function<void(GameObject *, double)> updateFunction;
 
-    std::function<void(int)> fixedUpdateFunction;
+    std::function<void(GameObject *, double)> fixedUpdateFunction;
 
 public:
     explicit GameObject() {}
@@ -20,12 +20,12 @@ public:
 
     ~GameObject() {}
 
-    inline void SetUpdate(std::function<void(double)> _updateFunction = nullptr)
+    inline void SetUpdate(std::function<void(GameObject *, double)> _updateFunction = nullptr)
     {
         updateFunction = _updateFunction;
     }
 
-    inline void SetFixedUpdate(std::function<void(double)> _fixedUpdateFunction = nullptr)
+    inline void SetFixedUpdate(std::function<void(GameObject *, double)> _fixedUpdateFunction = nullptr)
     {
         fixedUpdateFunction = _fixedUpdateFunction;
     }
@@ -34,7 +34,7 @@ public:
     {
         if (updateFunction)
         {
-            updateFunction(deltaTime);
+            updateFunction(this, deltaTime);
         }
     }
 
@@ -42,7 +42,7 @@ public:
     {
         if (fixedUpdateFunction)
         {
-            fixedUpdateFunction(fixedDeltaTime);
+            fixedUpdateFunction(this, fixedDeltaTime);
         }
     }
 
