@@ -10,6 +10,8 @@ class GameObject
 protected:
     SDL_Rect *rect;
 
+    std::function<void(GameObject *)> startFunction;
+
     std::function<void(GameObject *, double)> updateFunction;
 
     std::function<void(GameObject *, double)> fixedUpdateFunction;
@@ -19,6 +21,16 @@ public:
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
     ~GameObject() {}
+
+    inline void SetStart(std::function<void(GameObject *)> _startFunction = nullptr)
+    {
+        if (startFunction)
+        {
+            std::cerr << "WARNING! Start function has already been set. Overriding with new function.\n";
+        }
+
+        startFunction = _startFunction;
+    }
 
     inline void SetUpdate(std::function<void(GameObject *, double)> _updateFunction = nullptr)
     {
