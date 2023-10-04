@@ -99,7 +99,10 @@ public:
 
         for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            (*iter)->Update(deltaTime);
+            if (*iter != nullptr)
+            {
+                (*iter)->Update(deltaTime);
+            }
         }
 
         double frameTime = (static_cast<double>(SDL_GetPerformanceCounter()) - currentTime) / static_cast<double>(SDL_GetPerformanceFrequency());
@@ -123,7 +126,10 @@ public:
         {
             for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
             {
-                (*iter)->FixedUpdate(elapsedTime);
+                if (*iter != nullptr)
+                {
+                    (*iter)->FixedUpdate(elapsedTime);
+                }
             }
 
             previousFixedTime = currentTime;
@@ -136,17 +142,45 @@ public:
 
         for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            (*iter)->Render(renderer);
+            if (*iter != nullptr)
+            {
+                (*iter)->Render(renderer);
+            }
         }
 
         SDL_RenderPresent(renderer);
+    }
+
+    void DestroyGameObjects()
+    {
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end();)
+        {
+            if (*iter != nullptr)
+            {
+                if ((*iter)->markedForDestroy)
+                {
+                    iter = gameObjects.erase(iter);
+                }
+                else
+                {
+                    ++iter;
+                }
+            }
+            else
+            {
+                ++iter;
+            }
+        }
     }
 
     void Clean()
     {
         for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            (*iter)->Clean();
+            if (*iter != nullptr)
+            {
+                (*iter)->Clean();
+            }
         }
 
         SDL_DestroyRenderer(renderer);

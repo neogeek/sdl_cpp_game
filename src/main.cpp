@@ -41,9 +41,13 @@ int main()
 
         (*bullet).SetFixedUpdate([](GameObject *ref, double deltaTime)
                                  {
-                                     SDL_Rect *position = (*ref).GetRect();
+                                     SDL_Rect *position = ref->GetRect();
 
                                      position->y -= 10;
+
+                                     if (position->y < 100) {
+                                        ref->Destroy();
+                                     }
                                  });
 
         game.gameObjects.push_back(bullet);
@@ -59,6 +63,8 @@ int main()
         game.Update();
         game.FixedUpdate();
         game.Render();
+
+        game.DestroyGameObjects();
     }
 
     game.Clean();

@@ -19,6 +19,8 @@ protected:
     bool hasStarted;
 
 public:
+    bool markedForDestroy;
+
     explicit GameObject()
     {
         rect = new SDL_Rect;
@@ -113,5 +115,10 @@ public:
      */
     inline virtual void Clean()
     {
+    }
+
+    inline void Destroy()
+    {
+        markedForDestroy = true;
     }
 };
