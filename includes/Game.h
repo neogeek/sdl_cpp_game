@@ -155,16 +155,9 @@ public:
     {
         for (auto iter = gameObjects.begin(); iter != gameObjects.end();)
         {
-            if (*iter != nullptr)
+            if (*iter != nullptr && (*iter)->markedForDestroy)
             {
-                if ((*iter)->markedForDestroy)
-                {
-                    iter = gameObjects.erase(iter);
-                }
-                else
-                {
-                    ++iter;
-                }
+                iter = gameObjects.erase(iter);
             }
             else
             {
