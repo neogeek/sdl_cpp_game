@@ -60,6 +60,27 @@
     "unordered_map": "cpp",
     "variant": "cpp",
     "vector": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "__std_stream": "cpp",
+    "__tree": "cpp",
+    "any": "cpp",
+    "barrier": "cpp",
+    "cfenv": "cpp",
+    "codecvt": "cpp",
+    "condition_variable": "cpp",
+    "deque": "cpp",
+    "fstream": "cpp",
+    "future": "cpp",
+    "iomanip": "cpp",
+    "map": "cpp",
+    "queue": "cpp",
+    "regex": "cpp",
+    "set": "cpp",
+    "shared_mutex": "cpp",
+    "stack": "cpp",
+    "strstream": "cpp",
+    "thread": "cpp",
+    "unordered_set": "cpp",
+    "valarray": "cpp"
   }
 }
