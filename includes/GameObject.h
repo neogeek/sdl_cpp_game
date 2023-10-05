@@ -18,9 +18,9 @@ protected:
 
     bool hasStarted;
 
-public:
-    bool markedForDestroy;
+    bool isMarkedForDestroy;
 
+public:
     explicit GameObject()
     {
         rect = new SDL_Rect;
@@ -117,8 +117,13 @@ public:
     {
     }
 
+    inline bool HasBeenMarkedForDestroy() const
+    {
+        return isMarkedForDestroy;
+    }
+
     inline void Destroy()
     {
-        markedForDestroy = true;
+        isMarkedForDestroy = true;
     }
 };

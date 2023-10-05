@@ -13,11 +13,6 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    if (!game.Setup())
-    {
-        return 1;
-    }
-
     GameObject spawner;
 
     std::list<GameObject *> gameObjects;
@@ -60,20 +55,5 @@ int main()
 
     game.gameObjects.push_back(&spawner);
 
-    while (!game.GetQuit())
-    {
-        game.HandleInput();
-
-        game.Update();
-        game.FixedUpdate();
-        game.Render();
-
-        game.DestroyGameObjects();
-
-        std::cout << spawnedBullets << std::endl;
-    }
-
-    game.Clean();
-
-    return 0;
+    return game.Run();
 }

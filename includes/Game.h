@@ -69,6 +69,34 @@ public:
         return quit;
     }
 
+    bool Run()
+    {
+        if (!Setup())
+        {
+            return 1;
+        }
+
+        while (!GetQuit())
+        {
+            Loop();
+        }
+
+        Clean();
+
+        return 0;
+    }
+
+    void Loop()
+    {
+        HandleInput();
+
+        Update();
+        FixedUpdate();
+        Render();
+
+        DestroyGameObjects();
+    }
+
     void HandleInput()
     {
         while (SDL_PollEvent(&event) != 0)
@@ -99,9 +127,11 @@ public:
 
         for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            if (*iter != nullptr)
+            auto gameObject = *iter;
+
+            if (gameObject != nullptr)
             {
-                (*iter)->Update(deltaTime);
+                gameObject->Update(deltaTime);
             }
         }
 
@@ -126,9 +156,11 @@ public:
         {
             for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
             {
-                if (*iter != nullptr)
+                auto gameObject = *iter;
+
+                if (gameObject != nullptr)
                 {
-                    (*iter)->FixedUpdate(elapsedTime);
+                    gameObject->FixedUpdate(elapsedTime);
                 }
             }
 
@@ -142,9 +174,11 @@ public:
 
         for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            if (*iter != nullptr)
+            auto gameObject = *iter;
+
+            if (gameObject != nullptr)
             {
-                (*iter)->Render(renderer);
+                gameObject->Render(renderer);
             }
         }
 
@@ -155,7 +189,9 @@ public:
     {
         for (auto iter = gameObjects.begin(); iter != gameObjects.end();)
         {
-            if (*iter != nullptr && (*iter)->markedForDestroy)
+            auto gameObject = *iter;
+
+            if (gameObject != nullptr && gameObject->HasBeenMarkedForDestroy())
             {
                 iter = gameObjects.erase(iter);
             }
@@ -170,9 +206,11 @@ public:
     {
         for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
-            if (*iter != nullptr)
+            auto gameObject = *iter;
+
+            if (gameObject != nullptr)
             {
-                (*iter)->Clean();
+                gameObject->Clean();
             }
         }
 
