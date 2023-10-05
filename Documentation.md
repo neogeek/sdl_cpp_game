@@ -1,8 +1,23 @@
 # Documentation
 
+## Game
+
+```cpp
+#include "Game.h"
+
+Game game;
+
+int main()
+{
+    return game.Run();
+}
+```
+
 ## RectRenderObject
 
 ```cpp
+#include "RectRenderObject.h"
+
 RectRenderObject square;
 
 square.SetStart([](GameObject *ref)
