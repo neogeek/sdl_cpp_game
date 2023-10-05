@@ -4,6 +4,7 @@
 
 ```bash
 brew install cmake
+brew install emscripten
 brew install SDL2
 brew install SDL2_image
 brew install SDL2_ttf
