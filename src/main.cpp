@@ -39,9 +39,9 @@ int main()
 
         RectRenderObject *bullet = new RectRenderObject;
 
-        (*bullet).SetRect(rect);
+        bullet->SetRect(rect);
 
-        (*bullet).SetFixedUpdate([](GameObject *ref, double deltaTime)
+        bullet->SetFixedUpdate([](GameObject *ref, double deltaTime)
                                  {
                                      SDL_Rect *position = ref->GetRect();
 
