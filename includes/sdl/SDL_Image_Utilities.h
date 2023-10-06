@@ -7,6 +7,12 @@ class SDL_Image_Utilities
 {
 
 public:
+    /**
+     * Load texture from a path.
+     *
+     * @param renderer A structure representing rendering state.
+     * @param path File path to texture file.
+     */
     static SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *path)
     {
         SDL_Surface *surface = IMG_Load(path);
@@ -28,6 +34,13 @@ public:
         return texture;
     }
 
+    /**
+     * Load texture from a read-only buffer.
+     *
+     * @param renderer A structure representing rendering state.
+     * @param mem A pointer to a read-only buffer.
+     * @param size The buffer size, in bytes.
+     */
     static SDL_Texture *LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
     {
         SDL_RWops *rw = SDL_RWFromConstMem(mem, size);

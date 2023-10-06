@@ -10,7 +10,7 @@ public:
      * Clears a rect with a color.
      *
      * @param renderer A structure representing rendering state.
-     * @param color Color struct.
+     * @param color A structure that represents a color.
      */
     static void ClearRect(SDL_Renderer *renderer, SDL_Color color)
     {
@@ -24,7 +24,7 @@ public:
      *
      * @param renderer A structure representing rendering state.
      * @param rect A rectangle, with the origin at the upper left (integer).
-     * @param color Color struct.
+     * @param color A structure that represents a color.
      */
     static void RenderRect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color)
     {
