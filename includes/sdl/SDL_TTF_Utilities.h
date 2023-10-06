@@ -13,7 +13,7 @@ public:
 
         if (!font)
         {
-            return NULL;
+            return nullptr;
         }
 
         return font;
@@ -25,7 +25,7 @@ public:
 
         if (!font)
         {
-            return NULL;
+            return nullptr;
         }
 
         return font;
@@ -47,7 +47,7 @@ public:
             return;
         }
 
-        SDL_RenderCopy(renderer, textTexture, NULL, &rect);
+        SDL_RenderCopy(renderer, textTexture, nullptr, &rect);
 
         SDL_FreeSurface(textSurface);
         SDL_DestroyTexture(textTexture);

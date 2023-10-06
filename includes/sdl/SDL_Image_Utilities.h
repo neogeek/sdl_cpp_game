@@ -13,7 +13,7 @@ public:
 
         if (!surface)
         {
-            return NULL;
+            return nullptr;
         }
 
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -22,7 +22,7 @@ public:
 
         if (!texture)
         {
-            return NULL;
+            return nullptr;
         }
 
         return texture;
@@ -36,7 +36,7 @@ public:
 
         if (!surface)
         {
-            return NULL;
+            return nullptr;
         }
 
         SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -45,7 +45,7 @@ public:
 
         if (!texture)
         {
-            return NULL;
+            return nullptr;
         }
 
         return texture;
