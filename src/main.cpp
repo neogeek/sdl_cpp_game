@@ -1,5 +1,7 @@
 #include <iostream>
 
+// #include <emscripten.h>
+
 #include <SDL.h>
 
 #include "Game.h"
@@ -8,6 +10,18 @@
 #include "RectRenderObject.h"
 
 Game game;
+
+// void main_loop()
+// {
+//     if (game.GetQuit())
+//     {
+//         emscripten_cancel_main_loop();
+
+//         return;
+//     }
+
+//     game.Loop();
+// }
 
 int main()
 {
@@ -54,6 +68,14 @@ int main()
         spawnedBullets++; });
 
     game.gameObjects.push_back(&spawner);
+
+    // game.Setup();
+
+    // emscripten_set_main_loop(main_loop, 0, 1);
+
+    // game.Clean();
+
+    // return 0;
 
     return game.Run();
 }
