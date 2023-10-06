@@ -27,7 +27,7 @@ public:
      *
      * @deprecated DEVELOPMENT USE ONLY! Use LoadTextureRW to load textures in a final build.
      */
-    inline void LoadTexture(SDL_Renderer *renderer, const char *path)
+    void LoadTexture(SDL_Renderer *renderer, const char *path)
     {
         texture = SDL_Image_Utilities::LoadTexture(renderer, path);
     }
@@ -37,7 +37,7 @@ public:
      * @param mem Pointer to a read-only buffer. (texture loaded in via header file)
      * @param size Length of a buffer in bytes.
      */
-    inline void LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
+    void LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
     {
         texture = SDL_Image_Utilities::LoadTextureRW(renderer, mem, size);
     }
@@ -45,15 +45,15 @@ public:
     /**
      * Render image to the scene.
      */
-    inline void Render(SDL_Renderer *renderer)
+    void Render(SDL_Renderer *renderer) override
     {
-        SDL_RenderCopy(renderer, texture, NULL, rect);
+        SDL_RenderCopy(renderer, texture, nullptr, rect);
     }
 
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    inline void Clean()
+    void Clean() override
     {
     }
 };

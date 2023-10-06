@@ -22,15 +22,13 @@ public:
     explicit TextRenderObject() : GameObject() {}
     explicit TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~TextRenderObject()
-    {
-    }
+    ~TextRenderObject() = default;
 
     /**
      * Set text font.
      * @param font Font value to set.
      */
-    inline void SetFont(TTF_Font *_font)
+    void SetFont(TTF_Font *_font)
     {
         font = _font;
     }
@@ -39,7 +37,7 @@ public:
      * Set text color.
      * @param color Color value to set.
      */
-    inline void SetColor(SDL_Color _color)
+    void SetColor(SDL_Color _color)
     {
         color = _color;
     }
@@ -48,7 +46,7 @@ public:
      * Set text content.
      * @param text Text value to set.
      */
-    inline void SetText(const char *_text)
+    void SetText(const char *_text)
     {
         text = _text;
     }
@@ -56,7 +54,7 @@ public:
     /**
      * Render text to the scene.
      */
-    inline void Render(SDL_Renderer *renderer)
+    void Render(SDL_Renderer *renderer) override
     {
         SDL_TTF_Utilities::RenderText(renderer, font, color, *rect, text);
     }
@@ -64,7 +62,7 @@ public:
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    inline void Clean()
+    void Clean() override
     {
     }
 };

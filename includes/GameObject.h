@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <functional>
+#include <utility>
 
 #include <SDL.h>
 
@@ -18,9 +19,9 @@ protected:
 
     std::function<void(GameObject *, double)> fixedUpdateFunction;
 
-    bool hasStarted;
+    bool hasStarted = false;
 
-    bool isMarkedForDestroy;
+    bool isMarkedForDestroy = false;
 
 public:
     explicit GameObject()
@@ -33,39 +34,39 @@ public:
     }
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
-    ~GameObject() {}
+    ~GameObject() = default;
 
-    inline void SetStart(std::function<void(GameObject *)> _startFunction = nullptr)
+    void SetStart(std::function<void(GameObject *)> _startFunction = nullptr)
     {
         if (startFunction)
         {
             std::cerr << "WARNING! Start function has already been set. Overriding with new function.\n";
         }
 
-        startFunction = _startFunction;
+        startFunction = std::move(_startFunction);
     }
 
-    inline void SetUpdate(std::function<void(GameObject *, double)> _updateFunction = nullptr)
+    void SetUpdate(std::function<void(GameObject *, double)> _updateFunction = nullptr)
     {
         if (updateFunction)
         {
             std::cerr << "WARNING! Update function has already been set. Overriding with new function.\n";
         }
 
-        updateFunction = _updateFunction;
+        updateFunction = std::move(_updateFunction);
     }
 
-    inline void SetFixedUpdate(std::function<void(GameObject *, double)> _fixedUpdateFunction = nullptr)
+    void SetFixedUpdate(std::function<void(GameObject *, double)> _fixedUpdateFunction = nullptr)
     {
         if (fixedUpdateFunction)
         {
             std::cerr << "WARNING! Fixed update function has already been set. Overriding with new function.\n";
         }
 
-        fixedUpdateFunction = _fixedUpdateFunction;
+        fixedUpdateFunction = std::move(_fixedUpdateFunction);
     }
 
-    inline void Update(double deltaTime)
+    void Update(double deltaTime)
     {
         if (!hasStarted)
         {
@@ -83,7 +84,7 @@ public:
         }
     }
 
-    inline void FixedUpdate(double fixedDeltaTime)
+    void FixedUpdate(double fixedDeltaTime)
     {
         if (fixedUpdateFunction)
         {
@@ -91,7 +92,7 @@ public:
         }
     }
 
-    inline SDL_Rect *GetRect()
+    SDL_Rect *GetRect()
     {
         return rect;
     }
@@ -100,7 +101,7 @@ public:
      * Set rect position and size to the GameObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
      */
-    inline void SetRect(SDL_Rect *_rect)
+    void SetRect(SDL_Rect *_rect)
     {
         rect = _rect;
     }
@@ -108,23 +109,23 @@ public:
     /**
      * Render GameObject to the scene.
      */
-    inline virtual void Render(SDL_Renderer *_renderer)
+    virtual void Render(SDL_Renderer *_renderer)
     {
     }
 
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    inline virtual void Clean()
+    virtual void Clean()
     {
     }
 
-    inline bool HasBeenMarkedForDestroy() const
+    [[nodiscard]] bool HasBeenMarkedForDestroy() const
     {
         return isMarkedForDestroy;
     }
 
-    inline void Destroy()
+    void Destroy()
     {
         isMarkedForDestroy = true;
     }

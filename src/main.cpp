@@ -27,7 +27,7 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    GameObject *spawner = new GameObject;
+    auto *spawner = new GameObject;
 
     std::list<GameObject *> gameObjects;
 
@@ -44,9 +44,9 @@ int main()
             return;
         }
 
-        SDL_Rect *rect = new SDL_Rect{800-5, 1200, 10, 10};
+        auto *rect = new SDL_Rect{800-5, 1200, 10, 10};
 
-        RectRenderObject *bullet = new RectRenderObject;
+        auto *bullet = new RectRenderObject;
 
         bullet->SetRect(rect);
 

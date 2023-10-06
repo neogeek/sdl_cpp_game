@@ -17,12 +17,12 @@ private:
 
     SDL_Color clearColor{0, 0, 0, 255};
 
-    bool quit;
+    bool quit = false;
 
     SDL_Event event;
 
-    double previousTime;
-    double previousFixedTime;
+    double previousTime = 0;
+    double previousFixedTime = 0;
 
     const double frameRate = 60;
 
@@ -43,7 +43,7 @@ public:
 
     SDL_Renderer *GetRenderer() const { return renderer; }
 
-    bool Setup()
+    static bool Setup()
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
@@ -68,7 +68,7 @@ public:
         clearColor = _color;
     }
 
-    bool GetQuit()
+    bool GetQuit() const
     {
         return quit;
     }
@@ -123,16 +123,14 @@ public:
 
     void Update()
     {
-        double currentTime = static_cast<double>(SDL_GetPerformanceCounter());
+        auto currentTime = static_cast<double>(SDL_GetPerformanceCounter());
 
         double deltaTime = (currentTime - previousTime) / static_cast<double>(SDL_GetPerformanceFrequency());
 
         previousTime = currentTime;
 
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto gameObject : gameObjects)
         {
-            auto gameObject = *iter;
-
             if (gameObject != nullptr)
             {
                 gameObject->Update(deltaTime);
@@ -158,10 +156,8 @@ public:
 
         if (elapsedTime >= fixedFrameTime)
         {
-            for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+            for (auto gameObject : gameObjects)
             {
-                auto gameObject = *iter;
-
                 if (gameObject != nullptr)
                 {
                     gameObject->FixedUpdate(elapsedTime);
@@ -176,10 +172,8 @@ public:
     {
         SDL_Utilities::ClearRect(renderer, clearColor);
 
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto gameObject : gameObjects)
         {
-            auto gameObject = *iter;
-
             if (gameObject != nullptr)
             {
                 gameObject->Render(renderer);
@@ -208,10 +202,8 @@ public:
 
     void Clean()
     {
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto gameObject : gameObjects)
         {
-            auto gameObject = *iter;
-
             if (gameObject != nullptr)
             {
                 gameObject->Clean();

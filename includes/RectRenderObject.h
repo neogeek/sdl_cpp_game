@@ -16,15 +16,13 @@ public:
     explicit RectRenderObject() : GameObject() {}
     explicit RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~RectRenderObject()
-    {
-    }
+    ~RectRenderObject() = default;
 
     /**
      * Set rect color.
      * @param color Color value to set.
      */
-    inline void SetColor(SDL_Color _color)
+    void SetColor(SDL_Color _color)
     {
         color = _color;
     }
@@ -32,7 +30,7 @@ public:
     /**
      * Render rect to the scene.
      */
-    inline void Render(SDL_Renderer *renderer)
+    void Render(SDL_Renderer *renderer) override
     {
         SDL_Utilities::RenderRect(renderer, rect, color);
     }
@@ -40,7 +38,7 @@ public:
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    inline void Clean()
+    void Clean() override
     {
     }
 };
