@@ -73,7 +73,7 @@ public:
         return quit;
     }
 
-    bool Run()
+    int Run()
     {
         if (!Setup())
         {
