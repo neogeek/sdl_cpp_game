@@ -51,8 +51,6 @@ int main()
 
     auto *spawner = new GameObject;
 
-    std::list<GameObject *> gameObjects;
-
     double nextTick;
 
     int spawnedBullets = 0;
