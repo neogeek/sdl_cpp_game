@@ -12,6 +12,9 @@ class Game
 {
 
 private:
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+
     SDL_Color clearColor{0, 0, 0, 255};
 
     bool quit;
@@ -28,9 +31,6 @@ private:
     const double fixedFrameTime = 0.02;
 
 public:
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-
     std::list<GameObject *> gameObjects;
 
     Game()
@@ -38,6 +38,10 @@ public:
         window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
+
+    SDL_Window *GetWindow() const { return window; }
+
+    SDL_Renderer *GetRenderer() const { return renderer; }
 
     bool Setup()
     {
