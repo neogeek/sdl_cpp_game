@@ -31,6 +31,10 @@ private:
     const double fixedFrameTime = 0.02;
 
 public:
+    bool isLeftPressed = false;
+    bool isRightPressed = false;
+    bool isSpacePressed = false;
+
     std::list<GameObject *> gameObjects;
 
     Game()
@@ -113,9 +117,29 @@ public:
             {
                 SDL_Keycode key = event.key.keysym.sym;
 
-                if (key == SDLK_ESCAPE)
+                if (key == SDLK_SPACE)
                 {
-                    Quit();
+                    isSpacePressed = true;
+                } else if (key == SDLK_LEFT)
+                {
+                    isLeftPressed = true;
+                } else if (key == SDLK_RIGHT)
+                {
+                    isRightPressed = true;
+                }
+            } else if (event.type == SDL_KEYUP)
+            {
+                SDL_Keycode key = event.key.keysym.sym;
+
+                if (key == SDLK_SPACE)
+                {
+                    isSpacePressed = false;
+                } else if (key == SDLK_LEFT)
+                {
+                    isLeftPressed = false;
+                } else if (key == SDLK_RIGHT)
+                {
+                    isRightPressed = false;
                 }
             }
         }

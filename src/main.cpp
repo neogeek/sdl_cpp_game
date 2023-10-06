@@ -23,9 +23,9 @@ Game game;
 //     game.Loop();
 // }
 
-void spawn_bullet()
+void spawn_bullet(GameObject *spawner)
 {
-    auto *rect = new SDL_Rect{800-5, 1200, 10, 10};
+    auto *rect = new SDL_Rect{spawner->GetRect()->x + 5, spawner->GetRect()->y, 10, 10};
 
     auto *bullet = new RectRenderObject;
 
@@ -49,7 +49,11 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    auto *spawner = new GameObject;
+    auto *spawner = new RectRenderObject;
+
+    auto spawnerRect = new SDL_Rect {800-10, 1200-40, 20, 20};
+
+    spawner->SetRect(spawnerRect);
 
     double nextTick;
 
@@ -57,18 +61,19 @@ int main()
 
     spawner->SetUpdate([&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
                        {
-        nextTick += deltaTime;
+                            if (game.isSpacePressed) {
+                                spawn_bullet(ref);
+                            }
 
-        if (nextTick < 0.02)
-        {
-            return;
-        }
+                           if (game.isLeftPressed) {
+                               ref->GetRect()->x -= 5;
+                           }
 
-        spawn_bullet();
+                           if (game.isRightPressed) {
+                               ref->GetRect()->x += 5;
+                           }
 
-        nextTick = 0;
-
-        spawnedBullets++; });
+                       });
 
     game.gameObjects.push_back(spawner);
 
