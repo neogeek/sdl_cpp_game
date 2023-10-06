@@ -13,7 +13,7 @@ public:
      * @param renderer A structure representing rendering state.
      * @param path File path to texture file.
      */
-    static SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *path)
+    [[nodiscard]] static SDL_Texture *LoadTexture(SDL_Renderer *renderer, const char *path)
     {
         SDL_Surface *surface = IMG_Load(path);
 
@@ -41,7 +41,7 @@ public:
      * @param mem A pointer to a read-only buffer.
      * @param size The buffer size, in bytes.
      */
-    static SDL_Texture *LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
+    [[nodiscard]] static SDL_Texture *LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
     {
         SDL_RWops *rw = SDL_RWFromConstMem(mem, size);
 

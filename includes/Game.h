@@ -39,9 +39,9 @@ public:
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
 
-    SDL_Window *GetWindow() const { return window; }
+    [[nodiscard]] SDL_Window *GetWindow() const { return window; }
 
-    SDL_Renderer *GetRenderer() const { return renderer; }
+    [[nodiscard]] SDL_Renderer *GetRenderer() const { return renderer; }
 
     static bool Setup()
     {
@@ -68,7 +68,7 @@ public:
         clearColor = _color;
     }
 
-    bool GetQuit() const
+    [[nodiscard]] bool GetQuit() const
     {
         return quit;
     }

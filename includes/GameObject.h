@@ -92,7 +92,7 @@ public:
         }
     }
 
-    SDL_Rect *GetRect()
+    [[nodiscard]] SDL_Rect *GetRect()
     {
         return rect;
     }

@@ -13,7 +13,7 @@ public:
      * @param path File path to font file.
      * @param ptSize The size of the font.
      */
-    static TTF_Font *LoadFont(const char *path, int ptSize = 24)
+    [[nodiscard]] static TTF_Font *LoadFont(const char *path, int ptSize = 24)
     {
         TTF_Font *font = TTF_OpenFont(path, ptSize);
 
@@ -32,7 +32,7 @@ public:
      * @param size The buffer size, in bytes.
      * @param ptSize The size of the font.
      */
-    static TTF_Font *LoadFontRW(const void *mem, int size, int ptSize = 24)
+    [[nodiscard]] static TTF_Font *LoadFontRW(const void *mem, int size, int ptSize = 24)
     {
         TTF_Font *font = TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
 
