@@ -107,7 +107,7 @@ public:
         {
             if (event.type == SDL_QUIT)
             {
-                quit = true;
+                Quit();
             }
             else if (event.type == SDL_KEYDOWN)
             {
@@ -115,7 +115,7 @@ public:
 
                 if (key == SDLK_ESCAPE)
                 {
-                    quit = true;
+                    Quit();
                 }
             }
         }
