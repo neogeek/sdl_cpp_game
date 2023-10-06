@@ -23,6 +23,28 @@ Game game;
 //     game.Loop();
 // }
 
+void spawn_bullet()
+{
+    auto *rect = new SDL_Rect{800-5, 1200, 10, 10};
+
+    auto *bullet = new RectRenderObject;
+
+    bullet->SetRect(rect);
+
+    bullet->SetFixedUpdate([](GameObject *ref, double deltaTime)
+                           {
+                               SDL_Rect *position = ref->GetRect();
+
+                               position->y -= 20;
+
+                               if (position->y < 100) {
+                                   ref->Destroy();
+                               }
+                           });
+
+    game.gameObjects.push_back(bullet);
+}
+
 int main()
 {
     game.SetTitle("My Super Cool Game");
@@ -44,24 +66,7 @@ int main()
             return;
         }
 
-        auto *rect = new SDL_Rect{800-5, 1200, 10, 10};
-
-        auto *bullet = new RectRenderObject;
-
-        bullet->SetRect(rect);
-
-        bullet->SetFixedUpdate([](GameObject *ref, double deltaTime)
-                                 {
-                                     SDL_Rect *position = ref->GetRect();
-
-                                     position->y -= 20;
-
-                                     if (position->y < 100) {
-                                        ref->Destroy();
-                                     }
-                                 });
-
-        game.gameObjects.push_back(bullet);
+        spawn_bullet();
 
         nextTick = 0;
 
