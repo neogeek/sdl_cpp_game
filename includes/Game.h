@@ -47,7 +47,7 @@ public:
 
     [[nodiscard]] SDL_Renderer *GetRenderer() const { return renderer; }
 
-    static bool Setup()
+    bool Setup()
     {
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
