@@ -12,4 +12,6 @@ _deps
 
 build/
 
+.cmake/
 cmake-build-debug
+sdl_cpp_game.cbp
