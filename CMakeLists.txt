@@ -24,8 +24,9 @@ include_directories("images")
 include_directories("includes")
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB_RECURSE INCLUDES "includes/*.h")
 
-add_executable(sdl_cpp_game ${SOURCES})
+add_executable(sdl_cpp_game ${SOURCES} ${INCLUDES})
 
 target_link_libraries(sdl_cpp_game ${SDL2_LIBRARY}
                              ${SDL2_IMAGE_LIBRARIES}
