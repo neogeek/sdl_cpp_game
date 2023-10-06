@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 // #include <emscripten.h>
 
@@ -27,7 +28,7 @@ void spawn_bullet(GameObject *spawner)
 {
     auto *rect = new SDL_Rect{spawner->GetRect()->x + 5, spawner->GetRect()->y, 10, 10};
 
-    auto *bullet = new RectRenderObject;
+    std::unique_ptr<RectRenderObject> bullet (new RectRenderObject());
 
     bullet->SetRect(rect);
 
@@ -42,14 +43,14 @@ void spawn_bullet(GameObject *spawner)
                                }
                            });
 
-    game.gameObjects.push_back(bullet);
+    game.gameObjects.push_back(std::move(bullet));
 }
 
 int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    auto *spawner = new RectRenderObject;
+    std::unique_ptr<RectRenderObject> spawner (new RectRenderObject());
 
     auto spawnerRect = new SDL_Rect {800-10, 1200-40, 20, 20};
 
@@ -75,7 +76,7 @@ int main()
 
                        });
 
-    game.gameObjects.push_back(spawner);
+    game.gameObjects.push_back(std::move(spawner));
 
     // game.Setup();
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <memory>
 
 #include <SDL.h>
 
@@ -35,7 +36,7 @@ public:
     bool isRightPressed = false;
     bool isSpacePressed = false;
 
-    std::list<GameObject *> gameObjects;
+    std::list<std::unique_ptr<GameObject>> gameObjects;
 
     Game()
     {
@@ -120,24 +121,29 @@ public:
                 if (key == SDLK_SPACE)
                 {
                     isSpacePressed = true;
-                } else if (key == SDLK_LEFT)
+                }
+                else if (key == SDLK_LEFT)
                 {
                     isLeftPressed = true;
-                } else if (key == SDLK_RIGHT)
+                }
+                else if (key == SDLK_RIGHT)
                 {
                     isRightPressed = true;
                 }
-            } else if (event.type == SDL_KEYUP)
+            }
+            else if (event.type == SDL_KEYUP)
             {
                 SDL_Keycode key = event.key.keysym.sym;
 
                 if (key == SDLK_SPACE)
                 {
                     isSpacePressed = false;
-                } else if (key == SDLK_LEFT)
+                }
+                else if (key == SDLK_LEFT)
                 {
                     isLeftPressed = false;
-                } else if (key == SDLK_RIGHT)
+                }
+                else if (key == SDLK_RIGHT)
                 {
                     isRightPressed = false;
                 }
@@ -153,8 +159,10 @@ public:
 
         previousTime = currentTime;
 
-        for (auto gameObject : gameObjects)
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
+            auto gameObject = iter->get();
+
             if (gameObject != nullptr)
             {
                 gameObject->Update(deltaTime);
@@ -180,8 +188,10 @@ public:
 
         if (elapsedTime >= fixedFrameTime)
         {
-            for (auto gameObject : gameObjects)
+            for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
             {
+                auto gameObject = iter->get();
+
                 if (gameObject != nullptr)
                 {
                     gameObject->FixedUpdate(elapsedTime);
@@ -196,8 +206,10 @@ public:
     {
         SDL_Utilities::ClearRect(renderer, clearColor);
 
-        for (auto gameObject : gameObjects)
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
+            auto gameObject = iter->get();
+
             if (gameObject != nullptr)
             {
                 gameObject->Render(renderer);
@@ -211,7 +223,7 @@ public:
     {
         for (auto iter = gameObjects.begin(); iter != gameObjects.end();)
         {
-            auto gameObject = *iter;
+            auto gameObject = iter->get();
 
             if (gameObject != nullptr && gameObject->HasBeenMarkedForDestroy())
             {
@@ -226,8 +238,10 @@ public:
 
     void Clean()
     {
-        for (auto gameObject : gameObjects)
+        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
         {
+            auto gameObject = iter->get();
+
             if (gameObject != nullptr)
             {
                 gameObject->Clean();
