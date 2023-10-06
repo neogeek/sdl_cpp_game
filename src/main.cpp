@@ -27,7 +27,7 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    GameObject spawner;
+    GameObject *spawner = new GameObject;
 
     std::list<GameObject *> gameObjects;
 
@@ -35,8 +35,8 @@ int main()
 
     int spawnedBullets = 0;
 
-    spawner.SetUpdate([&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
-                      {
+    spawner->SetUpdate([&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
+                       {
         nextTick += deltaTime;
 
         if (nextTick < 0.02)
@@ -67,7 +67,7 @@ int main()
 
         spawnedBullets++; });
 
-    game.gameObjects.push_back(&spawner);
+    game.gameObjects.push_back(spawner);
 
     // game.Setup();
 
