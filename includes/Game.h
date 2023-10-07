@@ -39,6 +39,8 @@ class Game
     bool isRightPressed = false;
     bool isSpacePressed = false;
 
+    std::unordered_map<SDL_Keycode, bool> keyState;
+
     std::list<std::unique_ptr<GameObject>> gameObjects;
 
     Game()
@@ -131,37 +133,12 @@ class Game
                 break;
 
             case SDL_KEYDOWN:
-                switch (key)
-                {
-                case SDLK_SPACE:
-                    isSpacePressed = true;
-                    break;
-                case SDLK_LEFT:
-                    isLeftPressed = true;
-                    break;
-                case SDLK_RIGHT:
-                    isRightPressed = true;
-                    break;
-                default:
-                    break;
-                }
+                keyState[key] = true;
                 break;
 
             case SDL_KEYUP:
-                switch (key)
-                {
-                case SDLK_SPACE:
-                    isSpacePressed = false;
-                    break;
-                case SDLK_LEFT:
-                    isLeftPressed = false;
-                    break;
-                case SDLK_RIGHT:
-                    isRightPressed = false;
-                    break;
-                default:
-                    break;
-                }
+                keyState[key] = false;
+                break;
 
             default:
                 break;

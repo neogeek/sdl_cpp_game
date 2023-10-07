@@ -67,17 +67,17 @@ int main()
     spawner->SetUpdate(
         [&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
         {
-            if (game.isSpacePressed)
+            if (game.keyState[SDLK_SPACE])
             {
                 spawn_bullet(ref);
             }
 
-            if (game.isLeftPressed)
+            if (game.keyState[SDLK_LEFT])
             {
                 ref->GetRect()->x -= 5;
             }
 
-            if (game.isRightPressed)
+            if (game.keyState[SDLK_RIGHT])
             {
                 ref->GetRect()->x += 5;
             }
