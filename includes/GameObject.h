@@ -1,8 +1,7 @@
 #pragma once
 
-#include <iostream>
-
 #include <functional>
+#include <iostream>
 #include <utility>
 
 #include <SDL.h>

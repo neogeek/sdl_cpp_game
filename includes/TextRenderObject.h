@@ -6,7 +6,7 @@
 #include "sdl/SDL_TTF_Utilities.h"
 #include "sdl/SDL_Utilities.h"
 
-#include <GameObject.h>
+#include "GameObject.h"
 
 class TextRenderObject : public GameObject
 {

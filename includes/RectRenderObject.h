@@ -4,7 +4,7 @@
 
 #include "sdl/SDL_Utilities.h"
 
-#include <GameObject.h>
+#include "GameObject.h"
 
 class RectRenderObject : public GameObject
 {

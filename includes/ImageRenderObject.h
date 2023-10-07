@@ -4,7 +4,7 @@
 
 #include "sdl/SDL_Image_Utilities.h"
 
-#include <GameObject.h>
+#include "GameObject.h"
 
 class ImageRenderObject : public GameObject
 {
