@@ -102,12 +102,8 @@ int main()
 
     ship->SetRect(spawnerRect);
 
-    double nextTick;
-
-    int spawnedBullets = 0;
-
     ship->SetUpdate(
-        [&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
+        [](GameObject *ref, double deltaTime)
         {
             if (game.keyState[SDLK_SPACE])
             {
