@@ -9,23 +9,21 @@
 class ImageRenderObject : public GameObject
 {
 
-private:
+  private:
     SDL_Texture *texture;
 
-public:
+  public:
     explicit ImageRenderObject() : GameObject() {}
     explicit ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~ImageRenderObject()
-    {
-        SDL_DestroyTexture(texture);
-    }
+    ~ImageRenderObject() { SDL_DestroyTexture(texture); }
 
     /**
      * Load textures by path.
      * @param path Path to a local texture.
      *
-     * @deprecated DEVELOPMENT USE ONLY! Use LoadTextureRW to load textures in a final build.
+     * @deprecated DEVELOPMENT USE ONLY! Use LoadTextureRW to load textures in a
+     * final build.
      */
     void LoadTexture(SDL_Renderer *renderer, const char *path)
     {
@@ -34,7 +32,8 @@ public:
 
     /**
      * Load textures from memory buffer.
-     * @param mem Pointer to a read-only buffer. (texture loaded in via header file)
+     * @param mem Pointer to a read-only buffer. (texture loaded in via header
+     * file)
      * @param size Length of a buffer in bytes.
      */
     void LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
@@ -53,7 +52,5 @@ public:
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    void Clean() override
-    {
-    }
+    void Clean() override {}
 };

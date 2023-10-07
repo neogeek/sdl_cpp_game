@@ -10,7 +10,7 @@
 class GameObject
 {
 
-protected:
+  protected:
     SDL_Rect *rect;
 
     std::function<void(GameObject *)> startFunction;
@@ -23,7 +23,7 @@ protected:
 
     bool isMarkedForDestroy = false;
 
-public:
+  public:
     explicit GameObject()
     {
         rect = new SDL_Rect;
@@ -40,27 +40,32 @@ public:
     {
         if (startFunction)
         {
-            std::cerr << "WARNING! Start function has already been set. Overriding with new function.\n";
+            std::cerr << "WARNING! Start function has already been set. "
+                         "Overriding with new function.\n";
         }
 
         startFunction = std::move(_startFunction);
     }
 
-    void SetUpdate(std::function<void(GameObject *, double)> _updateFunction = nullptr)
+    void SetUpdate(
+        std::function<void(GameObject *, double)> _updateFunction = nullptr)
     {
         if (updateFunction)
         {
-            std::cerr << "WARNING! Update function has already been set. Overriding with new function.\n";
+            std::cerr << "WARNING! Update function has already been set. "
+                         "Overriding with new function.\n";
         }
 
         updateFunction = std::move(_updateFunction);
     }
 
-    void SetFixedUpdate(std::function<void(GameObject *, double)> _fixedUpdateFunction = nullptr)
+    void SetFixedUpdate(std::function<void(GameObject *, double)>
+                            _fixedUpdateFunction = nullptr)
     {
         if (fixedUpdateFunction)
         {
-            std::cerr << "WARNING! Fixed update function has already been set. Overriding with new function.\n";
+            std::cerr << "WARNING! Fixed update function has already been set. "
+                         "Overriding with new function.\n";
         }
 
         fixedUpdateFunction = std::move(_fixedUpdateFunction);
@@ -92,41 +97,28 @@ public:
         }
     }
 
-    [[nodiscard]] SDL_Rect *GetRect()
-    {
-        return rect;
-    }
+    [[nodiscard]] SDL_Rect *GetRect() { return rect; }
 
     /**
      * Set rect position and size to the GameObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
      */
-    void SetRect(SDL_Rect *_rect)
-    {
-        rect = _rect;
-    }
+    void SetRect(SDL_Rect *_rect) { rect = _rect; }
 
     /**
      * Render GameObject to the scene.
      */
-    virtual void Render(SDL_Renderer *_renderer)
-    {
-    }
+    virtual void Render(SDL_Renderer *_renderer) {}
 
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    virtual void Clean()
-    {
-    }
+    virtual void Clean() {}
 
     [[nodiscard]] bool HasBeenMarkedForDestroy() const
     {
         return isMarkedForDestroy;
     }
 
-    void Destroy()
-    {
-        isMarkedForDestroy = true;
-    }
+    void Destroy() { isMarkedForDestroy = true; }
 };

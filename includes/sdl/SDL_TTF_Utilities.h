@@ -6,7 +6,7 @@
 class SDL_TTF_Utilities
 {
 
-public:
+  public:
     /**
      * Load font from a path.
      *
@@ -32,9 +32,11 @@ public:
      * @param size The buffer size, in bytes.
      * @param ptSize The size of the font.
      */
-    [[nodiscard]] static TTF_Font *LoadFontRW(const void *mem, int size, int ptSize = 24)
+    [[nodiscard]] static TTF_Font *LoadFontRW(const void *mem, int size,
+                                              int ptSize = 24)
     {
-        TTF_Font *font = TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
+        TTF_Font *font =
+            TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
 
         if (!font)
         {
@@ -53,7 +55,8 @@ public:
      * @param rect A rectangle, with the origin at the upper left (integer).
      * @param content The text to render.
      */
-    static void RenderText(SDL_Renderer *renderer, TTF_Font *font, SDL_Color color, SDL_Rect rect, const char *content)
+    static void RenderText(SDL_Renderer *renderer, TTF_Font *font,
+                           SDL_Color color, SDL_Rect rect, const char *content)
     {
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, content, color);
 
@@ -62,7 +65,8 @@ public:
             return;
         }
 
-        SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        SDL_Texture *textTexture =
+            SDL_CreateTextureFromSurface(renderer, textSurface);
 
         if (!textTexture)
         {

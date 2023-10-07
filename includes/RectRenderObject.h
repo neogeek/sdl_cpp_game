@@ -9,10 +9,10 @@
 class RectRenderObject : public GameObject
 {
 
-private:
+  private:
     SDL_Color color{255, 255, 255, 255};
 
-public:
+  public:
     explicit RectRenderObject() : GameObject() {}
     explicit RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
@@ -22,10 +22,7 @@ public:
      * Set rect color.
      * @param color Color value to set.
      */
-    void SetColor(SDL_Color _color)
-    {
-        color = _color;
-    }
+    void SetColor(SDL_Color _color) { color = _color; }
 
     /**
      * Render rect to the scene.
@@ -38,7 +35,5 @@ public:
     /**
      * Cleanup function to run after the scene is unloaded.
      */
-    void Clean() override
-    {
-    }
+    void Clean() override {}
 };

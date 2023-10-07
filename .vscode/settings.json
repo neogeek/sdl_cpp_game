@@ -1,7 +1,7 @@
 {
   "[cpp]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "ms-vscode.cpptools"
+    "editor.defaultFormatter": "xaver.clang-format"
   },
   "files.associations": {
     "*.jsx": "javascript",

@@ -12,7 +12,7 @@
 class Game
 {
 
-private:
+  private:
     SDL_Window *window;
     SDL_Renderer *renderer;
 
@@ -34,7 +34,7 @@ private:
     int width;
     int height;
 
-public:
+  public:
     bool isLeftPressed = false;
     bool isRightPressed = false;
     bool isSpacePressed = false;
@@ -43,8 +43,11 @@ public:
 
     Game()
     {
-        window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
+                                  SDL_WINDOWPOS_CENTERED, 800, 600,
+                                  SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+        renderer = SDL_CreateRenderer(
+            window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
         SDL_GL_GetDrawableSize(window, &width, &height);
     }
@@ -68,30 +71,15 @@ public:
         SDL_SetWindowSize(window, width, height);
     }
 
-    void SetTitle(const char *name)
-    {
-        SDL_SetWindowTitle(window, name);
-    }
+    void SetTitle(const char *name) { SDL_SetWindowTitle(window, name); }
 
-    void SetClearColor(SDL_Color _color)
-    {
-        clearColor = _color;
-    }
+    void SetClearColor(SDL_Color _color) { clearColor = _color; }
 
-    int GetWidth() const
-    {
-        return width;
-    }
+    int GetWidth() const { return width; }
 
-    int GetHeight() const
-    {
-        return height;
-    }
+    int GetHeight() const { return height; }
 
-    [[nodiscard]] bool GetQuit() const
-    {
-        return quit;
-    }
+    [[nodiscard]] bool GetQuit() const { return quit; }
 
     int Run()
     {
@@ -185,7 +173,8 @@ public:
     {
         auto currentTime = static_cast<double>(SDL_GetPerformanceCounter());
 
-        double deltaTime = (currentTime - previousTime) / static_cast<double>(SDL_GetPerformanceFrequency());
+        double deltaTime = (currentTime - previousTime) /
+                           static_cast<double>(SDL_GetPerformanceFrequency());
 
         previousTime = currentTime;
 
@@ -199,7 +188,9 @@ public:
             }
         }
 
-        double frameTime = (static_cast<double>(SDL_GetPerformanceCounter()) - currentTime) / static_cast<double>(SDL_GetPerformanceFrequency());
+        double frameTime =
+            (static_cast<double>(SDL_GetPerformanceCounter()) - currentTime) /
+            static_cast<double>(SDL_GetPerformanceFrequency());
 
         if (frameTime < targetFrameTime)
         {
@@ -218,7 +209,8 @@ public:
 
         if (elapsedTime >= fixedFrameTime)
         {
-            for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+            for (auto iter = gameObjects.begin(); iter != gameObjects.end();
+                 iter++)
             {
                 auto gameObject = iter->get();
 
@@ -284,8 +276,5 @@ public:
         SDL_Quit();
     }
 
-    void Quit()
-    {
-        quit = true;
-    }
+    void Quit() { quit = true; }
 };
