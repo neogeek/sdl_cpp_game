@@ -2,6 +2,7 @@
 
 // #include <emscripten.h>
 
+#include "../images/galaga_enemy_1.h"
 #include "../images/galaga_ship.h"
 
 #include <SDL.h>
@@ -58,6 +59,38 @@ void spawn_bullet(GameObject *spawner)
 int main()
 {
     game.SetTitle("My Super Cool Game");
+
+    std::unique_ptr<ImageRenderObject> enemy(new ImageRenderObject());
+
+    enemy->LoadTextureRW(game.GetRenderer(), images_galaga_enemy_1_png,
+                         images_galaga_enemy_1_png_len);
+
+    auto enemyRect = new SDL_Rect{(game.GetWidth() / 2) - 50, 150, 100, 100};
+
+    enemy->SetRect(enemyRect);
+
+    int enemyDirection = 1;
+
+    enemy->SetUpdate(
+        [&enemyDirection](GameObject *ref, double deltaTime)
+        {
+            auto rect = ref->GetRect();
+
+            rect->x += enemyDirection * 5;
+
+            if (enemyDirection == 1 && rect->x > game.GetWidth() - 200)
+            {
+                rect->x = game.GetWidth() - 200;
+                enemyDirection = -1;
+            }
+            else if (enemyDirection == -1 && rect->x < 100)
+            {
+                rect->x = 100;
+                enemyDirection = 1;
+            }
+        });
+
+    game.gameObjects.push_back(std::move(enemy));
 
     std::unique_ptr<ImageRenderObject> ship(new ImageRenderObject());
 
