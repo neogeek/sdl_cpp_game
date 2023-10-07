@@ -1,12 +1,14 @@
-#include <iostream>
 #include <memory>
 
 // #include <emscripten.h>
+
+#include "../images/galaga_ship.h"
 
 #include <SDL.h>
 
 #include "Game.h"
 #include "GameObject.h"
+#include "ImageRenderObject.h"
 #include "RectRenderObject.h"
 
 Game game;
@@ -26,7 +28,7 @@ Game game;
 void spawn_bullet(GameObject *spawner)
 {
     auto *rect =
-        new SDL_Rect{spawner->GetRect()->x + 5, spawner->GetRect()->y, 10, 10};
+        new SDL_Rect{spawner->GetRect()->x + 50 - 5, spawner->GetRect()->y - 40, 10, 10};
 
     std::unique_ptr<RectRenderObject> bullet(new RectRenderObject());
 
@@ -57,18 +59,20 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    std::unique_ptr<RectRenderObject> spawner(new RectRenderObject());
+    std::unique_ptr<ImageRenderObject> ship(new ImageRenderObject());
+
+    ship->LoadTextureRW(game.GetRenderer(), images_galaga_ship_png, images_galaga_ship_png_len);
 
     auto spawnerRect =
-        new SDL_Rect{game.GetWidth() / 2 - 10, game.GetHeight() - 40, 20, 20};
+        new SDL_Rect{(game.GetWidth() / 2) - 50, game.GetHeight() - 150, 100, 100};
 
-    spawner->SetRect(spawnerRect);
+    ship->SetRect(spawnerRect);
 
     double nextTick;
 
     int spawnedBullets = 0;
 
-    spawner->SetUpdate(
+    ship->SetUpdate(
         [&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
         {
             if (game.keyState[SDLK_SPACE])
@@ -87,7 +91,7 @@ int main()
             }
         });
 
-    game.gameObjects.push_back(std::move(spawner));
+    game.gameObjects.push_back(std::move(ship));
 
     // game.Setup();
 
