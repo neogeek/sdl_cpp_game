@@ -118,6 +118,7 @@ class Game
             case SDL_QUIT:
                 Quit();
                 break;
+
             case SDL_WINDOWEVENT:
                 if (event.window.event == SDL_WINDOWEVENT_RESIZED ||
                     event.window.event == SDL_WINDOWEVENT_RESTORED ||

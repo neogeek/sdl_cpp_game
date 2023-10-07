@@ -6,7 +6,6 @@
 #include <SDL.h>
 
 #include "Game.h"
-
 #include "GameObject.h"
 #include "RectRenderObject.h"
 
