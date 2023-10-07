@@ -31,6 +31,9 @@ private:
 
     const double fixedFrameTime = 0.02;
 
+    int width;
+    int height;
+
 public:
     bool isLeftPressed = false;
     bool isRightPressed = false;
@@ -42,6 +45,8 @@ public:
     {
         window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+        SDL_GL_GetDrawableSize(window, &width, &height);
     }
 
     [[nodiscard]] SDL_Window *GetWindow() const { return window; }
@@ -71,6 +76,16 @@ public:
     void SetClearColor(SDL_Color _color)
     {
         clearColor = _color;
+    }
+
+    int GetWidth() const
+    {
+        return width;
+    }
+
+    int GetHeight() const
+    {
+        return height;
     }
 
     [[nodiscard]] bool GetQuit() const
@@ -116,6 +131,15 @@ public:
             {
             case SDL_QUIT:
                 Quit();
+                break;
+            case SDL_WINDOWEVENT:
+                if (event.window.event == SDL_WINDOWEVENT_RESIZED ||
+                    event.window.event == SDL_WINDOWEVENT_RESTORED ||
+                    event.window.event == SDL_WINDOWEVENT_MAXIMIZED ||
+                    event.window.event == SDL_WINDOWEVENT_MINIMIZED)
+                {
+                    SDL_GL_GetDrawableSize(window, &width, &height);
+                }
                 break;
 
             case SDL_KEYDOWN:
