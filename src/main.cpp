@@ -27,8 +27,8 @@ Game game;
 
 void spawn_bullet(GameObject *spawner)
 {
-    auto *rect =
-        new SDL_Rect{spawner->GetRect()->x + 50 - 5, spawner->GetRect()->y - 40, 10, 10};
+    auto *rect = new SDL_Rect{spawner->GetRect()->x + 50 - 5,
+                              spawner->GetRect()->y - 40, 10, 10};
 
     std::unique_ptr<RectRenderObject> bullet(new RectRenderObject());
 
@@ -61,10 +61,11 @@ int main()
 
     std::unique_ptr<ImageRenderObject> ship(new ImageRenderObject());
 
-    ship->LoadTextureRW(game.GetRenderer(), images_galaga_ship_png, images_galaga_ship_png_len);
+    ship->LoadTextureRW(game.GetRenderer(), images_galaga_ship_png,
+                        images_galaga_ship_png_len);
 
-    auto spawnerRect =
-        new SDL_Rect{(game.GetWidth() / 2) - 50, game.GetHeight() - 150, 100, 100};
+    auto spawnerRect = new SDL_Rect{(game.GetWidth() / 2) - 50,
+                                    game.GetHeight() - 150, 100, 100};
 
     ship->SetRect(spawnerRect);
 
