@@ -34,6 +34,8 @@ class Game
     int width = 0;
     int height = 0;
 
+    bool focused = false;
+
   public:
     std::unordered_map<SDL_Keycode, bool> keyState;
 
@@ -76,6 +78,8 @@ class Game
     int GetWidth() const { return width; }
 
     int GetHeight() const { return height; }
+
+    bool HasFocus() const { return focused; }
 
     [[nodiscard]] bool GetQuit() const { return quit; }
 
@@ -126,6 +130,14 @@ class Game
                     event.window.event == SDL_WINDOWEVENT_MINIMIZED)
                 {
                     SDL_GL_GetDrawableSize(window, &width, &height);
+                }
+                else if (event.window.event == SDL_WINDOWEVENT_FOCUS_LOST)
+                {
+                    focused = false;
+                }
+                else if (event.window.event == SDL_WINDOWEVENT_FOCUS_GAINED)
+                {
+                    focused = true;
                 }
                 break;
 

@@ -35,6 +35,11 @@ void spawn_bullet(GameObject *spawner)
     bullet->SetFixedUpdate(
         [](GameObject *ref, double deltaTime)
         {
+            if (!game.HasFocus())
+            {
+                return;
+            }
+
             SDL_Rect *position = ref->GetRect();
 
             position->y -= 20;
