@@ -73,7 +73,7 @@ class Game
 
     void SetTitle(const char *name) { SDL_SetWindowTitle(window, name); }
 
-    void SetClearColor(SDL_Color _color) { clearColor = _color; }
+    void SetClearColor(SDL_Color color) { this->clearColor = color; }
 
     int GetWidth() const { return width; }
 

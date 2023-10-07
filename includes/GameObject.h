@@ -102,7 +102,7 @@ class GameObject
      * Set rect position and size to the GameObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
      */
-    void SetRect(SDL_Rect *_rect) { rect = _rect; }
+    void SetRect(SDL_Rect *rect) { this->rect = rect; }
 
     /**
      * Render GameObject to the scene.

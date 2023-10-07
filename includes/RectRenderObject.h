@@ -22,7 +22,7 @@ class RectRenderObject : public GameObject
      * Set rect color.
      * @param color Color value to set.
      */
-    void SetColor(SDL_Color _color) { color = _color; }
+    void SetColor(SDL_Color color) { this->color = color; }
 
     /**
      * Render rect to the scene.

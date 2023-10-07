@@ -28,19 +28,19 @@ class TextRenderObject : public GameObject
      * Set text font.
      * @param font Font value to set.
      */
-    void SetFont(TTF_Font *_font) { font = _font; }
+    void SetFont(TTF_Font *font) { this->font = font; }
 
     /**
      * Set text color.
      * @param color Color value to set.
      */
-    void SetColor(SDL_Color _color) { color = _color; }
+    void SetColor(SDL_Color color) { this->color = color; }
 
     /**
      * Set text content.
      * @param text Text value to set.
      */
-    void SetText(const char *_text) { text = _text; }
+    void SetText(const char *text) { this->text = this->text; }
 
     /**
      * Render text to the scene.
