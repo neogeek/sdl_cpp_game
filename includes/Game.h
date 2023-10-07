@@ -35,10 +35,6 @@ class Game
     int height;
 
   public:
-    bool isLeftPressed = false;
-    bool isRightPressed = false;
-    bool isSpacePressed = false;
-
     std::unordered_map<SDL_Keycode, bool> keyState;
 
     std::list<std::unique_ptr<GameObject>> gameObjects;
