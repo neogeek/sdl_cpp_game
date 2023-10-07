@@ -28,7 +28,7 @@ void spawn_bullet(GameObject *spawner)
 {
     auto *rect = new SDL_Rect{spawner->GetRect()->x + 5, spawner->GetRect()->y, 10, 10};
 
-    std::unique_ptr<RectRenderObject> bullet (new RectRenderObject());
+    std::unique_ptr<RectRenderObject> bullet(new RectRenderObject());
 
     bullet->SetRect(rect);
 
@@ -40,8 +40,7 @@ void spawn_bullet(GameObject *spawner)
 
                                if (position->y < 100) {
                                    ref->Destroy();
-                               }
-                           });
+                               } });
 
     game.gameObjects.push_back(std::move(bullet));
 }
@@ -50,9 +49,9 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    std::unique_ptr<RectRenderObject> spawner (new RectRenderObject());
+    std::unique_ptr<RectRenderObject> spawner(new RectRenderObject());
 
-    auto spawnerRect = new SDL_Rect {800-10, 1200-40, 20, 20};
+    auto spawnerRect = new SDL_Rect{800 - 10, 1200 - 40, 20, 20};
 
     spawner->SetRect(spawnerRect);
 
@@ -62,18 +61,20 @@ int main()
 
     spawner->SetUpdate([&nextTick, &spawnedBullets](GameObject *ref, double deltaTime)
                        {
-                            if (game.isSpacePressed) {
-                                spawn_bullet(ref);
-                            }
+                           if (game.isSpacePressed)
+                           {
+                               spawn_bullet(ref);
+                           }
 
-                           if (game.isLeftPressed) {
+                           if (game.isLeftPressed)
+                           {
                                ref->GetRect()->x -= 5;
                            }
 
-                           if (game.isRightPressed) {
+                           if (game.isRightPressed)
+                           {
                                ref->GetRect()->x += 5;
                            }
-
                        });
 
     game.gameObjects.push_back(std::move(spawner));
