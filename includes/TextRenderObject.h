@@ -40,7 +40,7 @@ class TextRenderObject : public GameObject
      * Set text content.
      * @param text Text value to set.
      */
-    void SetText(const char *text) { this->text = this->text; }
+    void SetText(const char *text) { this->text = text; }
 
     /**
      * Render text to the scene.
