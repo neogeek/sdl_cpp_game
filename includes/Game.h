@@ -31,8 +31,8 @@ class Game
 
     const double fixedFrameTime = 0.02;
 
-    int width;
-    int height;
+    int width = 0;
+    int height = 0;
 
   public:
     std::unordered_map<SDL_Keycode, bool> keyState;
