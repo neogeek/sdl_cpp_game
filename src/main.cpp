@@ -51,7 +51,7 @@ int main()
 
     std::unique_ptr<RectRenderObject> spawner(new RectRenderObject());
 
-    auto spawnerRect = new SDL_Rect{800 - 10, 1200 - 40, 20, 20};
+    auto spawnerRect = new SDL_Rect{game.GetWidth() / 2 - 10, game.GetHeight() - 40, 20, 20};
 
     spawner->SetRect(spawnerRect);
 
@@ -74,8 +74,7 @@ int main()
                            if (game.isRightPressed)
                            {
                                ref->GetRect()->x += 5;
-                           }
-                       });
+                           } });
 
     game.gameObjects.push_back(std::move(spawner));
 
