@@ -110,43 +110,49 @@ public:
     {
         while (SDL_PollEvent(&event) != 0)
         {
-            if (event.type == SDL_QUIT)
+            SDL_Keycode key = event.key.keysym.sym;
+
+            switch (event.type)
             {
+            case SDL_QUIT:
                 Quit();
-            }
-            else if (event.type == SDL_KEYDOWN)
-            {
-                SDL_Keycode key = event.key.keysym.sym;
+                break;
 
-                if (key == SDLK_SPACE)
+            case SDL_KEYDOWN:
+                switch (key)
                 {
+                case SDLK_SPACE:
                     isSpacePressed = true;
-                }
-                else if (key == SDLK_LEFT)
-                {
+                    break;
+                case SDLK_LEFT:
                     isLeftPressed = true;
-                }
-                else if (key == SDLK_RIGHT)
-                {
+                    break;
+                case SDLK_RIGHT:
                     isRightPressed = true;
+                    break;
+                default:
+                    break;
                 }
-            }
-            else if (event.type == SDL_KEYUP)
-            {
-                SDL_Keycode key = event.key.keysym.sym;
+                break;
 
-                if (key == SDLK_SPACE)
+            case SDL_KEYUP:
+                switch (key)
                 {
+                case SDLK_SPACE:
                     isSpacePressed = false;
-                }
-                else if (key == SDLK_LEFT)
-                {
+                    break;
+                case SDLK_LEFT:
                     isLeftPressed = false;
-                }
-                else if (key == SDLK_RIGHT)
-                {
+                    break;
+                case SDLK_RIGHT:
                     isRightPressed = false;
+                    break;
+                default:
+                    break;
                 }
+
+            default:
+                break;
             }
         }
     }
