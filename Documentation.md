@@ -18,29 +18,33 @@ int main()
 ```cpp
 #include "RectRenderObject.h"
 
-RectRenderObject square;
+std::unique_ptr<RectRenderObject> square(new RectRenderObject);
 
-square.SetStart([](GameObject *ref)
-                {
-                    std::cout << "start" << std::endl;
+square->SetStart(
+    [](GameObject *ref)
+    {
+        std::cout << "start" << std::endl;
 
-                    ref->GetRect()->w = 100;
-                    ref->GetRect()->h = 100;
-                });
+        TextRenderObject *rectObj = dynamic_cast<TextRenderObject *>(ref);
 
-square.SetUpdate([](GameObject *ref, double deltaTime)
-                    {
-                        std::cout << "update" << std::endl;
+        rectObj->GetRect()->w = 100;
+        rectObj->GetRect()->h = 100;
+    });
 
-                        ref->GetRect()->x += 1;
-                    });
+square->SetUpdate(
+    [](GameObject *ref, double deltaTime)
+    {
+        std::cout << "update" << std::endl;
 
-square.SetFixedUpdate([](GameObject *ref, double deltaTime)
-                        {
-                            std::cout << "fixed update" << std::endl;
-                        });
+        TextRenderObject *rectObj = dynamic_cast<TextRenderObject *>(ref);
 
-square.SetColor({255, 255, 255});
+        rectObj->GetRect()->x += 1;
+    });
 
-game.gameObjects.push_back(&square);
+square->SetFixedUpdate([](GameObject *ref, double deltaTime)
+                        { std::cout << "fixed update" << std::endl; });
+
+square->SetColor({255, 255, 255, 255});
+
+game.gameObjects.push_back(std::move(square));
 ```
