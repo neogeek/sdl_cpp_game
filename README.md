@@ -13,6 +13,8 @@ brew install SDL2_ttf
 
 ## Build
 
+### Native
+
 Using CMake
 
 ```bash
@@ -24,6 +26,18 @@ or using g++
 
 ```bash
 ./bin/build.sh
+```
+
+### WebGL
+
+```bash
+./bin/build_webgl.sh
+```
+
+### macOS
+
+```bash
+cmake . -G Xcode
 ```
 
 ## Format
