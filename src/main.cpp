@@ -62,6 +62,44 @@ std::unique_ptr<ImageRenderObject> create_bullet(GameObject *spawner)
     return bullet;
 }
 
+std::unique_ptr<ImageRenderObject> create_ship()
+{
+    std::unique_ptr<ImageRenderObject> ship(new ImageRenderObject());
+
+    ship->LoadTextureRW(game.GetRenderer(), images_galaga_ship_png,
+                        images_galaga_ship_png_len);
+
+    auto spawnerRect = new SDL_Rect{(game.GetWidth() / 2) - 50,
+                                    game.GetHeight() - 150, 100, 100};
+
+    ship->SetRect(spawnerRect);
+
+    ship->SetUpdate(
+        [](GameObject *ref, double deltaTime)
+        {
+            if (game.keyState[SDLK_LEFT])
+            {
+                ref->GetRect()->x -= 5;
+            }
+
+            if (game.keyState[SDLK_RIGHT])
+            {
+                ref->GetRect()->x += 5;
+            }
+
+            if (game.keyState[SDLK_SPACE])
+            {
+                auto bullet = create_bullet(ref);
+
+                game.gameObjects.push_back(std::move(bullet));
+            }
+        });
+
+    game.gameObjects.push_back(std::move(ship));
+
+    return ship;
+}
+
 int main()
 {
     game.SetTitle("My Super Cool Game");
@@ -98,36 +136,7 @@ int main()
 
     game.gameObjects.push_back(std::move(enemy));
 
-    std::unique_ptr<ImageRenderObject> ship(new ImageRenderObject());
-
-    ship->LoadTextureRW(game.GetRenderer(), images_galaga_ship_png,
-                        images_galaga_ship_png_len);
-
-    auto spawnerRect = new SDL_Rect{(game.GetWidth() / 2) - 50,
-                                    game.GetHeight() - 150, 100, 100};
-
-    ship->SetRect(spawnerRect);
-
-    ship->SetUpdate(
-        [](GameObject *ref, double deltaTime)
-        {
-            if (game.keyState[SDLK_SPACE])
-            {
-                auto bullet = create_bullet(ref);
-
-                game.gameObjects.push_back(std::move(bullet));
-            }
-
-            if (game.keyState[SDLK_LEFT])
-            {
-                ref->GetRect()->x -= 5;
-            }
-
-            if (game.keyState[SDLK_RIGHT])
-            {
-                ref->GetRect()->x += 5;
-            }
-        });
+    auto ship = create_ship();
 
     game.gameObjects.push_back(std::move(ship));
 
