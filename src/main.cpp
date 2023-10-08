@@ -2,6 +2,7 @@
 
 // #include <emscripten.h>
 
+#include "../images/galaga_bullet_1.h"
 #include "../images/galaga_enemy_1.h"
 #include "../images/galaga_ship.h"
 
@@ -26,12 +27,17 @@ Game game;
 //     game.Loop();
 // }
 
-void spawn_bullet(GameObject *spawner)
+std::unique_ptr<ImageRenderObject> create_bullet(GameObject *spawner)
 {
-    auto *rect = new SDL_Rect{spawner->GetRect()->x + 50 - 5,
-                              spawner->GetRect()->y - 40, 10, 10};
+    std::unique_ptr<ImageRenderObject> bullet(new ImageRenderObject());
 
-    std::unique_ptr<RectRenderObject> bullet(new RectRenderObject());
+    bullet->LoadTextureRW(game.GetRenderer(), images_galaga_bullet_1_png,
+                          images_galaga_bullet_1_png_len);
+
+    const int scale = 5;
+
+    auto *rect = new SDL_Rect{spawner->GetRect()->x + 50 - (3 * scale) / 2,
+                              spawner->GetRect()->y - 40, 3 * scale, 8 * scale};
 
     bullet->SetRect(rect);
 
@@ -53,7 +59,7 @@ void spawn_bullet(GameObject *spawner)
             }
         });
 
-    game.gameObjects.push_back(std::move(bullet));
+    return bullet;
 }
 
 int main()
@@ -107,7 +113,9 @@ int main()
         {
             if (game.keyState[SDLK_SPACE])
             {
-                spawn_bullet(ref);
+                auto bullet = create_bullet(ref);
+
+                game.gameObjects.push_back(std::move(bullet));
             }
 
             if (game.keyState[SDLK_LEFT])
