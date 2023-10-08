@@ -15,6 +15,11 @@ class SDL_TTF_Utilities
      */
     [[nodiscard]] static TTF_Font *LoadFont(const char *path, int ptSize = 24)
     {
+        if (!TTF_WasInit())
+        {
+            TTF_Init();
+        }
+
         TTF_Font *font = TTF_OpenFont(path, ptSize);
 
         if (!font)
@@ -35,6 +40,11 @@ class SDL_TTF_Utilities
     [[nodiscard]] static TTF_Font *LoadFontRW(const void *mem, int size,
                                               int ptSize = 24)
     {
+        if (!TTF_WasInit())
+        {
+            TTF_Init();
+        }
+
         TTF_Font *font =
             TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
 
@@ -58,6 +68,11 @@ class SDL_TTF_Utilities
     static void RenderText(SDL_Renderer *renderer, TTF_Font *font,
                            SDL_Color color, SDL_Rect rect, const char *content)
     {
+        if (!TTF_WasInit())
+        {
+            TTF_Init();
+        }
+
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, content, color);
 
         if (!textSurface)

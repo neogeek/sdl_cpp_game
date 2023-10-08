@@ -9,7 +9,6 @@
 #include "../images/galaga_ship.h"
 
 #include <SDL.h>
-#include <SDL_ttf.h>
 
 #include "Game.h"
 #include "GameObject.h"
@@ -179,11 +178,6 @@ std::unique_ptr<TextRenderObject> create_highscore()
 int main()
 {
     game.SetTitle("My Super Cool Game");
-
-    if (TTF_Init() == -1)
-    {
-        return 1;
-    }
 
     auto highscore = create_highscore();
 

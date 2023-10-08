@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "sdl/SDL_Utilities.h"
 
@@ -254,6 +255,11 @@ class Game
             {
                 gameObject->Clean();
             }
+        }
+
+        for (int i = 0; i <= TTF_WasInit(); ++i)
+        {
+            TTF_Quit();
         }
 
         SDL_DestroyRenderer(renderer);
