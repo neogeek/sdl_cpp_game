@@ -15,6 +15,7 @@
 #include "ImageRenderObject.h"
 #include "RectRenderObject.h"
 #include "TextRenderObject.h"
+#include "Utilities.h"
 
 Game game;
 
@@ -29,6 +30,8 @@ Game game;
 
 //     game.Loop();
 // }
+
+int score = 0;
 
 std::unique_ptr<ImageRenderObject> create_bullet(GameObject *spawner)
 {
@@ -148,6 +151,8 @@ std::unique_ptr<ImageRenderObject> create_ship()
                     game.gameObjects.push_back(std::move(bullet));
 
                     nextTick = 0;
+
+                    score += 1;
                 }
             }
         });
@@ -170,7 +175,13 @@ std::unique_ptr<TextRenderObject> create_highscore()
 
     highScore->SetRect(highScoreRect);
 
-    highScore->SetText("000000");
+    highScore->SetUpdate(
+        [](GameObject *ref, double deltaTime)
+        {
+            TextRenderObject *textObj = dynamic_cast<TextRenderObject *>(ref);
+
+            textObj->SetText(Utilities::LeftPad(std::to_string(score), '0', 5));
+        });
 
     return highScore;
 }

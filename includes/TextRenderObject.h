@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 
@@ -16,7 +18,7 @@ class TextRenderObject : public GameObject
 
     SDL_Color color{255, 255, 255, 255};
 
-    const char *text;
+    std::string text;
 
   public:
     explicit TextRenderObject() : GameObject() {}
@@ -40,14 +42,15 @@ class TextRenderObject : public GameObject
      * Set text content.
      * @param text Text value to set.
      */
-    void SetText(const char *text) { this->text = text; }
+    void SetText(std::string text) { this->text = text; }
 
     /**
      * Render text to the scene.
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_TTF_Utilities::RenderText(renderer, font, color, *rect, text);
+        SDL_TTF_Utilities::RenderText(renderer, font, color, *rect,
+                                      text.c_str());
     }
 
     /**
