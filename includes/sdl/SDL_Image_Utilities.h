@@ -1,7 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include <SDL.h>
 #include <SDL_image.h>
+
+#include "SDL_Texture_Deleter.h"
 
 class SDL_Image_Utilities
 {
@@ -12,19 +16,20 @@ class SDL_Image_Utilities
      * @param renderer A structure representing rendering state.
      * @param path File path to texture file.
      */
-    [[nodiscard]] static SDL_Texture *LoadTexture(SDL_Renderer *renderer,
-                                                  const char *path)
+    [[nodiscard]] static std::unique_ptr<SDL_Texture, SDL_Texture_Deleter>
+    LoadTexture(SDL_Renderer *renderer, const char *path)
     {
-        SDL_Surface *surface = IMG_Load(path);
+        std::unique_ptr<SDL_Surface> surface(IMG_Load(path));
 
         if (!surface)
         {
             return nullptr;
         }
 
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+        std::unique_ptr<SDL_Texture, SDL_Texture_Deleter> texture(
+            SDL_CreateTextureFromSurface(renderer, surface.get()));
 
-        SDL_FreeSurface(surface);
+        SDL_FreeSurface(surface.get());
 
         if (!texture)
         {
@@ -41,21 +46,22 @@ class SDL_Image_Utilities
      * @param mem A pointer to a read-only buffer.
      * @param size The buffer size, in bytes.
      */
-    [[nodiscard]] static SDL_Texture *LoadTextureRW(SDL_Renderer *renderer,
-                                                    const void *mem, int size)
+    [[nodiscard]] static std::unique_ptr<SDL_Texture, SDL_Texture_Deleter>
+    LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
     {
-        SDL_RWops *rw = SDL_RWFromConstMem(mem, size);
+        std::unique_ptr<SDL_RWops> rw(SDL_RWFromConstMem(mem, size));
 
-        SDL_Surface *surface = IMG_Load_RW(rw, 1);
+        std::unique_ptr<SDL_Surface> surface(IMG_Load_RW(rw.get(), 1));
 
         if (!surface)
         {
             return nullptr;
         }
 
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+        std::unique_ptr<SDL_Texture, SDL_Texture_Deleter> texture(
+            SDL_CreateTextureFromSurface(renderer, surface.get()));
 
-        SDL_FreeSurface(surface);
+        SDL_FreeSurface(surface.get());
 
         if (!texture)
         {
