@@ -82,6 +82,11 @@ std::unique_ptr<ImageRenderObject> create_enemy()
     enemy->SetUpdate(
         [](GameObject *ref, double deltaTime)
         {
+            if (!game.HasFocus())
+            {
+                return;
+            }
+
             auto rect = ref->GetRect();
 
             rect->x += enemyDirection * 5;
@@ -118,6 +123,11 @@ std::unique_ptr<ImageRenderObject> create_ship()
     ship->SetUpdate(
         [](GameObject *ref, double deltaTime)
         {
+            if (!game.HasFocus())
+            {
+                return;
+            }
+
             if (game.keyState[SDLK_LEFT])
             {
                 ref->GetRect()->x -= 5;
