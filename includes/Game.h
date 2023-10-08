@@ -257,7 +257,7 @@ class Game
             }
         }
 
-        for (int i = 0; i <= TTF_WasInit(); ++i)
+        for (int i = 0; i < TTF_WasInit(); i += 1)
         {
             TTF_Quit();
         }
