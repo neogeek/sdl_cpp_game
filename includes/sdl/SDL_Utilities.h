@@ -4,7 +4,6 @@
 
 class SDL_Utilities
 {
-
   public:
     /**
      * Clears a rect with a color.

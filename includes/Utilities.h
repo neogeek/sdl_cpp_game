@@ -4,7 +4,6 @@
 
 class Utilities
 {
-
   public:
     static std::string LeftPad(std::string content, const char pad, int length)
     {

@@ -12,7 +12,6 @@
 
 class TextRenderObject : public GameObject
 {
-
   private:
     TTF_Font *font;
 

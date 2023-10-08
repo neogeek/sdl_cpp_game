@@ -5,7 +5,6 @@
 
 class SDL_Image_Utilities
 {
-
   public:
     /**
      * Load texture from a path.

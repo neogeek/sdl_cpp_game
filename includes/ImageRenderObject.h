@@ -8,7 +8,6 @@
 
 class ImageRenderObject : public GameObject
 {
-
   private:
     SDL_Texture *texture;
 

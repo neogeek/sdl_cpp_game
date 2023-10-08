@@ -8,7 +8,6 @@
 
 class RectRenderObject : public GameObject
 {
-
   private:
     SDL_Color color{255, 255, 255, 255};
 

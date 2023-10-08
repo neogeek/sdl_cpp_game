@@ -5,7 +5,6 @@
 
 class SDL_TTF_Utilities
 {
-
   public:
     /**
      * Load font from a path.

@@ -8,7 +8,6 @@
 
 class GameObject
 {
-
   protected:
     SDL_Rect *rect;
 
