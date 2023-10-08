@@ -2,16 +2,20 @@
 
 // #include <emscripten.h>
 
+#include "../fonts/Emulogic.h"
+
 #include "../images/galaga_bullet_1.h"
 #include "../images/galaga_enemy_1.h"
 #include "../images/galaga_ship.h"
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "Game.h"
 #include "GameObject.h"
 #include "ImageRenderObject.h"
 #include "RectRenderObject.h"
+#include "TextRenderObject.h"
 
 Game game;
 
@@ -144,9 +148,36 @@ std::unique_ptr<ImageRenderObject> create_ship()
     return ship;
 }
 
+std::unique_ptr<TextRenderObject> create_highscore()
+{
+    auto font = SDL_TTF_Utilities::LoadFontRW(fonts_Emulogic_ttf,
+                                              fonts_Emulogic_ttf_len, 100);
+
+    std::unique_ptr<TextRenderObject> highScore(new TextRenderObject);
+
+    auto highScoreRect = new SDL_Rect{(game.GetWidth() / 2) - 100, 50, 200, 50};
+
+    highScore->SetFont(font);
+
+    highScore->SetRect(highScoreRect);
+
+    highScore->SetText("000000");
+
+    return highScore;
+}
+
 int main()
 {
     game.SetTitle("My Super Cool Game");
+
+    if (TTF_Init() == -1)
+    {
+        return 1;
+    }
+
+    auto highscore = create_highscore();
+
+    game.gameObjects.push_back(std::move(highscore));
 
     auto enemy = create_enemy();
 
