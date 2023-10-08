@@ -16,6 +16,8 @@ int main()
 ## RectRenderObject
 
 ```cpp
+#include <iostream>
+
 #include "Game.h"
 #include "RectRenderObject.h"
 
