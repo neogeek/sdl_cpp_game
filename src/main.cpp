@@ -62,6 +62,43 @@ std::unique_ptr<ImageRenderObject> create_bullet(GameObject *spawner)
     return bullet;
 }
 
+int enemyDirection = 1;
+
+std::unique_ptr<ImageRenderObject> create_enemy()
+{
+    std::unique_ptr<ImageRenderObject> enemy(new ImageRenderObject());
+
+    enemy->LoadTextureRW(game.GetRenderer(), images_galaga_enemy_1_png,
+                         images_galaga_enemy_1_png_len);
+
+    auto enemyRect = new SDL_Rect{(game.GetWidth() / 2) - 50, 150, 100, 100};
+
+    enemy->SetRect(enemyRect);
+
+    enemy->SetUpdate(
+        [](GameObject *ref, double deltaTime)
+        {
+            auto rect = ref->GetRect();
+
+            rect->x += enemyDirection * 5;
+
+            if (enemyDirection == 1 && rect->x > game.GetWidth() - 200)
+            {
+                rect->x = game.GetWidth() - 200;
+                enemyDirection = -1;
+            }
+            else if (enemyDirection == -1 && rect->x < 100)
+            {
+                rect->x = 100;
+                enemyDirection = 1;
+            }
+        });
+
+    return enemy;
+}
+
+double nextTick;
+
 std::unique_ptr<ImageRenderObject> create_ship()
 {
     std::unique_ptr<ImageRenderObject> ship(new ImageRenderObject());
@@ -89,9 +126,16 @@ std::unique_ptr<ImageRenderObject> create_ship()
 
             if (game.keyState[SDLK_SPACE])
             {
-                auto bullet = create_bullet(ref);
+                nextTick += deltaTime;
 
-                game.gameObjects.push_back(std::move(bullet));
+                if (nextTick > 0.15)
+                {
+                    auto bullet = create_bullet(ref);
+
+                    game.gameObjects.push_back(std::move(bullet));
+
+                    nextTick = 0;
+                }
             }
         });
 
@@ -104,35 +148,7 @@ int main()
 {
     game.SetTitle("My Super Cool Game");
 
-    std::unique_ptr<ImageRenderObject> enemy(new ImageRenderObject());
-
-    enemy->LoadTextureRW(game.GetRenderer(), images_galaga_enemy_1_png,
-                         images_galaga_enemy_1_png_len);
-
-    auto enemyRect = new SDL_Rect{(game.GetWidth() / 2) - 50, 150, 100, 100};
-
-    enemy->SetRect(enemyRect);
-
-    int enemyDirection = 1;
-
-    enemy->SetUpdate(
-        [&enemyDirection](GameObject *ref, double deltaTime)
-        {
-            auto rect = ref->GetRect();
-
-            rect->x += enemyDirection * 5;
-
-            if (enemyDirection == 1 && rect->x > game.GetWidth() - 200)
-            {
-                rect->x = game.GetWidth() - 200;
-                enemyDirection = -1;
-            }
-            else if (enemyDirection == -1 && rect->x < 100)
-            {
-                rect->x = 100;
-                enemyDirection = 1;
-            }
-        });
+    auto enemy = create_enemy();
 
     game.gameObjects.push_back(std::move(enemy));
 
