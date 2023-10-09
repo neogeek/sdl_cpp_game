@@ -3,6 +3,7 @@
 #include <SDL.h>
 
 #include "sdl/SDL_Image_Utilities.h"
+#include "sdl/SDL_Utilities.h"
 
 #include "GameObject.h"
 
@@ -79,7 +80,8 @@ class ImageRenderObject : public GameObject
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_RenderCopy(renderer, texture, srcRect, rect);
+        SDL_RenderCopy(renderer, texture, srcRect,
+                       SDL_Utilities::ScaleRect(rect, scale));
     }
 
     /**

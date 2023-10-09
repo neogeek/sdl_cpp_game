@@ -48,7 +48,8 @@ class TextRenderObject : public GameObject
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_TTF_Utilities::RenderText(renderer, font, color, *rect,
+        SDL_TTF_Utilities::RenderText(renderer, font, color,
+                                      *SDL_Utilities::ScaleRect(rect, scale),
                                       text.c_str());
     }
 
