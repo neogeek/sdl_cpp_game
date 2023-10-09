@@ -2,8 +2,8 @@
 
 #include "../images/galaga_ship.h"
 
-#include "Game.h"
-#include "ImageRenderObject.h"
+#include "Game.hpp"
+#include "ImageRenderObject.hpp"
 
 #include "GalagaBullet.hpp"
 

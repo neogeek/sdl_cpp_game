@@ -2,8 +2,8 @@
 
 #include "../images/scott-pilgrim-idle.h"
 
-#include "Game.h"
-#include "ImageRenderObject.h"
+#include "Game.hpp"
+#include "ImageRenderObject.hpp"
 
 class ScottPilgrim
 {

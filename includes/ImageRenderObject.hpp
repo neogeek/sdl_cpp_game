@@ -2,10 +2,10 @@
 
 #include <SDL.h>
 
-#include "sdl/SDL_Image_Utilities.h"
-#include "sdl/SDL_Utilities.h"
+#include "sdl/SDL_Image_Utilities.hpp"
+#include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 class ImageRenderObject : public GameObject
 {

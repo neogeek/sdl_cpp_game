@@ -6,9 +6,9 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "sdl/SDL_Utilities.h"
+#include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 class Game
 {

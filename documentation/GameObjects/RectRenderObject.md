@@ -7,8 +7,8 @@
 ```cpp
 #include <iostream>
 
-#include "Game.h"
-#include "RectRenderObject.h"
+#include "Game.hpp"
+#include "RectRenderObject.hpp"
 
 Game game;
 

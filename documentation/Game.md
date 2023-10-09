@@ -1,7 +1,7 @@
 # Game
 
 ```cpp
-#include "Game.h"
+#include "Game.hpp"
 
 Game game;
 

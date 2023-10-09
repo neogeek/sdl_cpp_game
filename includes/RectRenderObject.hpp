@@ -2,9 +2,9 @@
 
 #include <SDL.h>
 
-#include "sdl/SDL_Utilities.h"
+#include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 class RectRenderObject : public GameObject
 {

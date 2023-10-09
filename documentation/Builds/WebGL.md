@@ -5,7 +5,7 @@
 ```cpp
 #include <emscripten.h>
 
-#include "Game.h"
+#include "Game.hpp"
 
 Game game;
 

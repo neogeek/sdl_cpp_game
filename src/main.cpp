@@ -1,8 +1,8 @@
 #include "../fonts/Emulogic.h"
 
-#include "Game.h"
-#include "TextRenderObject.h"
-#include "Utilities.h"
+#include "Game.hpp"
+#include "TextRenderObject.hpp"
+#include "Utilities.hpp"
 
 #include "GalagaEnemy.hpp"
 #include "GalagaShip.hpp"

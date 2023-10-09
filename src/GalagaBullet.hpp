@@ -2,8 +2,8 @@
 
 #include "../images/galaga_bullet_1.h"
 
-#include "Game.h"
-#include "ImageRenderObject.h"
+#include "Game.hpp"
+#include "ImageRenderObject.hpp"
 
 class GalagaBullet
 {
