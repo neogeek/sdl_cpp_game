@@ -28,18 +28,6 @@ or using g++
 ./bin/build.sh
 ```
 
-### WebGL
-
-```bash
-./bin/build_webgl.sh
-```
-
-### macOS
-
-```bash
-cmake . -G Xcode
-```
-
 ## Format
 
 ```bash

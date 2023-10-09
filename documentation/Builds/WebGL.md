@@ -1,5 +1,7 @@
 # WebGL Build
 
+## Code
+
 ```cpp
 #include <emscripten.h>
 
@@ -29,4 +31,10 @@ int main()
 
     return 0;
 }
+```
+
+## Build Command
+
+```bash
+./bin/build_webgl.sh
 ```
