@@ -11,6 +11,8 @@ class ImageRenderObject : public GameObject
   private:
     SDL_Texture *texture;
 
+    SDL_Rect *srcRect;
+
   public:
     explicit ImageRenderObject() : GameObject() {}
     explicit ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
@@ -55,12 +57,29 @@ class ImageRenderObject : public GameObject
         rect->h = textureHeight;
     }
 
+    void SetSrcRect(SDL_Rect *srcRect) { this->srcRect = srcRect; }
+
+    void SetSrcRect(int x, int y, int w, int h)
+    {
+        if (srcRect == nullptr)
+        {
+            srcRect = new SDL_Rect{x, y, w, h};
+
+            return;
+        }
+
+        this->srcRect->x = x;
+        this->srcRect->y = y;
+        this->srcRect->w = w;
+        this->srcRect->h = h;
+    }
+
     /**
      * Render image to the scene.
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_RenderCopy(renderer, texture, nullptr, rect);
+        SDL_RenderCopy(renderer, texture, srcRect, rect);
     }
 
     /**
