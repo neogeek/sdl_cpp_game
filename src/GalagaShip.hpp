@@ -13,7 +13,9 @@ class GalagaShip
   private:
     Game *game;
 
-    double nextTick;
+    double nextFireDelay;
+
+    const double fireRate = 0.1;
 
   public:
     std::unique_ptr<ImageRenderObject> image;
@@ -49,20 +51,20 @@ class GalagaShip
 
                 if (game->keyState[SDLK_SPACE])
                 {
-                    nextTick += deltaTime;
+                    nextFireDelay -= deltaTime;
 
-                    if (nextTick > 0.15)
+                    if (nextFireDelay <= 0)
                     {
                         auto bullet = new GalagaBullet(game, ref);
 
                         game->gameObjects.push_back(std::move(bullet->image));
 
-                        nextTick = 0;
+                        nextFireDelay = fireRate;
                     }
                 }
                 else if (!game->keyState[SDLK_SPACE])
                 {
-                    nextTick = 0;
+                    // nextFireDelay = 0;
                 }
             });
     }
