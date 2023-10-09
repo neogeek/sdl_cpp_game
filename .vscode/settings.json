@@ -83,6 +83,7 @@
     "unordered_set": "cpp",
     "valarray": "cpp",
     "functional": "cpp",
-    "memory": "cpp"
+    "memory": "cpp",
+    "utility": "cpp"
   }
 }
