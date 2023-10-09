@@ -21,7 +21,7 @@ class GameObject
 
     bool isMarkedForDestroy = false;
 
-    int scale = 1;
+    double scale = 1;
 
   public:
     explicit GameObject()
@@ -131,7 +131,7 @@ class GameObject
         this->rect->y = y;
     }
 
-    void SetScale(int scale) { this->scale = scale; }
+    void SetScale(double scale) { this->scale = scale; }
 
     /**
      * Render GameObject to the scene.

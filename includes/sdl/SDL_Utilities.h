@@ -33,10 +33,11 @@ class SDL_Utilities
         SDL_RenderFillRect(renderer, rect);
     }
 
-    static SDL_Rect *ScaleRect(SDL_Rect *rect, int scale)
+    static SDL_Rect *ScaleRect(SDL_Rect *rect, double scale)
     {
         SDL_Rect *scaledRect = new SDL_Rect{
-            (*rect).x, (*rect).y, (*rect).w * scale, (*rect).h * scale};
+            (*rect).x, (*rect).y, static_cast<int>((*rect).w * scale),
+            static_cast<int>((*rect).h * scale)};
 
         return scaledRect;
     }
