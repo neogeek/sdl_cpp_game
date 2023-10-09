@@ -31,5 +31,5 @@ or using g++
 ## Format
 
 ```bash
-clang-format -i src/*.cpp includes/**/*.h
+clang-format -i src/*.cpp includes/**/*.hpp
 ```
