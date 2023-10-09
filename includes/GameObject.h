@@ -99,6 +99,11 @@ class GameObject
 
     [[nodiscard]] SDL_Rect *GetRect() { return rect; }
 
+    [[nodiscard]] SDL_Rect *GetScaledRect()
+    {
+        return SDL_Utilities::ScaleRect(rect, scale);
+    }
+
     /**
      * Set rect position and size of the GameObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
@@ -130,6 +135,8 @@ class GameObject
         this->rect->x = x;
         this->rect->y = y;
     }
+
+    [[nodiscard]] double GetScale() { return scale; }
 
     void SetScale(double scale) { this->scale = scale; }
 
