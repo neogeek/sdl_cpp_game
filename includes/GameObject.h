@@ -98,10 +98,36 @@ class GameObject
     [[nodiscard]] SDL_Rect *GetRect() { return rect; }
 
     /**
-     * Set rect position and size to the GameObject.
+     * Set rect position and size of the GameObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
      */
     void SetRect(SDL_Rect *rect) { this->rect = rect; }
+
+    /**
+     * Set rect position and size of the GameObject.
+     * @param x X position.
+     * @param y Y position.
+     * @param w Width of rect.
+     * @param h Height of rect.
+     */
+    void SetRect(int x, int y, int w, int h)
+    {
+        this->rect->x = x;
+        this->rect->y = y;
+        this->rect->w = w;
+        this->rect->h = h;
+    }
+
+    /**
+     * Set rect position of the GameObject.
+     * @param x X position.
+     * @param y Y position.
+     */
+    void SetRect(int x, int y)
+    {
+        this->rect->x = x;
+        this->rect->y = y;
+    }
 
     /**
      * Render GameObject to the scene.
