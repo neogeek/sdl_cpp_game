@@ -27,6 +27,8 @@ class ImageRenderObject : public GameObject
     void LoadTexture(SDL_Renderer *renderer, const char *path)
     {
         texture = SDL_Image_Utilities::LoadTexture(renderer, path);
+
+        UpdateRectSizeFromTexture();
     }
 
     /**
@@ -38,6 +40,19 @@ class ImageRenderObject : public GameObject
     void LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
     {
         texture = SDL_Image_Utilities::LoadTextureRW(renderer, mem, size);
+
+        UpdateRectSizeFromTexture();
+    }
+
+    void UpdateRectSizeFromTexture()
+    {
+        int textureWidth;
+        int textureHeight;
+
+        SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
+
+        rect->w = textureWidth;
+        rect->h = textureHeight;
     }
 
     /**
