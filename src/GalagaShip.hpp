@@ -62,10 +62,6 @@ class GalagaShip
                         nextFireDelay = fireRate;
                     }
                 }
-                else if (!game->keyState[SDLK_SPACE])
-                {
-                    // nextFireDelay = 0;
-                }
             });
     }
 };
