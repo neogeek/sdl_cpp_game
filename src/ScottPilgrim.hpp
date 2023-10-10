@@ -27,11 +27,11 @@ class ScottPilgrim
         image->LoadTextureRW(game->GetRenderer(), images_scott_pilgrim_idle_png,
                              images_scott_pilgrim_idle_png_len);
 
-        image->SetScale(10);
+        image->SetScale(5);
 
         image->SetSrcRect(0, 0, 36, 59);
 
-        image->SetRect(0, 0, 36, 59);
+        image->SetRect(25, 25, 36, 59);
 
         image->SetUpdate(
             [this](GameObject *ref, double deltaTime)
