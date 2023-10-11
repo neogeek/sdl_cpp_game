@@ -46,33 +46,7 @@ class ScottPilgrim
                 ImageRenderObject *imageObj =
                     dynamic_cast<ImageRenderObject *>(ref);
 
-                switch (frame)
-                {
-                case 1:
-                    imageObj->SetSrcRect(0, 0, 36, 59);
-                    break;
-                case 2:
-                    imageObj->SetSrcRect(36, 0, 36, 59);
-                    break;
-                case 3:
-                    imageObj->SetSrcRect(72, 0, 36, 59);
-                    break;
-                case 4:
-                    imageObj->SetSrcRect(108, 0, 36, 59);
-                    break;
-                case 5:
-                    imageObj->SetSrcRect(144, 0, 36, 59);
-                    break;
-                case 6:
-                    imageObj->SetSrcRect(180, 0, 36, 59);
-                    break;
-                case 7:
-                    imageObj->SetSrcRect(216, 0, 36, 59);
-                    break;
-                case 8:
-                    imageObj->SetSrcRect(252, 0, 36, 59);
-                    break;
-                }
+                imageObj->SetSrcRect(36 * (frame - 1), 0, 36, 59);
 
                 frame += 1;
 
