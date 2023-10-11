@@ -5,9 +5,11 @@
 #include "sdl/SDL_TTF_Utilities.hpp"
 
 #include "Game.hpp"
-#include "RectRenderObject.hpp"
 #include "TextRenderObject.hpp"
 #include "Utilities.hpp"
+
+#include "Galaga/GalagaEnemy.hpp"
+#include "Galaga/GalagaShip.hpp"
 
 class GameManager
 {
@@ -24,8 +26,14 @@ class GameManager
   public:
     std::unique_ptr<TextRenderObject> highScoreText;
 
+    GalagaShip *galagaShip;
+    GalagaEnemy *galagaEnemy;
+    GalagaBullet *galagaBullet;
+
     GameManager(Game *_game) : game(_game)
     {
+        game->SetTitle("Galaga");
+
         highScoreText = std::make_unique<TextRenderObject>();
 
         font = SDL_TTF_Utilities::LoadFontRW(fonts_Emulogic_ttf,
@@ -44,5 +52,15 @@ class GameManager
                 textObj->SetText(
                     Utilities::LeftPad(std::to_string(score), '0', 5));
             });
+
+        game->gameObjects.push_back(std::move(highScoreText));
+
+        galagaEnemy = new GalagaEnemy(game);
+
+        game->gameObjects.push_back(std::move(galagaEnemy->image));
+
+        galagaShip = new GalagaShip(game);
+
+        game->gameObjects.push_back(std::move(galagaShip->image));
     }
 };
