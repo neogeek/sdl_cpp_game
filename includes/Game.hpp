@@ -72,6 +72,9 @@ class Game
     void SetScreenSize(int width, int height)
     {
         SDL_SetWindowSize(window, width, height);
+
+        SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED);
     }
 
     void SetTitle(const char *name) { SDL_SetWindowTitle(window, name); }
