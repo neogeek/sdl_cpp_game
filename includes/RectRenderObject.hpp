@@ -32,7 +32,7 @@ class RectRenderObject : public GameObject
     }
 
     /**
-     * Cleanup function to run after the scene is unloaded.
+     * Cleanup function to run after the GameObject is unloaded.
      */
     void Clean() override {}
 };

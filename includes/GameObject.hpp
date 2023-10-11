@@ -146,7 +146,7 @@ class GameObject
     virtual void Render(SDL_Renderer *_renderer) {}
 
     /**
-     * Cleanup function to run after the scene is unloaded.
+     * Cleanup function to run after the GameObject is unloaded.
      */
     virtual void Clean() {}
 
