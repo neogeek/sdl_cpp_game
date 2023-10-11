@@ -22,10 +22,13 @@ class Game
 
     SDL_Event event;
 
-    double previousTime = 0;
-    double previousFixedTime = 0;
+    std::chrono::steady_clock::time_point previousTime;
 
-    const double frameRate = 60;
+    double deltaTime = 0;
+    double updateDeltaTime = 0;
+    double fixedUpdateDeltaTime = 0;
+
+    double frameRate = 60;
 
     const double targetFrameTime = 1.0 / frameRate;
 
@@ -81,6 +84,10 @@ class Game
 
     bool HasFocus() const { return focused; }
 
+    double GetFrameRate() { return frameRate; }
+
+    void SetFrameRate(double frameRate) { this->frameRate = frameRate; }
+
     [[nodiscard]] bool GetQuit() const { return quit; }
 
     int Run()
@@ -104,11 +111,16 @@ class Game
     {
         HandleInput();
 
+        CalculateDeltaTime();
+
         Update();
         FixedUpdate();
+
         Render();
 
         DestroyGameObjects();
+
+        SDL_Delay(1);
     }
 
     void HandleInput()
@@ -155,45 +167,21 @@ class Game
         }
     }
 
-    void Update()
+    void CalculateDeltaTime()
     {
-        auto currentTime = static_cast<double>(SDL_GetPerformanceCounter());
+        auto currentTime = std::chrono::high_resolution_clock::now();
 
-        double deltaTime = (currentTime - previousTime) /
-                           static_cast<double>(SDL_GetPerformanceFrequency());
+        deltaTime =
+            std::chrono::duration<double>(currentTime - previousTime).count();
 
         previousTime = currentTime;
-
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
-        {
-            auto gameObject = iter->get();
-
-            if (gameObject != nullptr)
-            {
-                gameObject->Update(deltaTime);
-            }
-        }
-
-        double frameTime =
-            (static_cast<double>(SDL_GetPerformanceCounter()) - currentTime) /
-            static_cast<double>(SDL_GetPerformanceFrequency());
-
-        if (frameTime < targetFrameTime)
-        {
-            double delayTime = targetFrameTime - frameTime;
-            double delayMilliseconds = delayTime * 1000.0;
-
-            SDL_Delay(delayMilliseconds);
-        }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        double currentTime = static_cast<double>(SDL_GetTicks64()) / 1000;
+        updateDeltaTime += deltaTime;
 
-        double elapsedTime = currentTime - previousFixedTime;
-
-        if (elapsedTime >= fixedFrameTime)
+        if (updateDeltaTime > targetFrameTime)
         {
             for (auto iter = gameObjects.begin(); iter != gameObjects.end();
                  iter++)
@@ -202,11 +190,32 @@ class Game
 
                 if (gameObject != nullptr)
                 {
-                    gameObject->FixedUpdate(elapsedTime);
+                    gameObject->Update(updateDeltaTime);
                 }
             }
 
-            previousFixedTime = currentTime;
+            updateDeltaTime = 0;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        fixedUpdateDeltaTime += deltaTime;
+
+        if (fixedUpdateDeltaTime > fixedFrameTime)
+        {
+            for (auto iter = gameObjects.begin(); iter != gameObjects.end();
+                 iter++)
+            {
+                auto gameObject = iter->get();
+
+                if (gameObject != nullptr)
+                {
+                    gameObject->FixedUpdate(fixedUpdateDeltaTime);
+                }
+            }
+
+            fixedUpdateDeltaTime = 0;
         }
     }
 
