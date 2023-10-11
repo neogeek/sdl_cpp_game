@@ -15,7 +15,7 @@ class RectRenderObject : public GameObject
     explicit RectRenderObject() : GameObject() {}
     explicit RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~RectRenderObject() = default;
+    ~RectRenderObject() { Clean(); };
 
     /**
      * Set rect color.

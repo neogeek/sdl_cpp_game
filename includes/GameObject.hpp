@@ -34,7 +34,7 @@ class GameObject
     }
     explicit GameObject(SDL_Rect *_rect) : rect(_rect) {}
 
-    ~GameObject() = default;
+    ~GameObject() { Clean(); };
 
     void SetStart(std::function<void(GameObject *)> _startFunction = nullptr)
     {

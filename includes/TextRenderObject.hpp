@@ -23,7 +23,7 @@ class TextRenderObject : public GameObject
     explicit TextRenderObject() : GameObject() {}
     explicit TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~TextRenderObject() = default;
+    ~TextRenderObject() { Clean(); };
 
     /**
      * Set text font.

@@ -18,7 +18,7 @@ class ImageRenderObject : public GameObject
     explicit ImageRenderObject() : GameObject() {}
     explicit ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~ImageRenderObject() { SDL_DestroyTexture(texture); }
+    ~ImageRenderObject() { Clean(); }
 
     /**
      * Load textures by path.
@@ -86,5 +86,5 @@ class ImageRenderObject : public GameObject
     /**
      * Cleanup function to run after the GameObject is unloaded.
      */
-    void Clean() override {}
+    void Clean() override { SDL_DestroyTexture(texture); }
 };
