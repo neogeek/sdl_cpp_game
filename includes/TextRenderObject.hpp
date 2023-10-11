@@ -19,8 +19,18 @@ class TextRenderObject : public GameObject
 
     std::string text;
 
+    SDL_Surface *textSurface;
+
+    SDL_Texture *textTexture;
+
   public:
-    explicit TextRenderObject() : GameObject() {}
+    explicit TextRenderObject() : GameObject()
+    {
+        if (!TTF_WasInit())
+        {
+            TTF_Init();
+        }
+    }
     explicit TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
     ~TextRenderObject() { Clean(); };
@@ -41,19 +51,36 @@ class TextRenderObject : public GameObject
      * Set text content.
      * @param text Text value to set.
      */
-    void SetText(std::string text) { this->text = text; }
+    void SetText(std::string text)
+    {
+        this->text = text;
+
+        textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+
+        textTexture = nullptr;
+    }
+
+    std::string GetText() { return text; }
 
     /**
      * Render text to the scene.
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_TTF_Utilities::RenderText(renderer, font, color, *GetScaledRect(),
-                                      text.c_str());
+        if (textTexture == nullptr)
+        {
+            textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        }
+
+        SDL_RenderCopy(renderer, textTexture, nullptr, GetScaledRect());
     }
 
     /**
      * Cleanup function to run after the GameObject is unloaded.
      */
-    void Clean() override {}
+    void Clean() override
+    {
+        SDL_FreeSurface(textSurface);
+        SDL_DestroyTexture(textTexture);
+    }
 };
