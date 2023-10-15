@@ -1,3 +1,6 @@
+// Copyright (c) Scott Doxey. All Rights Reserved. Licensed under the MIT
+// License. See LICENSE in the project root for license information.
+
 #pragma once
 
 #include <SDL.h>
@@ -5,6 +8,9 @@
 #include "sdl/SDL_Utilities.hpp"
 
 #include "GameObject.hpp"
+
+namespace Handcrank
+{
 
 class RectRenderObject : public GameObject
 {
@@ -15,20 +21,22 @@ class RectRenderObject : public GameObject
     explicit RectRenderObject() : GameObject() {}
     explicit RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
 
-    ~RectRenderObject() { Clean(); };
+    ~RectRenderObject() = default;
 
     /**
      * Set rect color.
      * @param color Color value to set.
      */
-    void SetColor(SDL_Color color) { this->color = color; }
+    void SetColor(SDL_Color _color) { color = _color; }
 
     /**
      * Render rect to the scene.
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_Utilities::RenderRect(renderer, GetScaledRect(), color);
+        SDL_Utilities::RenderRect(renderer, GetTransformedRect(), color);
+
+        GameObject::Render(renderer);
     }
 
     /**
@@ -36,3 +44,5 @@ class RectRenderObject : public GameObject
      */
     void Clean() override {}
 };
+
+} // namespace Handcrank

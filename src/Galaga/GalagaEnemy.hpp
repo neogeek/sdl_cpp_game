@@ -2,8 +2,10 @@
 
 #include "../images/galaga_enemy_1.h"
 
-#include "Game.hpp"
-#include "ImageRenderObject.hpp"
+#include "Handcrank/Game.hpp"
+#include "Handcrank/ImageRenderObject.hpp"
+
+using namespace Handcrank;
 
 class GalagaEnemy
 {

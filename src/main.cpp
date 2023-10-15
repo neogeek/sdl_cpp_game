@@ -1,8 +1,10 @@
-#include "Game.hpp"
+#include "Handcrank/Game.hpp"
 
-#include "FrameRateTester/GameManager.hpp"
+using namespace Handcrank;
+
+// #include "FrameRateTester/GameManager.hpp"
 // #include "Galaga/GameManager.hpp"
-// #include "ScottPilgrim/GameManager.hpp"
+#include "ScottPilgrim/GameManager.hpp"
 
 Game *game = new Game();
 

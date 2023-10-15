@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Game.hpp"
-#include "GameObject.hpp"
+#include "Handcrank/Game.hpp"
+#include "Handcrank/GameObject.hpp"
+
+using namespace Handcrank;
 
 class GameManager
 {

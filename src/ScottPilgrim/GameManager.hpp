@@ -2,12 +2,14 @@
 
 #include "../images/level.h"
 
+#include "Handcrank/Game.hpp"
+#include "Handcrank/ImageRenderObject.hpp"
+#include "Handcrank/Utilities.hpp"
+
+using namespace Handcrank;
+
 #include "ScottPilgrim/Roxzilla.hpp"
 #include "ScottPilgrim/ScottPilgrim.hpp"
-
-#include "Game.hpp"
-#include "ImageRenderObject.hpp"
-#include "Utilities.hpp"
 
 class GameManager
 {

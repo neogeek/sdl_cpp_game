@@ -4,9 +4,11 @@
 
 #include "sdl/SDL_TTF_Utilities.hpp"
 
-#include "Game.hpp"
-#include "TextRenderObject.hpp"
-#include "Utilities.hpp"
+#include "Handcrank/Game.hpp"
+#include "Handcrank/TextRenderObject.hpp"
+#include "Handcrank/Utilities.hpp"
+
+using namespace Handcrank;
 
 #include "Galaga/GalagaEnemy.hpp"
 #include "Galaga/GalagaShip.hpp"

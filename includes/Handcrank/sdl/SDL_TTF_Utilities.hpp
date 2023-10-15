@@ -1,7 +1,13 @@
+// Copyright (c) Scott Doxey. All Rights Reserved. Licensed under the MIT
+// License. See LICENSE in the project root for license information.
+
 #pragma once
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+
+namespace Handcrank
+{
 
 class SDL_TTF_Utilities
 {
@@ -93,3 +99,5 @@ class SDL_TTF_Utilities
         SDL_DestroyTexture(textTexture);
     }
 };
+
+} // namespace Handcrank

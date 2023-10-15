@@ -1,5 +1,9 @@
+// Copyright (c) Scott Doxey. All Rights Reserved. Licensed under the MIT
+// License. See LICENSE in the project root for license information.
+
 #pragma once
 
+#include <chrono>
 #include <list>
 #include <memory>
 
@@ -9,6 +13,9 @@
 #include "sdl/SDL_Utilities.hpp"
 
 #include "GameObject.hpp"
+
+namespace Handcrank
+{
 
 class Game
 {
@@ -49,6 +56,7 @@ class Game
         window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
                                   SDL_WINDOWPOS_CENTERED, 800, 600,
                                   SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+
         renderer = SDL_CreateRenderer(
             window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
@@ -69,9 +77,9 @@ class Game
         return true;
     }
 
-    void SetScreenSize(int width, int height)
+    void SetScreenSize(int _width, int _height)
     {
-        SDL_SetWindowSize(window, width, height);
+        SDL_SetWindowSize(window, _width, _height);
 
         SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED);
@@ -81,15 +89,15 @@ class Game
 
     void SetClearColor(SDL_Color color) { this->clearColor = color; }
 
-    int GetWidth() const { return width; }
+    [[nodiscard]] int GetWidth() const { return width; }
 
-    int GetHeight() const { return height; }
+    [[nodiscard]] int GetHeight() const { return height; }
 
-    bool HasFocus() const { return focused; }
+    [[nodiscard]] bool HasFocus() const { return focused; }
 
-    double GetFrameRate() { return frameRate; }
+    [[nodiscard]] double GetFrameRate() const { return frameRate; }
 
-    void SetFrameRate(double frameRate) { this->frameRate = frameRate; }
+    void SetFrameRate(double _frameRate) { frameRate = _frameRate; }
 
     [[nodiscard]] bool GetQuit() const { return quit; }
 
@@ -172,7 +180,7 @@ class Game
 
     void CalculateDeltaTime()
     {
-        auto currentTime = std::chrono::high_resolution_clock::now();
+        auto currentTime = std::chrono::steady_clock::now();
 
         deltaTime =
             std::chrono::duration<double>(currentTime - previousTime).count();
@@ -186,10 +194,9 @@ class Game
 
         if (updateDeltaTime > targetFrameTime)
         {
-            for (auto iter = gameObjects.begin(); iter != gameObjects.end();
-                 iter++)
+            for (auto &iter : gameObjects)
             {
-                auto gameObject = iter->get();
+                auto gameObject = iter.get();
 
                 if (gameObject != nullptr)
                 {
@@ -207,10 +214,9 @@ class Game
 
         if (fixedUpdateDeltaTime > fixedFrameTime)
         {
-            for (auto iter = gameObjects.begin(); iter != gameObjects.end();
-                 iter++)
+            for (auto &iter : gameObjects)
             {
-                auto gameObject = iter->get();
+                auto gameObject = iter.get();
 
                 if (gameObject != nullptr)
                 {
@@ -226,9 +232,9 @@ class Game
     {
         SDL_Utilities::ClearRect(renderer, clearColor);
 
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto &iter : gameObjects)
         {
-            auto gameObject = iter->get();
+            auto gameObject = iter.get();
 
             if (gameObject != nullptr)
             {
@@ -258,9 +264,9 @@ class Game
 
     void Clean()
     {
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end(); iter++)
+        for (auto &iter : gameObjects)
         {
-            auto gameObject = iter->get();
+            auto gameObject = iter.get();
 
             if (gameObject != nullptr)
             {
@@ -281,3 +287,5 @@ class Game
 
     void Quit() { quit = true; }
 };
+
+} // namespace Handcrank

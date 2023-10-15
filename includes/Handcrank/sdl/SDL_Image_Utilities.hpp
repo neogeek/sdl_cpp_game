@@ -1,7 +1,13 @@
+// Copyright (c) Scott Doxey. All Rights Reserved. Licensed under the MIT
+// License. See LICENSE in the project root for license information.
+
 #pragma once
 
 #include <SDL.h>
 #include <SDL_image.h>
+
+namespace Handcrank
+{
 
 class SDL_Image_Utilities
 {
@@ -65,3 +71,5 @@ class SDL_Image_Utilities
         return texture;
     }
 };
+
+} // namespace Handcrank

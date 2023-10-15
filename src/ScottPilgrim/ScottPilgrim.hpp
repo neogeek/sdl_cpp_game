@@ -2,8 +2,10 @@
 
 #include "../images/scott-pilgrim-idle.h"
 
-#include "Game.hpp"
-#include "ImageRenderObject.hpp"
+#include "Handcrank/Game.hpp"
+#include "Handcrank/ImageRenderObject.hpp"
+
+using namespace Handcrank;
 
 class ScottPilgrim
 {

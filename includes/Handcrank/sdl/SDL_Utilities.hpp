@@ -1,6 +1,12 @@
+// Copyright (c) Scott Doxey. All Rights Reserved. Licensed under the MIT
+// License. See LICENSE in the project root for license information.
+
 #pragma once
 
 #include <SDL.h>
+
+namespace Handcrank
+{
 
 class SDL_Utilities
 {
@@ -33,12 +39,19 @@ class SDL_Utilities
         SDL_RenderFillRect(renderer, rect);
     }
 
-    static SDL_Rect *ScaleRect(SDL_Rect *rect, double scale)
+    [[nodiscard]] static SDL_Rect *PositionRect(SDL_Rect *rect,
+                                                SDL_Rect *parent)
     {
-        SDL_Rect *scaledRect = new SDL_Rect{
-            (*rect).x, (*rect).y, static_cast<int>((*rect).w * scale),
-            static_cast<int>((*rect).h * scale)};
+        return new SDL_Rect{(*rect).x + (*parent).x, (*rect).y + (*parent).y,
+                            (*rect).w, (*rect).h};
+    }
 
-        return scaledRect;
+    [[nodiscard]] static SDL_Rect *ScaleRect(SDL_Rect *rect, double scale)
+    {
+        return new SDL_Rect{(*rect).x, (*rect).y,
+                            static_cast<int>((*rect).w * scale),
+                            static_cast<int>((*rect).h * scale)};
     }
 };
+
+} // namespace Handcrank
