@@ -225,6 +225,32 @@ class GameObject
         return nullptr;
     }
 
+    SDL_FRect *CalculateBoundingBox()
+    {
+        auto boundingBox = GetTransformedRect();
+
+        for (auto &iter : children)
+        {
+            auto gameObject = iter.get();
+
+            if (gameObject != nullptr)
+            {
+                auto childBoundingBox = gameObject->CalculateBoundingBox();
+
+                (*boundingBox).x =
+                    fminf((*boundingBox).x, (*childBoundingBox).x);
+                (*boundingBox).y =
+                    fminf((*boundingBox).y, (*childBoundingBox).y);
+                (*boundingBox).w =
+                    fmaxf((*boundingBox).w, (*childBoundingBox).w);
+                (*boundingBox).h =
+                    fmaxf((*boundingBox).h, (*childBoundingBox).h);
+            }
+        }
+
+        return boundingBox;
+    }
+
     /**
      * Cleanup function to run after the GameObject is unloaded.
      */

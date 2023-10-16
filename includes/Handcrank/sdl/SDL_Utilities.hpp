@@ -39,6 +39,21 @@ class SDL_Utilities
         SDL_RenderFillRectF(renderer, rect);
     }
 
+    /**
+     * Render a rect border with a color.
+     *
+     * @param renderer A structure representing rendering state.
+     * @param rect A rectangle, with the origin at the upper left (integer).
+     * @param color A structure that represents a color.
+     */
+    static void RenderRectBorder(SDL_Renderer *renderer, SDL_FRect *rect,
+                                 SDL_Color color)
+    {
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+
+        SDL_RenderDrawRectF(renderer, rect);
+    }
+
     [[nodiscard]] static SDL_FRect *PositionRect(SDL_FRect *rect,
                                                  SDL_FRect *parent)
     {
