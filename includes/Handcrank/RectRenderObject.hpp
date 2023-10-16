@@ -19,7 +19,7 @@ class RectRenderObject : public GameObject
 
   public:
     explicit RectRenderObject() : GameObject() {}
-    explicit RectRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
+    explicit RectRenderObject(SDL_FRect *_rect) : GameObject(_rect) {}
 
     ~RectRenderObject() = default;
 

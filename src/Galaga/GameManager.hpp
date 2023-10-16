@@ -2,7 +2,7 @@
 
 #include "../fonts/Emulogic.h"
 
-#include "sdl/SDL_TTF_Utilities.hpp"
+#include "Handcrank/sdl/SDL_TTF_Utilities.hpp"
 
 #include "Handcrank/Game.hpp"
 #include "Handcrank/TextRenderObject.hpp"
@@ -10,8 +10,8 @@
 
 using namespace Handcrank;
 
-#include "Galaga/GalagaEnemy.hpp"
-#include "Galaga/GalagaShip.hpp"
+#include "GalagaEnemy.hpp"
+#include "GalagaShip.hpp"
 
 class GameManager
 {

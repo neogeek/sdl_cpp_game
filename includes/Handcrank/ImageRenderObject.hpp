@@ -20,13 +20,13 @@ class ImageRenderObject : public GameObject
 
     SDL_Rect *srcRect;
 
-    SDL_Point *centerPoint;
+    SDL_FPoint *centerPoint;
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
   public:
     explicit ImageRenderObject() : GameObject() {}
-    explicit ImageRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
+    explicit ImageRenderObject(SDL_FRect *_rect) : GameObject(_rect) {}
 
     ~ImageRenderObject() { SDL_DestroyTexture(texture); }
 
@@ -93,8 +93,8 @@ class ImageRenderObject : public GameObject
      */
     void Render(SDL_Renderer *renderer) override
     {
-        SDL_RenderCopyEx(renderer, texture, srcRect, GetTransformedRect(), 0,
-                         centerPoint, flip);
+        SDL_RenderCopyExF(renderer, texture, srcRect, GetTransformedRect(), 0,
+                          centerPoint, flip);
 
         GameObject::Render(renderer);
     }

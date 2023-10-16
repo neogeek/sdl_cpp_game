@@ -31,26 +31,25 @@ class SDL_Utilities
      * @param rect A rectangle, with the origin at the upper left (integer).
      * @param color A structure that represents a color.
      */
-    static void RenderRect(SDL_Renderer *renderer, SDL_Rect *rect,
+    static void RenderRect(SDL_Renderer *renderer, SDL_FRect *rect,
                            SDL_Color color)
     {
         SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
-        SDL_RenderFillRect(renderer, rect);
+        SDL_RenderFillRectF(renderer, rect);
     }
 
-    [[nodiscard]] static SDL_Rect *PositionRect(SDL_Rect *rect,
-                                                SDL_Rect *parent)
+    [[nodiscard]] static SDL_FRect *PositionRect(SDL_FRect *rect,
+                                                 SDL_FRect *parent)
     {
-        return new SDL_Rect{(*rect).x + (*parent).x, (*rect).y + (*parent).y,
-                            (*rect).w, (*rect).h};
+        return new SDL_FRect{(*rect).x + (*parent).x, (*rect).y + (*parent).y,
+                             (*rect).w, (*rect).h};
     }
 
-    [[nodiscard]] static SDL_Rect *ScaleRect(SDL_Rect *rect, double scale)
+    [[nodiscard]] static SDL_FRect *ScaleRect(SDL_FRect *rect, float scale)
     {
-        return new SDL_Rect{(*rect).x, (*rect).y,
-                            static_cast<int>((*rect).w * scale),
-                            static_cast<int>((*rect).h * scale)};
+        return new SDL_FRect{(*rect).x, (*rect).y, (*rect).w * scale,
+                             (*rect).h * scale};
     }
 };
 

@@ -37,7 +37,7 @@ class TextRenderObject : public GameObject
             TTF_Init();
         }
     }
-    explicit TextRenderObject(SDL_Rect *_rect) : GameObject(_rect) {}
+    explicit TextRenderObject(SDL_FRect *_rect) : GameObject(_rect) {}
 
     ~TextRenderObject()
     {
@@ -102,7 +102,7 @@ class TextRenderObject : public GameObject
             textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
         }
 
-        SDL_RenderCopy(renderer, textTexture, nullptr, GetTransformedRect());
+        SDL_RenderCopyF(renderer, textTexture, nullptr, GetTransformedRect());
 
         GameObject::Render(renderer);
     }

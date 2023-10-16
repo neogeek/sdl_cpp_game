@@ -71,7 +71,7 @@ class SDL_TTF_Utilities
      * @param content The text to render.
      */
     static void RenderText(SDL_Renderer *renderer, TTF_Font *font,
-                           SDL_Color color, SDL_Rect rect, const char *content)
+                           SDL_Color color, SDL_FRect rect, const char *content)
     {
         if (!TTF_WasInit())
         {
@@ -93,7 +93,7 @@ class SDL_TTF_Utilities
             return;
         }
 
-        SDL_RenderCopy(renderer, textTexture, nullptr, &rect);
+        SDL_RenderCopyF(renderer, textTexture, nullptr, &rect);
 
         SDL_FreeSurface(textSurface);
         SDL_DestroyTexture(textTexture);

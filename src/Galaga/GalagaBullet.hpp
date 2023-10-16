@@ -28,9 +28,10 @@ class GalagaBullet
 
         image->SetScale(5);
 
-        image->SetRect(spawner->GetRect()->x + spawner->GetScaledRect()->w / 2 -
-                           (3 * image->GetScale() / 2),
-                       spawner->GetRect()->y - spawner->GetScaledRect()->h);
+        image->SetRect(
+            spawner->GetRect()->x + spawner->GetTransformedRect()->w / 2 -
+                (3 * image->GetScale() / 2),
+            spawner->GetRect()->y - spawner->GetTransformedRect()->h);
 
         image->SetUpdate(
             [this](GameObject *ref, double deltaTime)
@@ -40,7 +41,7 @@ class GalagaBullet
                     return;
                 }
 
-                SDL_Rect *position = ref->GetRect();
+                auto position = ref->GetRect();
 
                 position->y -= 20;
 

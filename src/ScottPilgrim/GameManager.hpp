@@ -8,8 +8,8 @@
 
 using namespace Handcrank;
 
-#include "ScottPilgrim/Roxzilla.hpp"
-#include "ScottPilgrim/ScottPilgrim.hpp"
+#include "Roxzilla.hpp"
+#include "ScottPilgrim.hpp"
 
 class GameManager
 {
