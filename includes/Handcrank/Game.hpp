@@ -81,6 +81,8 @@ class Game
     {
         SDL_SetWindowSize(window, _width, _height);
 
+        SDL_GL_GetDrawableSize(window, &width, &height);
+
         SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED);
     }
