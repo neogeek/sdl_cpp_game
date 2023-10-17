@@ -38,15 +38,50 @@ class ScottPilgrim
         image->SetUpdate(
             [this](RenderObject *ref, double deltaTime)
             {
+                auto transformedRect = ref->GetTransformedRect();
+
+                auto movementSpeed = 500;
+
+                auto minY = 475;
+                auto maxY = 825;
+
+                auto rect = ref->GetRect();
+
+                ImageRenderObject *imageObj =
+                    dynamic_cast<ImageRenderObject *>(ref);
+
+                if (game->keyState[SDLK_RIGHT])
+                {
+                    rect->x += movementSpeed * deltaTime;
+
+                    imageObj->SetFlip(SDL_FLIP_NONE);
+                }
+                else if (game->keyState[SDLK_LEFT])
+                {
+                    rect->x -= movementSpeed * deltaTime;
+
+                    imageObj->SetFlip(SDL_FLIP_HORIZONTAL);
+                }
+
+                if (game->keyState[SDLK_UP])
+                {
+                    rect->y -= movementSpeed * deltaTime;
+                }
+                else if (game->keyState[SDLK_DOWN])
+                {
+                    rect->y += movementSpeed * deltaTime;
+                }
+
+                rect->x = std::clamp<float>(
+                    rect->x, 0, game->GetWidth() - transformedRect->w);
+                rect->y = std::clamp<float>(rect->y, minY, maxY);
+
                 nextTick += deltaTime;
 
                 if (nextTick < frameSpeed)
                 {
                     return;
                 }
-
-                ImageRenderObject *imageObj =
-                    dynamic_cast<ImageRenderObject *>(ref);
 
                 imageObj->SetSrcRect(36 * (frame - 1), 0, 36, 59);
 
