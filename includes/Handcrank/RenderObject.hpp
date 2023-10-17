@@ -11,16 +11,16 @@
 namespace Handcrank
 {
 
-class GameObject
+class RenderObject
 {
   protected:
     SDL_FRect *rect;
 
-    std::function<void(GameObject *)> startFunction;
+    std::function<void(RenderObject *)> startFunction;
 
-    std::function<void(GameObject *, double)> updateFunction;
+    std::function<void(RenderObject *, double)> updateFunction;
 
-    std::function<void(GameObject *, double)> fixedUpdateFunction;
+    std::function<void(RenderObject *, double)> fixedUpdateFunction;
 
     bool hasStarted = false;
 
@@ -29,11 +29,11 @@ class GameObject
     double scale = 1;
 
   public:
-    std::list<std::unique_ptr<GameObject>> children;
+    std::list<std::unique_ptr<RenderObject>> children;
 
-    GameObject *parent;
+    RenderObject *parent;
 
-    explicit GameObject()
+    explicit RenderObject()
     {
         rect = new SDL_FRect;
         rect->x = 0;
@@ -41,11 +41,11 @@ class GameObject
         rect->w = 100;
         rect->h = 100;
     }
-    explicit GameObject(SDL_FRect *_rect) : rect(_rect) {}
+    explicit RenderObject(SDL_FRect *_rect) : rect(_rect) {}
 
-    ~GameObject() = default;
+    ~RenderObject() = default;
 
-    void SetStart(std::function<void(GameObject *)> _startFunction = nullptr)
+    void SetStart(std::function<void(RenderObject *)> _startFunction = nullptr)
     {
         if (startFunction)
         {
@@ -57,7 +57,7 @@ class GameObject
     }
 
     void SetUpdate(
-        std::function<void(GameObject *, double)> _updateFunction = nullptr)
+        std::function<void(RenderObject *, double)> _updateFunction = nullptr)
     {
         if (updateFunction)
         {
@@ -68,7 +68,7 @@ class GameObject
         updateFunction = std::move(_updateFunction);
     }
 
-    void SetFixedUpdate(std::function<void(GameObject *, double)>
+    void SetFixedUpdate(std::function<void(RenderObject *, double)>
                             _fixedUpdateFunction = nullptr)
     {
         if (fixedUpdateFunction)
@@ -127,13 +127,13 @@ class GameObject
     }
 
     /**
-     * Set rect position and size of the GameObject.
+     * Set rect position and size of the RenderObject.
      * @param rect A rectangle, with the origin at the upper left (integer).
      */
     void SetRect(SDL_FRect *_rect) { rect = _rect; }
 
     /**
-     * Set rect position and size of the GameObject.
+     * Set rect position and size of the RenderObject.
      * @param x X position.
      * @param y Y position.
      * @param w Width of rect.
@@ -148,7 +148,7 @@ class GameObject
     }
 
     /**
-     * Set rect position of the GameObject.
+     * Set rect position of the RenderObject.
      * @param x X position.
      * @param y Y position.
      */
@@ -163,46 +163,46 @@ class GameObject
     void SetScale(double _scale) { scale = _scale; }
 
     /**
-     * Render GameObject to the scene.
+     * Render RenderObject to the scene.
      */
     virtual void Render(SDL_Renderer *_renderer)
     {
         for (auto &iter : children)
         {
-            auto gameObject = iter.get();
+            auto child = iter.get();
 
-            if (gameObject != nullptr)
+            if (child != nullptr)
             {
-                gameObject->Render(_renderer);
+                child->Render(_renderer);
             }
         }
     }
 
-    void AddChildGameObject(std::unique_ptr<GameObject> gameObject)
+    void AddChildObject(std::unique_ptr<RenderObject> child)
     {
-        gameObject->parent = this;
+        child->parent = this;
 
-        children.push_back(std::move(gameObject));
+        children.push_back(std::move(child));
     }
 
     template <typename T> std::vector<T *> GetChildrenByType()
     {
-        static_assert(std::is_base_of<GameObject, T>::value,
-                      "T must be derived from GameObject");
+        static_assert(std::is_base_of<RenderObject, T>::value,
+                      "T must be derived from RenderObject");
 
         std::vector<T *> results;
 
         for (auto &iter : children)
         {
-            auto gameObject = iter.get();
+            auto child = iter.get();
 
-            if (gameObject != nullptr && typeid(*gameObject) == typeid(T))
+            if (child != nullptr && typeid(*child) == typeid(T))
             {
-                auto castedGameObject = dynamic_cast<T *>(gameObject);
+                auto castedChild = dynamic_cast<T *>(child);
 
-                if (castedGameObject != nullptr)
+                if (castedChild != nullptr)
                 {
-                    results.push_back(castedGameObject);
+                    results.push_back(castedChild);
                 }
             }
         }
@@ -212,8 +212,8 @@ class GameObject
 
     template <typename T> T *GetChildByType()
     {
-        static_assert(std::is_base_of<GameObject, T>::value,
-                      "T must be derived from GameObject");
+        static_assert(std::is_base_of<RenderObject, T>::value,
+                      "T must be derived from RenderObject");
 
         auto children = GetChildrenByType<T>();
 
@@ -231,11 +231,11 @@ class GameObject
 
         for (auto &iter : children)
         {
-            auto gameObject = iter.get();
+            auto child = iter.get();
 
-            if (gameObject != nullptr)
+            if (child != nullptr)
             {
-                auto childBoundingBox = gameObject->CalculateBoundingBox();
+                auto childBoundingBox = child->CalculateBoundingBox();
 
                 (*boundingBox).x =
                     fminf((*boundingBox).x, (*childBoundingBox).x);
@@ -251,8 +251,30 @@ class GameObject
         return boundingBox;
     }
 
+    void DestroyChildObjects()
+    {
+        for (auto iter = children.begin(); iter != children.end();)
+        {
+            auto child = iter->get();
+
+            if (child != nullptr)
+            {
+                child->DestroyChildObjects();
+
+                if (child->HasBeenMarkedForDestroy())
+                {
+                    iter = children.erase(iter);
+                }
+                else
+                {
+                    ++iter;
+                }
+            }
+        }
+    }
+
     /**
-     * Cleanup function to run after the GameObject is unloaded.
+     * Cleanup function to run after the RenderObject is unloaded.
      */
     virtual void Clean() {}
 

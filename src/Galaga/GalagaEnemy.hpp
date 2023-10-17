@@ -30,7 +30,7 @@ class GalagaEnemy
         image->SetRect((game->GetWidth() / 2) - 50, 150);
 
         image->SetUpdate(
-            [this](GameObject *ref, double deltaTime)
+            [this](RenderObject *ref, double deltaTime)
             {
                 if (!game->HasFocus())
                 {

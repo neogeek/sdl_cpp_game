@@ -36,7 +36,7 @@ class Roxzilla
         image->SetRect(25, 25, 65, 83);
 
         image->SetUpdate(
-            [this](GameObject *ref, double deltaTime)
+            [this](RenderObject *ref, double deltaTime)
             {
                 nextTick += deltaTime;
 

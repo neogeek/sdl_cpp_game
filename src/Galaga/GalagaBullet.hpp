@@ -13,12 +13,12 @@ class GalagaBullet
   private:
     Game *game;
 
-    GameObject *spawner;
+    RenderObject *spawner;
 
   public:
     std::unique_ptr<ImageRenderObject> image;
 
-    GalagaBullet(Game *_game, GameObject *_spawner)
+    GalagaBullet(Game *_game, RenderObject *_spawner)
         : game(_game), spawner(_spawner)
     {
         image = std::make_unique<ImageRenderObject>();
@@ -34,7 +34,7 @@ class GalagaBullet
             spawner->GetRect()->y - spawner->GetTransformedRect()->h);
 
         image->SetUpdate(
-            [this](GameObject *ref, double deltaTime)
+            [this](RenderObject *ref, double deltaTime)
             {
                 if (!game->HasFocus())
                 {

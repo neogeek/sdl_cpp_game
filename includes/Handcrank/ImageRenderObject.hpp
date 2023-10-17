@@ -8,12 +8,12 @@
 #include "sdl/SDL_Image_Utilities.hpp"
 #include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.hpp"
+#include "RenderObject.hpp"
 
 namespace Handcrank
 {
 
-class ImageRenderObject : public GameObject
+class ImageRenderObject : public RenderObject
 {
   private:
     SDL_Texture *texture;
@@ -25,8 +25,8 @@ class ImageRenderObject : public GameObject
     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
   public:
-    explicit ImageRenderObject() : GameObject() {}
-    explicit ImageRenderObject(SDL_FRect *_rect) : GameObject(_rect) {}
+    explicit ImageRenderObject() : RenderObject() {}
+    explicit ImageRenderObject(SDL_FRect *_rect) : RenderObject(_rect) {}
 
     ~ImageRenderObject() { SDL_DestroyTexture(texture); }
 
@@ -96,11 +96,11 @@ class ImageRenderObject : public GameObject
         SDL_RenderCopyExF(renderer, texture, srcRect, GetTransformedRect(), 0,
                           centerPoint, flip);
 
-        GameObject::Render(renderer);
+        RenderObject::Render(renderer);
     }
 
     /**
-     * Cleanup function to run after the GameObject is unloaded.
+     * Cleanup function to run after the RenderObject is unloaded.
      */
     void Clean() override { SDL_DestroyTexture(texture); }
 };

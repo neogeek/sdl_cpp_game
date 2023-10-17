@@ -37,18 +37,18 @@ class GameManager
 
         image->SetScale(4);
 
-        game->gameObjects.push_back(std::move(image));
+        game->AddChildObject(std::move(image));
 
         auto scott = new ScottPilgrim(game);
 
         scott->image->SetRect(200, 600);
 
-        game->gameObjects.push_back(std::move(scott->image));
+        game->AddChildObject(std::move(scott->image));
 
         auto roxzilla = new Roxzilla(game);
 
         roxzilla->image->SetRect(700, 600);
 
-        game->gameObjects.push_back(std::move(roxzilla->image));
+        game->AddChildObject(std::move(roxzilla->image));
     }
 };

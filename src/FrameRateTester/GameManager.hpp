@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Handcrank/Game.hpp"
-#include "Handcrank/GameObject.hpp"
+#include "Handcrank/RenderObject.hpp"
 
 using namespace Handcrank;
 
@@ -22,15 +22,15 @@ class GameManager
     {
         game->SetTitle("Frame Rate Tester");
 
-        auto temp = std::make_unique<GameObject>();
+        auto temp = std::make_unique<RenderObject>();
 
-        temp->SetUpdate([](GameObject *ref, double deltaTime)
+        temp->SetUpdate([](RenderObject *ref, double deltaTime)
                         { std::cout << "updated " << deltaTime << std::endl; });
 
         temp->SetFixedUpdate(
-            [](GameObject *ref, double deltaTime)
+            [](RenderObject *ref, double deltaTime)
             { std::cout << "fixed updated " << deltaTime << std::endl; });
 
-        game->gameObjects.push_back(std::move(temp));
+        game->AddChildObject(std::move(temp));
     }
 };

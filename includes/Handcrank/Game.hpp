@@ -12,7 +12,7 @@
 
 #include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.hpp"
+#include "RenderObject.hpp"
 
 namespace Handcrank
 {
@@ -49,7 +49,7 @@ class Game
   public:
     std::unordered_map<SDL_Keycode, bool> keyState;
 
-    std::list<std::unique_ptr<GameObject>> gameObjects;
+    std::list<std::unique_ptr<RenderObject>> children;
 
     Game()
     {
@@ -129,7 +129,7 @@ class Game
 
         Render();
 
-        DestroyGameObjects();
+        DestroyChildObjects();
 
         SDL_Delay(1);
     }
@@ -194,13 +194,13 @@ class Game
 
         if (updateDeltaTime > targetFrameTime)
         {
-            for (auto &iter : gameObjects)
+            for (auto &iter : children)
             {
-                auto gameObject = iter.get();
+                auto child = iter.get();
 
-                if (gameObject != nullptr)
+                if (child != nullptr)
                 {
-                    gameObject->Update(updateDeltaTime);
+                    child->Update(updateDeltaTime);
                 }
             }
 
@@ -214,13 +214,13 @@ class Game
 
         if (fixedUpdateDeltaTime > fixedFrameTime)
         {
-            for (auto &iter : gameObjects)
+            for (auto &iter : children)
             {
-                auto gameObject = iter.get();
+                auto child = iter.get();
 
-                if (gameObject != nullptr)
+                if (child != nullptr)
                 {
-                    gameObject->FixedUpdate(fixedUpdateDeltaTime);
+                    child->FixedUpdate(fixedUpdateDeltaTime);
                 }
             }
 
@@ -232,45 +232,57 @@ class Game
     {
         SDL_Utilities::ClearRect(renderer, clearColor);
 
-        for (auto &iter : gameObjects)
+        for (auto &iter : children)
         {
-            auto gameObject = iter.get();
+            auto child = iter.get();
 
-            if (gameObject != nullptr)
+            if (child != nullptr)
             {
-                gameObject->Render(renderer);
+                child->Render(renderer);
             }
         }
 
         SDL_RenderPresent(renderer);
     }
 
-    void DestroyGameObjects()
+    void AddChildObject(std::unique_ptr<RenderObject> child)
     {
-        for (auto iter = gameObjects.begin(); iter != gameObjects.end();)
-        {
-            auto gameObject = iter->get();
+        child->parent = nullptr;
 
-            if (gameObject != nullptr && gameObject->HasBeenMarkedForDestroy())
+        children.push_back(std::move(child));
+    }
+
+    void DestroyChildObjects()
+    {
+        for (auto iter = children.begin(); iter != children.end();)
+        {
+            auto child = iter->get();
+
+            if (child != nullptr)
             {
-                iter = gameObjects.erase(iter);
-            }
-            else
-            {
-                ++iter;
+                child->DestroyChildObjects();
+
+                if (child->HasBeenMarkedForDestroy())
+                {
+                    iter = children.erase(iter);
+                }
+                else
+                {
+                    ++iter;
+                }
             }
         }
     }
 
     void Clean()
     {
-        for (auto &iter : gameObjects)
+        for (auto &iter : children)
         {
-            auto gameObject = iter.get();
+            auto child = iter.get();
 
-            if (gameObject != nullptr)
+            if (child != nullptr)
             {
-                gameObject->Clean();
+                child->Clean();
             }
         }
 

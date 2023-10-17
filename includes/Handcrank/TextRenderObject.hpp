@@ -11,12 +11,12 @@
 #include "sdl/SDL_TTF_Utilities.hpp"
 #include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.hpp"
+#include "RenderObject.hpp"
 
 namespace Handcrank
 {
 
-class TextRenderObject : public GameObject
+class TextRenderObject : public RenderObject
 {
   private:
     TTF_Font *font;
@@ -30,14 +30,14 @@ class TextRenderObject : public GameObject
     SDL_Texture *textTexture;
 
   public:
-    explicit TextRenderObject() : GameObject()
+    explicit TextRenderObject() : RenderObject()
     {
         if (!TTF_WasInit())
         {
             TTF_Init();
         }
     }
-    explicit TextRenderObject(SDL_FRect *_rect) : GameObject(_rect) {}
+    explicit TextRenderObject(SDL_FRect *_rect) : RenderObject(_rect) {}
 
     ~TextRenderObject()
     {
@@ -104,11 +104,11 @@ class TextRenderObject : public GameObject
 
         SDL_RenderCopyF(renderer, textTexture, nullptr, GetTransformedRect());
 
-        GameObject::Render(renderer);
+        RenderObject::Render(renderer);
     }
 
     /**
-     * Cleanup function to run after the GameObject is unloaded.
+     * Cleanup function to run after the RenderObject is unloaded.
      */
     void Clean() override
     {

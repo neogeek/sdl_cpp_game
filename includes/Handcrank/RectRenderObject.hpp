@@ -7,19 +7,19 @@
 
 #include "sdl/SDL_Utilities.hpp"
 
-#include "GameObject.hpp"
+#include "RenderObject.hpp"
 
 namespace Handcrank
 {
 
-class RectRenderObject : public GameObject
+class RectRenderObject : public RenderObject
 {
   private:
     SDL_Color color{255, 255, 255, 255};
 
   public:
-    explicit RectRenderObject() : GameObject() {}
-    explicit RectRenderObject(SDL_FRect *_rect) : GameObject(_rect) {}
+    explicit RectRenderObject() : RenderObject() {}
+    explicit RectRenderObject(SDL_FRect *_rect) : RenderObject(_rect) {}
 
     ~RectRenderObject() = default;
 
@@ -36,11 +36,11 @@ class RectRenderObject : public GameObject
     {
         SDL_Utilities::RenderRect(renderer, GetTransformedRect(), color);
 
-        GameObject::Render(renderer);
+        RenderObject::Render(renderer);
     }
 
     /**
-     * Cleanup function to run after the GameObject is unloaded.
+     * Cleanup function to run after the RenderObject is unloaded.
      */
     void Clean() override {}
 };

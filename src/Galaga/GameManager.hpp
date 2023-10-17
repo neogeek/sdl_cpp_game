@@ -46,7 +46,7 @@ class GameManager
         highScoreText->SetRect((game->GetWidth() / 2) - 100, 50, 200, 50);
 
         highScoreText->SetUpdate(
-            [this](GameObject *ref, double deltaTime)
+            [this](RenderObject *ref, double deltaTime)
             {
                 TextRenderObject *textObj =
                     dynamic_cast<TextRenderObject *>(ref);
@@ -55,14 +55,14 @@ class GameManager
                     Utilities::LeftPad(std::to_string(score), '0', 5));
             });
 
-        game->gameObjects.push_back(std::move(highScoreText));
+        game->AddChildObject(std::move(highScoreText));
 
         galagaEnemy = new GalagaEnemy(game);
 
-        game->gameObjects.push_back(std::move(galagaEnemy->image));
+        game->AddChildObject(std::move(galagaEnemy->image));
 
         galagaShip = new GalagaShip(game);
 
-        game->gameObjects.push_back(std::move(galagaShip->image));
+        game->AddChildObject(std::move(galagaShip->image));
     }
 };
