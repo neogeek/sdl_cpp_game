@@ -31,6 +31,8 @@ class ScottPilgrim
 
         image->SetScale(5);
 
+        image->z = 1;
+
         image->SetSrcRect(0, 0, 36, 59);
 
         image->SetRect(25, 25, 36, 59);
