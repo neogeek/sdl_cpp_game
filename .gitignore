@@ -1,17 +1,13 @@
-CMakeLists.txt.user
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
-_deps
-
 build/
 
-.cmake/
-cmake-build-debug
-sdl_cpp_game.cbp
+# Cmake
+
+CmakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+
+# Clion
+
+.idea/
+cmake-build-debug/
