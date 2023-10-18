@@ -34,7 +34,7 @@ class GalagaShip
         image->SetRect((game->GetWidth() / 2) - 50, game->GetHeight() - 150);
 
         image->SetUpdate(
-            [this](GameObject *ref, double deltaTime)
+            [this](RenderObject *ref, double deltaTime)
             {
                 if (!game->HasFocus())
                 {
@@ -59,7 +59,7 @@ class GalagaShip
                     {
                         auto bullet = new GalagaBullet(game, ref);
 
-                        game->gameObjects.push_back(std::move(bullet->image));
+                        game->AddChildObject(std::move(bullet->image));
 
                         nextFireDelay = fireRate;
                     }

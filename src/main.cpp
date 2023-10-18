@@ -3,8 +3,8 @@
 using namespace Handcrank;
 
 // #include "FrameRateTester/GameManager.hpp"
-// #include "Galaga/GameManager.hpp"
-#include "ScottPilgrim/GameManager.hpp"
+#include "Galaga/GameManager.hpp"
+// #include "ScottPilgrim/GameManager.hpp"
 
 Game *game = new Game();
 
