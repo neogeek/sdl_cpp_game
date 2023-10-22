@@ -4,7 +4,7 @@
 
 #include "Handcrank/sdl/SDL_TTF_Utilities.hpp"
 
-#include "Handcrank/Game.hpp"
+#include "Handcrank/Handcrank.hpp"
 #include "Handcrank/TextRenderObject.hpp"
 #include "Handcrank/Utilities.hpp"
 

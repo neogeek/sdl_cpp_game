@@ -1,4 +1,4 @@
-#include "Handcrank/Game.hpp"
+#include "Handcrank/Handcrank.hpp"
 
 using namespace Handcrank;
 

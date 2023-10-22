@@ -2,7 +2,7 @@
 
 #include "../images/galaga_enemy_1.h"
 
-#include "Handcrank/Game.hpp"
+#include "Handcrank/Handcrank.hpp"
 #include "Handcrank/ImageRenderObject.hpp"
 
 using namespace Handcrank;

@@ -2,7 +2,7 @@
 
 #include "../images/galaga_ship.h"
 
-#include "Handcrank/Game.hpp"
+#include "Handcrank/Handcrank.hpp"
 #include "Handcrank/ImageRenderObject.hpp"
 
 using namespace Handcrank;

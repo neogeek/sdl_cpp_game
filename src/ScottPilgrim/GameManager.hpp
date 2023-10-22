@@ -2,7 +2,7 @@
 
 #include "../images/level.h"
 
-#include "Handcrank/Game.hpp"
+#include "Handcrank/Handcrank.hpp"
 #include "Handcrank/ImageRenderObject.hpp"
 #include "Handcrank/Utilities.hpp"
 

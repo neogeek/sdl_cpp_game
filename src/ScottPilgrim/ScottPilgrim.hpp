@@ -2,12 +2,12 @@
 
 #include "../images/scott-pilgrim-idle.h"
 
-#include "Handcrank/Game.hpp"
+#include "Handcrank/Handcrank.hpp"
 #include "Handcrank/ImageRenderObject.hpp"
 
 using namespace Handcrank;
 
-class ScottPilgrim
+class ScottPilgrim : RenderObject
 {
 
   private:

@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Handcrank/Game.hpp"
-#include "Handcrank/RenderObject.hpp"
+#include "Handcrank/Handcrank.hpp"
 
 using namespace Handcrank;
 

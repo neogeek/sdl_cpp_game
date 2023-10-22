@@ -11,7 +11,7 @@
 #include "sdl/SDL_TTF_Utilities.hpp"
 #include "sdl/SDL_Utilities.hpp"
 
-#include "RenderObject.hpp"
+#include "Handcrank.hpp"
 
 namespace Handcrank
 {
@@ -64,6 +64,13 @@ class TextRenderObject : public RenderObject
     void SetText(std::string _text)
     {
         text = std::move(_text);
+
+        if (font == nullptr)
+        {
+            std::cerr << "ERROR! Missing font reference.\n";
+
+            return;
+        }
 
         textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
 
