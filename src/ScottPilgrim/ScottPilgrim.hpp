@@ -20,7 +20,6 @@ class ScottPilgrim : public ImageRenderObject
   public:
     void Start() override
     {
-
         LoadTextureRW(game->GetRenderer(), images_scott_pilgrim_idle_png,
                       images_scott_pilgrim_idle_png_len);
 
