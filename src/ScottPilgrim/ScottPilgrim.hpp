@@ -39,6 +39,9 @@ class ScottPilgrim : public ImageRenderObject
 
         auto movementSpeed = 500;
 
+        auto minX = 0;
+        auto maxX = game->GetWidth() - transformedRect->w;
+
         auto minY = 475;
         auto maxY = 825;
 
@@ -66,8 +69,7 @@ class ScottPilgrim : public ImageRenderObject
             rect->y += movementSpeed * deltaTime;
         }
 
-        rect->x = std::clamp<float>(rect->x, 0,
-                                    game->GetWidth() - transformedRect->w);
+        rect->x = std::clamp<float>(rect->x, minX, maxX);
         rect->y = std::clamp<float>(rect->y, minY, maxY);
 
         nextTick += deltaTime;
