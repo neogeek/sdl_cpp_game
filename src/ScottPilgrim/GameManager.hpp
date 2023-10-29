@@ -4,27 +4,16 @@
 
 #include "Handcrank/Handcrank.hpp"
 #include "Handcrank/ImageRenderObject.hpp"
-#include "Handcrank/Utilities.hpp"
 
 using namespace Handcrank;
 
 #include "Roxzilla.hpp"
 #include "ScottPilgrim.hpp"
 
-class GameManager
+class GameManager : public RenderObject
 {
-
-  private:
-    Game *game;
-
-    int score = 0;
-
-    TTF_Font *font;
-
-    const int fontSize = 100;
-
   public:
-    GameManager(Game *_game) : game(_game)
+    void Start() override
     {
         game->SetTitle("Scott Pilgrim");
 
@@ -39,16 +28,16 @@ class GameManager
 
         game->AddChildObject(std::move(image));
 
-        auto scott = new ScottPilgrim(game);
+        auto scott = std::make_unique<ScottPilgrim>();
 
-        scott->image->SetRect(200, 600);
+        scott->SetRect(200, 600);
 
-        game->AddChildObject(std::move(scott->image));
+        game->AddChildObject(std::move(scott));
 
-        auto roxzilla = new Roxzilla(game);
+        auto roxzilla = std::make_unique<Roxzilla>();
 
-        roxzilla->image->SetRect(700, 600);
+        roxzilla->SetRect(700, 600);
 
-        game->AddChildObject(std::move(roxzilla->image));
+        game->AddChildObject(std::move(roxzilla));
     }
 };

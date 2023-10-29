@@ -7,12 +7,10 @@
 
 using namespace Handcrank;
 
-class Roxzilla
+class Roxzilla : public ImageRenderObject
 {
 
   private:
-    Game *game;
-
     int frame = 1;
 
     double nextTick;
@@ -20,44 +18,36 @@ class Roxzilla
     const double frameSpeed = 0.15;
 
   public:
-    std::unique_ptr<ImageRenderObject> image;
-
-    Roxzilla(Game *_game) : game(_game)
+    void Start() override
     {
-        image = std::make_unique<ImageRenderObject>();
+        LoadTextureRW(game->GetRenderer(), images_roxzilla_idle_png,
+                      images_roxzilla_idle_png_len);
 
-        image->LoadTextureRW(game->GetRenderer(), images_roxzilla_idle_png,
-                             images_roxzilla_idle_png_len);
+        SetScale(5);
 
-        image->SetScale(5);
+        SetSrcRect(0, 0, 65, 83);
 
-        image->SetSrcRect(0, 0, 65, 83);
+        SetRect(rect->x, rect->y, 65, 83);
+    }
 
-        image->SetRect(25, 25, 65, 83);
+    void Update(double deltaTime) override
+    {
+        nextTick += deltaTime;
 
-        image->SetUpdate(
-            [this](RenderObject *ref, double deltaTime)
-            {
-                nextTick += deltaTime;
+        if (nextTick < frameSpeed)
+        {
+            return;
+        }
 
-                if (nextTick < frameSpeed)
-                {
-                    return;
-                }
+        SetSrcRect(59 * (frame - 1), 0, 59, 80);
 
-                ImageRenderObject *imageObj =
-                    dynamic_cast<ImageRenderObject *>(ref);
+        frame += 1;
 
-                imageObj->SetSrcRect(59 * (frame - 1), 0, 59, 80);
+        if (frame > 6)
+        {
+            frame = 1;
+        }
 
-                frame += 1;
-
-                if (frame > 6)
-                {
-                    frame = 1;
-                }
-
-                nextTick = 0;
-            });
+        nextTick = 0;
     }
 };

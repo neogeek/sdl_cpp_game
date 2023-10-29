@@ -10,7 +10,7 @@ Game *game = new Game();
 
 int main()
 {
-    auto gamemanager = new GameManager(game);
+    game->AddChildObject(std::make_unique<GameManager>());
 
     return game->Run();
 }
