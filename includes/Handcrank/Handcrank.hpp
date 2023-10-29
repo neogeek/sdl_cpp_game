@@ -11,6 +11,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "Vector2.hpp"
+
 #include "sdl/SDL_Utilities.hpp"
 
 namespace Handcrank
@@ -25,8 +27,8 @@ class Game
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    SDL_Rect *viewport;
-    SDL_FRect *viewportf;
+    SDL_Rect *viewport = new SDL_Rect;
+    SDL_FRect *viewportf = new SDL_FRect;
 
     SDL_Color clearColor{0, 0, 0, 255};
 
@@ -51,12 +53,21 @@ class Game
     int width = 800;
     int height = 600;
 
+    float dpiScaleX;
+    float dpiScaleY;
+
     bool focused = false;
 
   public:
     std::unordered_map<SDL_Keycode, bool> keyState;
     std::unordered_map<SDL_Keycode, bool> keyPressedState;
     std::unordered_map<SDL_Keycode, bool> keyReleasedState;
+
+    SDL_FPoint *mousePosition = new SDL_FPoint;
+
+    std::unordered_map<Uint8, bool> mouseState;
+    std::unordered_map<Uint8, bool> mousePressedState;
+    std::unordered_map<Uint8, bool> mouseReleasedState;
 
     std::list<std::unique_ptr<RenderObject>> children;
 
@@ -112,13 +123,18 @@ class Game
 class RenderObject
 {
   protected:
-    SDL_FRect *rect;
+    SDL_FRect *rect = new SDL_FRect;
 
     double scale = 1;
 
     bool hasStarted = false;
 
+    bool isEnabled = true;
+
     bool isMarkedForDestroy = false;
+
+    bool isInputHovered = false;
+    bool isInputActive = false;
 
     std::list<std::unique_ptr<RenderObject>> children;
 
@@ -140,6 +156,10 @@ class RenderObject
 
     ~RenderObject();
 
+    void Enable();
+    void Disable();
+    [[nodiscard]] const bool IsEnabled() const;
+
     void AddChildObject(std::unique_ptr<RenderObject> child);
 
     void SetStart(std::function<void(RenderObject *)> _func);
@@ -149,6 +169,11 @@ class RenderObject
     virtual void Start();
     virtual void Update(double deltaTime);
     virtual void FixedUpdate(double deltaTime);
+
+    virtual void OnMouseOver();
+    virtual void OnMouseOut();
+    virtual void OnMouseDown();
+    virtual void OnMouseUp();
 
     void InternalUpdate(double deltaTime);
     void InternalFixedUpdate(double deltaTime);
@@ -225,8 +250,14 @@ void Game::SetScreenSize(int _width, int _height)
     SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED,
                           SDL_WINDOWPOS_CENTERED);
 
-    viewport = new SDL_Rect{0, 0, width, height};
-    viewportf = new SDL_FRect{0, 0, (float)width, (float)height};
+    viewport->w = width;
+    viewport->h = height;
+
+    viewportf->w = (float)width;
+    viewportf->h = (float)height;
+
+    dpiScaleX = width / _width;
+    dpiScaleY = height / _height;
 }
 
 void Game::SetTitle(const char *name) { SDL_SetWindowTitle(window, name); }
@@ -285,9 +316,14 @@ void Game::HandleInput()
     keyPressedState.clear();
     keyReleasedState.clear();
 
+    mousePressedState.clear();
+    mouseReleasedState.clear();
+
     while (SDL_PollEvent(&event) != 0)
     {
         SDL_Keycode keyCode = event.key.keysym.sym;
+
+        Uint8 mouseButtonIndex = event.button.button;
 
         switch (event.type)
         {
@@ -324,6 +360,22 @@ void Game::HandleInput()
             keyReleasedState[keyCode] = true;
             break;
 
+        case SDL_MOUSEMOTION:
+            mousePosition->x = event.motion.x * dpiScaleX;
+            mousePosition->y = event.motion.y * dpiScaleY;
+            break;
+
+        case SDL_MOUSEBUTTONDOWN:
+            mousePressedState[mouseButtonIndex] = !mouseState[mouseButtonIndex];
+            mouseState[mouseButtonIndex] = true;
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+            mouseState[mouseButtonIndex] = false;
+            mousePressedState[mouseButtonIndex] = false;
+            mouseReleasedState[mouseButtonIndex] = true;
+            break;
+
         default:
             break;
         }
@@ -348,7 +400,10 @@ void Game::Update()
 
         if (child != nullptr)
         {
-            child->InternalUpdate(deltaTime);
+            if (child->IsEnabled())
+            {
+                child->InternalUpdate(deltaTime);
+            }
         }
     }
 }
@@ -365,7 +420,10 @@ void Game::FixedUpdate()
 
             if (child != nullptr)
             {
-                child->InternalFixedUpdate(fixedUpdateDeltaTime);
+                if (child->IsEnabled())
+                {
+                    child->InternalFixedUpdate(fixedUpdateDeltaTime);
+                }
             }
         }
 
@@ -379,7 +437,10 @@ void Game::Render()
 
     if (renderDeltaTime > targetFrameTime)
     {
-        SDL_Utilities::ClearRect(renderer, clearColor);
+        SDL_SetRenderDrawColor(renderer, clearColor.r, clearColor.g,
+                               clearColor.b, clearColor.a);
+
+        SDL_RenderClear(renderer);
 
         SDL_RenderSetViewport(renderer, viewport);
 
@@ -393,7 +454,10 @@ void Game::Render()
 
             if (child != nullptr)
             {
-                child->Render(renderer);
+                if (child->IsEnabled())
+                {
+                    child->Render(renderer);
+                }
             }
         }
 
@@ -463,6 +527,12 @@ RenderObject::RenderObject()
 
 inline RenderObject::~RenderObject() = default;
 
+void RenderObject::Enable() { isEnabled = true; }
+
+void RenderObject::Disable() { isEnabled = false; }
+
+const bool RenderObject::IsEnabled() const { return isEnabled; }
+
 void RenderObject::AddChildObject(std::unique_ptr<RenderObject> child)
 {
     child->parent = this;
@@ -507,11 +577,19 @@ void RenderObject::SetFixedUpdate(
     fixedUpdateFunction = _func;
 }
 
-void RenderObject::Start(){};
+void RenderObject::Start() {}
 
-void RenderObject::Update(double deltaTime){};
+void RenderObject::Update(double deltaTime) {}
 
-void RenderObject::FixedUpdate(double deltaTime){};
+void RenderObject::FixedUpdate(double deltaTime) {}
+
+void RenderObject::OnMouseOver() {}
+
+void RenderObject::OnMouseOut() {}
+
+void RenderObject::OnMouseDown() {}
+
+void RenderObject::OnMouseUp() {}
 
 void RenderObject::InternalUpdate(double deltaTime)
 {
@@ -525,6 +603,36 @@ void RenderObject::InternalUpdate(double deltaTime)
         }
 
         hasStarted = true;
+    }
+
+    if (SDL_PointInFRect(game->mousePosition, GetTransformedRect()))
+    {
+        if (game->mousePressedState[SDL_BUTTON_LEFT])
+        {
+            OnMouseDown();
+
+            isInputActive = true;
+        }
+
+        if (!isInputHovered)
+        {
+            OnMouseOver();
+
+            isInputHovered = true;
+        }
+    }
+    else if (isInputHovered)
+    {
+        OnMouseOut();
+
+        isInputHovered = false;
+    }
+
+    if (isInputActive && game->mouseReleasedState[SDL_BUTTON_LEFT])
+    {
+        OnMouseUp();
+
+        isInputActive = false;
     }
 
     Update(deltaTime);
@@ -571,15 +679,13 @@ void RenderObject::SetScale(double _scale) { scale = _scale; }
 {
     SDL_FRect *transformedRect;
 
-    transformedRect = SDL_Utilities::ScaleRect(rect, scale);
+    transformedRect = ScaleRect(rect, scale);
 
     if (parent != nullptr)
     {
-        transformedRect =
-            SDL_Utilities::PositionRect(transformedRect, parent->rect);
+        transformedRect = PositionRect(transformedRect, parent->rect);
 
-        transformedRect =
-            SDL_Utilities::ScaleRect(transformedRect, parent->scale);
+        transformedRect = ScaleRect(transformedRect, parent->scale);
     }
 
     return transformedRect;
@@ -604,7 +710,10 @@ void RenderObject::Render(SDL_Renderer *_renderer)
 
         if (child != nullptr)
         {
-            child->Render(_renderer);
+            if (child->IsEnabled())
+            {
+                child->Render(_renderer);
+            }
         }
     }
 }
@@ -661,10 +770,10 @@ SDL_FRect *RenderObject::CalculateBoundingBox() const
         {
             auto childBoundingBox = child->CalculateBoundingBox();
 
-            (*boundingBox).x = fminf((*boundingBox).x, (*childBoundingBox).x);
-            (*boundingBox).y = fminf((*boundingBox).y, (*childBoundingBox).y);
-            (*boundingBox).w = fmaxf((*boundingBox).w, (*childBoundingBox).w);
-            (*boundingBox).h = fmaxf((*boundingBox).h, (*childBoundingBox).h);
+            boundingBox->x = fminf(boundingBox->x, childBoundingBox->x);
+            boundingBox->y = fminf(boundingBox->y, childBoundingBox->y);
+            boundingBox->w = fmaxf(boundingBox->w, childBoundingBox->w);
+            boundingBox->h = fmaxf(boundingBox->h, childBoundingBox->h);
         }
     }
 

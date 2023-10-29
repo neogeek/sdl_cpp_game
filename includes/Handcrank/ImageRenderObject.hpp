@@ -6,7 +6,6 @@
 #include <SDL.h>
 
 #include "sdl/SDL_Image_Utilities.hpp"
-#include "sdl/SDL_Utilities.hpp"
 
 #include "Handcrank.hpp"
 
@@ -39,7 +38,7 @@ class ImageRenderObject : public RenderObject
      */
     void LoadTexture(SDL_Renderer *renderer, const char *path)
     {
-        texture = SDL_Image_Utilities::LoadTexture(renderer, path);
+        texture = SDL_LoadTexture(renderer, path);
 
         UpdateRectSizeFromTexture();
     }
@@ -52,7 +51,7 @@ class ImageRenderObject : public RenderObject
      */
     void LoadTextureRW(SDL_Renderer *renderer, const void *mem, int size)
     {
-        texture = SDL_Image_Utilities::LoadTextureRW(renderer, mem, size);
+        texture = SDL_LoadTextureRW(renderer, mem, size);
 
         UpdateRectSizeFromTexture();
     }

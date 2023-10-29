@@ -8,9 +8,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "sdl/SDL_TTF_Utilities.hpp"
-#include "sdl/SDL_Utilities.hpp"
-
 #include "Handcrank.hpp"
 
 namespace Handcrank
@@ -43,7 +40,7 @@ class TextRenderObject : public RenderObject
     {
         SDL_FreeSurface(textSurface);
         SDL_DestroyTexture(textTexture);
-    };
+    }
 
     /**
      * Set text font.
@@ -67,7 +64,7 @@ class TextRenderObject : public RenderObject
 
         if (font == nullptr)
         {
-            std::cerr << "ERROR! Missing font reference.\n";
+            std::cerr << "ERROR! Missing font reference." << std::endl;
 
             return;
         }

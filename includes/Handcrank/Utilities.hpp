@@ -5,23 +5,14 @@
 
 #include <string>
 
-namespace Handcrank
+extern std::string LeftPad(const std::string &content, const char pad,
+                           int length)
 {
+    return std::string(length - content.size(), pad) + content;
+}
 
-class Utilities
+extern std::string RightPad(const std::string &content, const char pad,
+                            int length)
 {
-  public:
-    static std::string LeftPad(const std::string &content, const char pad,
-                               int length)
-    {
-        return std::string(length - content.size(), pad) + content;
-    }
-
-    static std::string RightPad(const std::string &content, const char pad,
-                                int length)
-    {
-        return content + std::string(length - content.size(), pad);
-    }
-};
-
-} // namespace Handcrank
+    return content + std::string(length - content.size(), pad);
+}

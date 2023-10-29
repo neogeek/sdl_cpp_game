@@ -5,67 +5,13 @@
 
 #include <SDL.h>
 
-namespace Handcrank
+extern SDL_FRect *PositionRect(SDL_FRect *rect, SDL_FRect *parent)
 {
+    return new SDL_FRect{rect->x + parent->x, rect->y + parent->y, rect->w,
+                         rect->h};
+}
 
-class SDL_Utilities
+extern SDL_FRect *ScaleRect(SDL_FRect *rect, float scale)
 {
-  public:
-    /**
-     * Clears a rect with a color.
-     *
-     * @param renderer A structure representing rendering state.
-     * @param color A structure that represents a color.
-     */
-    static void ClearRect(SDL_Renderer *renderer, SDL_Color color)
-    {
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-
-        SDL_RenderClear(renderer);
-    }
-
-    /**
-     * Render a rect with a color.
-     *
-     * @param renderer A structure representing rendering state.
-     * @param rect A rectangle, with the origin at the upper left (integer).
-     * @param color A structure that represents a color.
-     */
-    static void RenderRect(SDL_Renderer *renderer, SDL_FRect *rect,
-                           SDL_Color color)
-    {
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-
-        SDL_RenderFillRectF(renderer, rect);
-    }
-
-    /**
-     * Render a rect border with a color.
-     *
-     * @param renderer A structure representing rendering state.
-     * @param rect A rectangle, with the origin at the upper left (integer).
-     * @param color A structure that represents a color.
-     */
-    static void RenderRectBorder(SDL_Renderer *renderer, SDL_FRect *rect,
-                                 SDL_Color color)
-    {
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-
-        SDL_RenderDrawRectF(renderer, rect);
-    }
-
-    [[nodiscard]] static SDL_FRect *PositionRect(SDL_FRect *rect,
-                                                 SDL_FRect *parent)
-    {
-        return new SDL_FRect{(*rect).x + (*parent).x, (*rect).y + (*parent).y,
-                             (*rect).w, (*rect).h};
-    }
-
-    [[nodiscard]] static SDL_FRect *ScaleRect(SDL_FRect *rect, float scale)
-    {
-        return new SDL_FRect{(*rect).x, (*rect).y, (*rect).w * scale,
-                             (*rect).h * scale};
-    }
-};
-
-} // namespace Handcrank
+    return new SDL_FRect{rect->x, rect->y, rect->w * scale, rect->h * scale};
+}
