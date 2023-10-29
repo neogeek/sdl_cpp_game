@@ -4,32 +4,18 @@
 
 using namespace Handcrank;
 
-class GameManager
+class GameManager : public RenderObject
 {
 
-  private:
-    Game *game;
-
-    int score = 0;
-
-    TTF_Font *font;
-
-    const int fontSize = 100;
-
   public:
-    GameManager(Game *_game) : game(_game)
+    void Start() override { game->SetTitle("Frame Rate Tester"); }
+
+    void Update(double deltaTime) override
     {
-        game->SetTitle("Frame Rate Tester");
-
-        auto temp = std::make_unique<RenderObject>();
-
-        temp->SetUpdate([](RenderObject *ref, double deltaTime)
-                        { std::cout << "updated " << deltaTime << std::endl; });
-
-        temp->SetFixedUpdate(
-            [](RenderObject *ref, double deltaTime)
-            { std::cout << "fixed updated " << deltaTime << std::endl; });
-
-        game->AddChildObject(std::move(temp));
+        std::cout << "update " << deltaTime << std::endl;
+    }
+    void FixedUpdate(double deltaTime) override
+    {
+        std::cout << "fixed update " << deltaTime << std::endl;
     }
 };

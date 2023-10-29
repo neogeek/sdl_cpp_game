@@ -7,48 +7,35 @@
 
 using namespace Handcrank;
 
-class GalagaBullet
+class GalagaBullet : public ImageRenderObject
 {
 
   private:
-    Game *game;
-
-    RenderObject *spawner;
+    double speed = 1000;
 
   public:
-    std::unique_ptr<ImageRenderObject> image;
-
-    GalagaBullet(Game *_game, RenderObject *_spawner)
-        : game(_game), spawner(_spawner)
+    void Start() override
     {
-        image = std::make_unique<ImageRenderObject>();
+        LoadTextureRW(game->GetRenderer(), images_galaga_bullet_1_png,
+                      images_galaga_bullet_1_png_len);
 
-        image->LoadTextureRW(game->GetRenderer(), images_galaga_bullet_1_png,
-                             images_galaga_bullet_1_png_len);
+        SetScale(5);
+    }
 
-        image->SetScale(5);
+    void Update(double deltaTime) override
+    {
+        if (!game->HasFocus())
+        {
+            return;
+        }
 
-        image->SetRect(
-            spawner->GetRect()->x + spawner->GetTransformedRect()->w / 2 -
-                (3 * image->GetScale() / 2),
-            spawner->GetRect()->y - spawner->GetTransformedRect()->h);
+        auto position = GetRect();
 
-        image->SetUpdate(
-            [this](RenderObject *ref, double deltaTime)
-            {
-                if (!game->HasFocus())
-                {
-                    return;
-                }
+        position->y -= speed * deltaTime;
 
-                auto position = ref->GetRect();
-
-                position->y -= 20;
-
-                if (position->y < 100)
-                {
-                    ref->Destroy();
-                }
-            });
+        if (position->y < 100)
+        {
+            Destroy();
+        }
     }
 };

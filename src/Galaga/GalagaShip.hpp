@@ -9,61 +9,60 @@ using namespace Handcrank;
 
 #include "GalagaBullet.hpp"
 
-class GalagaShip
+class GalagaShip : public ImageRenderObject
 {
 
   private:
-    Game *game;
+    double speed = 500;
 
     double nextFireDelay;
 
     const double fireRate = 0.1;
 
   public:
-    std::unique_ptr<ImageRenderObject> image;
-
-    GalagaShip(Game *_game) : game(_game)
+    void Start() override
     {
-        image = std::make_unique<ImageRenderObject>();
+        LoadTextureRW(game->GetRenderer(), images_galaga_ship_png,
+                      images_galaga_ship_png_len);
 
-        image->LoadTextureRW(game->GetRenderer(), images_galaga_ship_png,
-                             images_galaga_ship_png_len);
+        SetScale(5);
 
-        image->SetScale(5);
+        SetRect((game->GetWidth() / 2) - 50, game->GetHeight() - 150);
+    }
 
-        image->SetRect((game->GetWidth() / 2) - 50, game->GetHeight() - 150);
+    void Update(double deltaTime) override
+    {
+        if (!game->HasFocus())
+        {
+            return;
+        }
 
-        image->SetUpdate(
-            [this](RenderObject *ref, double deltaTime)
+        if (game->keyState[SDLK_LEFT])
+        {
+            GetRect()->x -= speed * deltaTime;
+        }
+
+        if (game->keyState[SDLK_RIGHT])
+        {
+            GetRect()->x += speed * deltaTime;
+        }
+
+        if (game->keyState[SDLK_SPACE])
+        {
+            nextFireDelay -= deltaTime;
+
+            if (nextFireDelay <= 0)
             {
-                if (!game->HasFocus())
-                {
-                    return;
-                }
+                auto bullet = std::make_unique<GalagaBullet>();
 
-                if (game->keyState[SDLK_LEFT])
-                {
-                    ref->GetRect()->x -= 5;
-                }
+                bullet->SetRect(GetRect()->x + (GetTransformedRect()->w / 2) -
+                                    (GetRect()->w / 2),
+                                GetRect()->y - GetTransformedRect()->h);
 
-                if (game->keyState[SDLK_RIGHT])
-                {
-                    ref->GetRect()->x += 5;
-                }
+                game->AddChildObject(std::move(bullet));
 
-                if (game->keyState[SDLK_SPACE])
-                {
-                    nextFireDelay -= deltaTime;
-
-                    if (nextFireDelay <= 0)
-                    {
-                        auto bullet = new GalagaBullet(game, ref);
-
-                        game->AddChildObject(std::move(bullet->image));
-
-                        nextFireDelay = fireRate;
-                    }
-                }
-            });
+                nextFireDelay = fireRate;
+            }
+        }
     }
 };

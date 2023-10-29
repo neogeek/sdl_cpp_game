@@ -13,17 +13,13 @@ using namespace Handcrank;
 #include "GalagaEnemy.hpp"
 #include "GalagaShip.hpp"
 
-class GameManager
+class GameManager : public RenderObject
 {
 
   private:
-    Game *game;
-
     int score = 0;
 
     TTF_Font *font;
-
-    const int fontSize = 100;
 
   public:
     std::unique_ptr<TextRenderObject> highScoreText;
@@ -32,13 +28,13 @@ class GameManager
     GalagaEnemy *galagaEnemy;
     GalagaBullet *galagaBullet;
 
-    GameManager(Game *_game) : game(_game)
+    void Start() override
     {
         game->SetTitle("Galaga");
 
         highScoreText = std::make_unique<TextRenderObject>();
 
-        font = SDL_LoadFontRW(fonts_Emulogic_ttf, fonts_Emulogic_ttf_len, 100);
+        font = SDL_LoadFontRW(fonts_Emulogic_ttf, fonts_Emulogic_ttf_len, 30);
 
         highScoreText->SetFont(font);
 
@@ -55,12 +51,7 @@ class GameManager
 
         game->AddChildObject(std::move(highScoreText));
 
-        galagaEnemy = new GalagaEnemy(game);
-
-        game->AddChildObject(std::move(galagaEnemy->image));
-
-        galagaShip = new GalagaShip(game);
-
-        game->AddChildObject(std::move(galagaShip->image));
+        game->AddChildObject(std::move(std::make_unique<GalagaEnemy>()));
+        game->AddChildObject(std::move(std::make_unique<GalagaShip>()));
     }
 };
