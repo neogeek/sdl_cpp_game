@@ -38,8 +38,7 @@ class GameManager
 
         highScoreText = std::make_unique<TextRenderObject>();
 
-        font = SDL_TTF_Utilities::LoadFontRW(fonts_Emulogic_ttf,
-                                             fonts_Emulogic_ttf_len, 100);
+        font = SDL_LoadFontRW(fonts_Emulogic_ttf, fonts_Emulogic_ttf_len, 100);
 
         highScoreText->SetFont(font);
 
@@ -51,8 +50,7 @@ class GameManager
                 TextRenderObject *textObj =
                     dynamic_cast<TextRenderObject *>(ref);
 
-                textObj->SetText(
-                    Utilities::LeftPad(std::to_string(score), '0', 5));
+                textObj->SetText(LeftPad(std::to_string(score), '0', 5));
             });
 
         game->AddChildObject(std::move(highScoreText));
