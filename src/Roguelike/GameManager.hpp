@@ -9,4 +9,12 @@ class GameManager : public RenderObject
 
   public:
     void Start() override { game->SetTitle("Roguelike"); }
+
+    void Update(double deltaTime) override
+    {
+        if (game->keyState[SDLK_ESCAPE])
+        {
+            game->Quit();
+        }
+    }
 };
