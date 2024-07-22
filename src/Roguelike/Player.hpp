@@ -11,6 +11,15 @@ class Player : public Entity
 {
 
   public:
+    void Start() override
+    {
+        Entity::Start();
+
+        SetRect(width, height, width, height);
+
+        SetFillColor(255, 0, 0, 255);
+    }
+
     void Update(double deltaTime) override
     {
         auto transformedRect = GetTransformedRect();

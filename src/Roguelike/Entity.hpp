@@ -9,8 +9,8 @@ class Entity : public RectRenderObject
 {
 
   protected:
-    int width = 50;
-    int height = 50;
+    int width = 20;
+    int height = 20;
 
     int minX = 0;
     int maxX = 0;
