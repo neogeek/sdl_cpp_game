@@ -8,7 +8,7 @@ class GameManager : public RenderObject
 {
 
   public:
-    void Start() override { game->SetTitle("Roguelike"); }
+    void Start() override { game->SetTitle("Yet Another Roguelike Tutorial"); }
 
     void Update(double deltaTime) override
     {
