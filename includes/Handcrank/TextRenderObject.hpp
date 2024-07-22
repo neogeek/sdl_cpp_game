@@ -8,6 +8,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "sdl/SDL_TTF_Utilities.hpp"
+
 #include "Handcrank.hpp"
 
 namespace Handcrank
@@ -27,14 +29,14 @@ class TextRenderObject : public RenderObject
     SDL_Texture *textTexture;
 
   public:
-    explicit TextRenderObject() : RenderObject()
+    explicit TextRenderObject()
     {
         if (!TTF_WasInit())
         {
             TTF_Init();
         }
     }
-    explicit TextRenderObject(SDL_FRect *_rect) : RenderObject(_rect) {}
+    explicit TextRenderObject(SDL_FRect *rect) : RenderObject(rect) {}
 
     ~TextRenderObject()
     {
@@ -44,23 +46,52 @@ class TextRenderObject : public RenderObject
 
     /**
      * Set text font.
+     *
      * @param font Font value to set.
      */
-    void SetFont(TTF_Font *_font) { font = _font; }
+    void SetFont(TTF_Font *font) { this->font = font; }
+
+    /**
+     * Load font from a path.
+     *
+     * @param path File path to font file.
+     * @param ptSize The size of the font.
+     *
+     * @deprecated DEVELOPMENT USE ONLY! Use SDL_LoadFontRW to load
+     * fonts in a release build.
+     */
+    void LoadFont(const char *path, const int ptSize = 24)
+    {
+        font = SDL_LoadFont(path, ptSize);
+    }
+
+    /**
+     * Load font from a read-only buffer.
+     *
+     * @param mem A pointer to a read-only buffer.
+     * @param size The buffer size, in bytes.
+     * @param ptSize The size of the font.
+     */
+    void LoadFontRW(const void *mem, const int size, const int ptSize = 24)
+    {
+        font = SDL_LoadFontRW(mem, size, ptSize);
+    }
 
     /**
      * Set text color.
+     *
      * @param color Color value to set.
      */
-    void SetColor(SDL_Color _color) { color = _color; }
+    void SetColor(const SDL_Color color) { this->color = color; }
 
     /**
      * Set text content.
+     *
      * @param text Text value to set.
      */
-    void SetText(std::string _text)
+    void SetText(std::string text)
     {
-        text = std::move(_text);
+        this->text = std::move(text);
 
         if (font == nullptr)
         {
@@ -69,7 +100,7 @@ class TextRenderObject : public RenderObject
             return;
         }
 
-        textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
+        textSurface = TTF_RenderText_Blended(font, this->text.c_str(), color);
 
         rect->w = textSurface->w;
         rect->h = textSurface->h;
@@ -79,11 +110,12 @@ class TextRenderObject : public RenderObject
 
     /**
      * Set text content.
+     *
      * @param text Text value to set.
      */
-    void SetWrappedText(std::string _text)
+    void SetWrappedText(std::string text)
     {
-        text = std::move(_text);
+        this->text = std::move(text);
 
         textSurface =
             TTF_RenderText_Blended_Wrapped(font, text.c_str(), color, rect->w);
@@ -98,6 +130,8 @@ class TextRenderObject : public RenderObject
 
     /**
      * Render text to the scene.
+     *
+     * @param renderer A structure representing rendering state.
      */
     void Render(SDL_Renderer *renderer) override
     {
@@ -112,7 +146,7 @@ class TextRenderObject : public RenderObject
     }
 
     /**
-     * Cleanup function to run after the RenderObject is unloaded.
+     * Cleanup function to run after the TextRenderObject is unloaded.
      */
     void Clean() override
     {

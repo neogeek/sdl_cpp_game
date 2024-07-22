@@ -3,6 +3,10 @@
 
 #pragma once
 
+#define HANDCRANK_VERSION_MAJOR 0
+#define HANDCRANK_VERSION_MINOR 0
+#define HANDCRANK_VERSION_PATCH 0
+
 #include <chrono>
 #include <iostream>
 #include <list>
@@ -83,7 +87,7 @@ class Game
 
     void SetScreenSize(int _width, int _height);
 
-    void SetTitle(const char *name);
+    void SetTitle(const char *name) const;
 
     void SetClearColor(SDL_Color color);
 
@@ -108,7 +112,7 @@ class Game
 
     void CalculateDeltaTime();
 
-    void Update();
+    void Update() const;
     void FixedUpdate();
 
     void Render();
@@ -152,7 +156,7 @@ class RenderObject
     float z;
 
     RenderObject();
-    RenderObject(SDL_FRect *_rect) : rect(_rect){};
+    explicit RenderObject(SDL_FRect *rect) : rect(rect) {}
 
     ~RenderObject();
 
@@ -162,9 +166,10 @@ class RenderObject
 
     void AddChildObject(std::unique_ptr<RenderObject> child);
 
-    void SetStart(std::function<void(RenderObject *)> _func);
-    void SetUpdate(std::function<void(RenderObject *, double)> _func);
-    void SetFixedUpdate(std::function<void(RenderObject *, double)> _func);
+    void SetStart(const std::function<void(RenderObject *)> &_func);
+    void SetUpdate(const std::function<void(RenderObject *, double)> &_func);
+    void
+    SetFixedUpdate(const std::function<void(RenderObject *, double)> &_func);
 
     virtual void Start();
     virtual void Update(double deltaTime);
@@ -176,12 +181,12 @@ class RenderObject
     virtual void OnMouseUp();
 
     void InternalUpdate(double deltaTime);
-    void InternalFixedUpdate(double deltaTime);
+    void InternalFixedUpdate(double fixedDeltaTime);
 
-    [[nodiscard]] SDL_FRect *GetRect();
+    [[nodiscard]] SDL_FRect *GetRect() const;
     void SetRect(SDL_FRect *_rect);
-    void SetRect(float x, float y, float w, float h);
-    void SetRect(float x, float y);
+    void SetRect(float x, float y, float w, float h) const;
+    void SetRect(float x, float y) const;
 
     [[nodiscard]] double GetScale() const;
     void SetScale(double _scale);
@@ -231,7 +236,7 @@ void Game::AddChildObject(std::unique_ptr<RenderObject> child)
 
 [[nodiscard]] SDL_FRect *Game::GetViewport() const { return viewportf; }
 
-bool Game::Setup()
+inline bool Game::Setup()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -241,7 +246,7 @@ bool Game::Setup()
     return true;
 }
 
-void Game::SetScreenSize(int _width, int _height)
+void Game::SetScreenSize(const int _width, const int _height)
 {
     SDL_SetWindowSize(window, _width, _height);
 
@@ -253,16 +258,19 @@ void Game::SetScreenSize(int _width, int _height)
     viewport->w = width;
     viewport->h = height;
 
-    viewportf->w = (float)width;
-    viewportf->h = (float)height;
+    viewportf->w = static_cast<float>(width);
+    viewportf->h = static_cast<float>(height);
 
     dpiScaleX = width / _width;
     dpiScaleY = height / _height;
 }
 
-void Game::SetTitle(const char *name) { SDL_SetWindowTitle(window, name); }
+inline void Game::SetTitle(const char *name) const
+{
+    SDL_SetWindowTitle(window, name);
+}
 
-void Game::SetClearColor(SDL_Color color) { this->clearColor = color; }
+void Game::SetClearColor(const SDL_Color color) { this->clearColor = color; }
 
 [[nodiscard]] int Game::GetWidth() const { return width; }
 
@@ -392,7 +400,7 @@ void Game::CalculateDeltaTime()
     previousTime = currentTime;
 }
 
-void Game::Update()
+inline void Game::Update() const
 {
     for (auto &iter : children)
     {
@@ -416,9 +424,7 @@ void Game::FixedUpdate()
     {
         for (auto &iter : children)
         {
-            auto child = iter.get();
-
-            if (child != nullptr)
+            if (const auto child = iter.get(); child != nullptr)
             {
                 if (child->IsEnabled())
                 {
@@ -450,9 +456,7 @@ void Game::Render()
 
         for (auto &iter : children)
         {
-            auto child = iter.get();
-
-            if (child != nullptr)
+            if (const auto child = iter.get(); child != nullptr)
             {
                 if (child->IsEnabled())
                 {
@@ -495,9 +499,7 @@ void Game::Clean()
 {
     for (auto &iter : children)
     {
-        auto child = iter.get();
-
-        if (child != nullptr)
+        if (const auto child = iter.get(); child != nullptr)
         {
             child->Clean();
         }
@@ -518,7 +520,6 @@ void Game::Quit() { quit = true; }
 
 RenderObject::RenderObject()
 {
-    rect = new SDL_FRect;
     rect->x = 0;
     rect->y = 0;
     rect->w = 100;
@@ -542,7 +543,8 @@ void RenderObject::AddChildObject(std::unique_ptr<RenderObject> child)
     children.push_back(std::move(child));
 }
 
-void RenderObject::SetStart(std::function<void(RenderObject *)> _func = nullptr)
+void RenderObject::SetStart(
+    const std::function<void(RenderObject *)> &_func = nullptr)
 {
     if (startFunction)
     {
@@ -554,7 +556,7 @@ void RenderObject::SetStart(std::function<void(RenderObject *)> _func = nullptr)
 }
 
 void RenderObject::SetUpdate(
-    std::function<void(RenderObject *, double)> _func = nullptr)
+    const std::function<void(RenderObject *, double)> &_func = nullptr)
 {
     if (updateFunction)
     {
@@ -566,7 +568,7 @@ void RenderObject::SetUpdate(
 }
 
 void RenderObject::SetFixedUpdate(
-    std::function<void(RenderObject *, double)> _func = nullptr)
+    const std::function<void(RenderObject *, double)> &_func = nullptr)
 {
     if (fixedUpdateFunction)
     {
@@ -591,7 +593,7 @@ void RenderObject::OnMouseDown() {}
 
 void RenderObject::OnMouseUp() {}
 
-void RenderObject::InternalUpdate(double deltaTime)
+void RenderObject::InternalUpdate(const double deltaTime)
 {
     if (!hasStarted)
     {
@@ -641,9 +643,20 @@ void RenderObject::InternalUpdate(double deltaTime)
     {
         updateFunction(this, deltaTime);
     }
+
+    for (auto &iter : children)
+    {
+        if (const auto child = iter.get(); child != nullptr)
+        {
+            if (child->IsEnabled())
+            {
+                child->InternalUpdate(deltaTime);
+            }
+        }
+    }
 }
 
-void RenderObject::InternalFixedUpdate(double fixedDeltaTime)
+void RenderObject::InternalFixedUpdate(const double fixedDeltaTime)
 {
     FixedUpdate(fixedDeltaTime);
 
@@ -651,13 +664,25 @@ void RenderObject::InternalFixedUpdate(double fixedDeltaTime)
     {
         fixedUpdateFunction(this, fixedDeltaTime);
     }
+
+    for (auto &iter : children)
+    {
+        if (const auto child = iter.get(); child != nullptr)
+        {
+            if (child->IsEnabled())
+            {
+                child->InternalFixedUpdate(fixedDeltaTime);
+            }
+        }
+    }
 }
 
-[[nodiscard]] SDL_FRect *RenderObject::GetRect() { return rect; }
+[[nodiscard]] inline SDL_FRect *RenderObject::GetRect() const { return rect; }
 
 void RenderObject::SetRect(SDL_FRect *_rect) { rect = _rect; }
 
-void RenderObject::SetRect(float x, float y, float w, float h)
+inline void RenderObject::SetRect(const float x, const float y, const float w,
+                                  const float h) const
 {
     rect->x = x;
     rect->y = y;
@@ -665,7 +690,7 @@ void RenderObject::SetRect(float x, float y, float w, float h)
     rect->h = h;
 }
 
-void RenderObject::SetRect(float x, float y)
+inline void RenderObject::SetRect(const float x, const float y) const
 {
     rect->x = x;
     rect->y = y;
@@ -677,9 +702,7 @@ void RenderObject::SetScale(double _scale) { scale = _scale; }
 
 [[nodiscard]] SDL_FRect *RenderObject::GetTransformedRect() const
 {
-    SDL_FRect *transformedRect;
-
-    transformedRect = ScaleRect(rect, scale);
+    SDL_FRect *transformedRect = ScaleRect(rect, scale);
 
     if (parent != nullptr)
     {
@@ -706,9 +729,7 @@ void RenderObject::Render(SDL_Renderer *_renderer)
 
     for (auto &iter : children)
     {
-        auto child = iter.get();
-
-        if (child != nullptr)
+        if (const auto child = iter.get(); child != nullptr)
         {
             if (child->IsEnabled())
             {
@@ -720,16 +741,15 @@ void RenderObject::Render(SDL_Renderer *_renderer)
 
 template <typename T> std::vector<T *> RenderObject::GetChildrenByType()
 {
-    static_assert(std::is_base_of<RenderObject, T>::value,
+    static_assert(std::is_base_of_v<RenderObject, T>,
                   "T must be derived from RenderObject");
 
     std::vector<T *> results;
 
     for (auto &iter : children)
     {
-        auto child = iter.get();
-
-        if (child != nullptr && typeid(*child) == typeid(T))
+        if (auto child = iter.get();
+            child != nullptr && typeid(*child) == typeid(T))
         {
             auto castedChild = dynamic_cast<T *>(child);
 
@@ -745,12 +765,10 @@ template <typename T> std::vector<T *> RenderObject::GetChildrenByType()
 
 template <typename T> T *RenderObject::GetChildByType()
 {
-    static_assert(std::is_base_of<RenderObject, T>::value,
+    static_assert(std::is_base_of_v<RenderObject, T>,
                   "T must be derived from RenderObject");
 
-    auto children = GetChildrenByType<T>();
-
-    if (!children.empty())
+    if (auto children = GetChildrenByType<T>(); !children.empty())
     {
         return children.front();
     }
@@ -760,15 +778,13 @@ template <typename T> T *RenderObject::GetChildByType()
 
 SDL_FRect *RenderObject::CalculateBoundingBox() const
 {
-    auto boundingBox = GetTransformedRect();
+    const auto boundingBox = GetTransformedRect();
 
     for (auto &iter : children)
     {
-        auto child = iter.get();
-
-        if (child != nullptr)
+        if (const auto child = iter.get(); child != nullptr)
         {
-            auto childBoundingBox = child->CalculateBoundingBox();
+            const auto childBoundingBox = child->CalculateBoundingBox();
 
             boundingBox->x = fminf(boundingBox->x, childBoundingBox->x);
             boundingBox->y = fminf(boundingBox->y, childBoundingBox->y);
@@ -784,9 +800,7 @@ void RenderObject::DestroyChildObjects()
 {
     for (auto iter = children.begin(); iter != children.end();)
     {
-        auto child = iter->get();
-
-        if (child != nullptr)
+        if (const auto child = iter->get(); child != nullptr)
         {
             child->DestroyChildObjects();
 

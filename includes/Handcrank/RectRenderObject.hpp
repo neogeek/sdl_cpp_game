@@ -19,29 +19,31 @@ class RectRenderObject : public RenderObject
     SDL_BlendMode blendMode = SDL_BLENDMODE_BLEND;
 
   public:
-    explicit RectRenderObject() : RenderObject() {}
-    explicit RectRenderObject(SDL_FRect *_rect) : RenderObject(_rect) {}
+    explicit RectRenderObject() {}
+    explicit RectRenderObject(SDL_FRect *rect) : RenderObject(rect) {}
 
     ~RectRenderObject() = default;
 
     /**
      * Set rect border color.
-     * @param color Color value to set.
+     *
+     * @param borderColor Color value to set.
      */
-    void SetBorderColor(SDL_Color _borderColor)
+    void SetBorderColor(const SDL_Color borderColor)
     {
-        if (borderColor == nullptr)
+        if (this->borderColor == nullptr)
         {
-            borderColor = new SDL_Color();
+            this->borderColor = new SDL_Color();
         }
 
-        borderColor->r = _borderColor.r;
-        borderColor->g = _borderColor.g;
-        borderColor->b = _borderColor.b;
-        borderColor->a = _borderColor.a;
+        this->borderColor->r = borderColor.r;
+        this->borderColor->g = borderColor.g;
+        this->borderColor->b = borderColor.b;
+        this->borderColor->a = borderColor.a;
     }
 
-    void SetBorderColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+    void SetBorderColor(const Uint8 r, const Uint8 g, const Uint8 b,
+                        const Uint8 a)
     {
         if (borderColor == nullptr)
         {
@@ -54,7 +56,7 @@ class RectRenderObject : public RenderObject
         borderColor->a = a;
     }
 
-    SDL_Color *GetBorderColor()
+    SDL_Color *GetBorderColor() const
     {
         if (borderColor == nullptr)
         {
@@ -66,22 +68,24 @@ class RectRenderObject : public RenderObject
 
     /**
      * Set rect fill color.
-     * @param color Color value to set.
+     *
+     * @param fillColor Color value to set.
      */
-    void SetFillColor(SDL_Color _fillColor)
+    void SetFillColor(const SDL_Color fillColor)
     {
-        if (fillColor == nullptr)
+        if (this->fillColor == nullptr)
         {
-            fillColor = new SDL_Color();
+            this->fillColor = new SDL_Color();
         }
 
-        fillColor->r = _fillColor.r;
-        fillColor->g = _fillColor.g;
-        fillColor->b = _fillColor.b;
-        fillColor->a = _fillColor.a;
+        this->fillColor->r = fillColor.r;
+        this->fillColor->g = fillColor.g;
+        this->fillColor->b = fillColor.b;
+        this->fillColor->a = fillColor.a;
     }
 
-    void SetFillColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+    void SetFillColor(const Uint8 r, const Uint8 g, const Uint8 b,
+                      const Uint8 a)
     {
         if (fillColor == nullptr)
         {
@@ -94,7 +98,7 @@ class RectRenderObject : public RenderObject
         fillColor->a = a;
     }
 
-    SDL_Color *GetFillColor()
+    SDL_Color *GetFillColor() const
     {
         if (fillColor == nullptr)
         {
@@ -106,6 +110,8 @@ class RectRenderObject : public RenderObject
 
     /**
      * Render rect to the scene.
+     *
+     * @param renderer A structure representing rendering state.
      */
     void Render(SDL_Renderer *renderer) override
     {
@@ -131,7 +137,7 @@ class RectRenderObject : public RenderObject
     }
 
     /**
-     * Cleanup function to run after the RenderObject is unloaded.
+     * Cleanup function to run after the RectRenderObject is unloaded.
      */
     void Clean() override {}
 };

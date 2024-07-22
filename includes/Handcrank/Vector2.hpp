@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <iostream>
 
 #include <SDL.h>
 
@@ -11,9 +10,9 @@ struct Vector2
     float y;
 
     Vector2() : x(0), y(0) {}
-    Vector2(float x, float y) : x(x), y(y) {}
-    Vector2(SDL_FPoint point) : x(point.x), y(point.y) {}
-    Vector2(SDL_FRect rect) : x(rect.x), y(rect.y) {}
+    Vector2(const float x, const float y) : x(x), y(y) {}
+    explicit Vector2(const SDL_FPoint point) : x(point.x), y(point.y) {}
+    explicit Vector2(const SDL_FRect rect) : x(rect.x), y(rect.y) {}
 
     Vector2 operator+(const Vector2 &other) const
     {
@@ -57,7 +56,7 @@ struct Vector2
         return newPosition;
     }
 
-    SDL_FPoint ToFPoint() { return {x, y}; }
+    SDL_FPoint ToFPoint() const { return {x, y}; }
 
-    SDL_FRect ToFRect() { return {x, y}; }
+    SDL_FRect ToFRect() const { return {x, y}; }
 };
