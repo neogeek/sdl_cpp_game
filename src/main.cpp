@@ -5,7 +5,8 @@ using namespace Handcrank;
 // #include "FrameRateTester/GameManager.hpp"
 // #include "Galaga/GameManager.hpp"
 // #include "ScottPilgrim/GameManager.hpp"
-#include "Roguelike/GameManager.hpp"
+// #include "Roguelike/GameManager.hpp"
+#include "MidiGame/GameManager.hpp"
 
 Game *game = new Game();
 
