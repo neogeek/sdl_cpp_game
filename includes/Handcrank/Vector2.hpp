@@ -4,6 +4,9 @@
 
 #include <SDL.h>
 
+namespace Handcrank
+{
+
 struct Vector2
 {
     float x;
@@ -60,3 +63,5 @@ struct Vector2
 
     SDL_FRect ToFRect() const { return {x, y}; }
 };
+
+} // namespace Handcrank

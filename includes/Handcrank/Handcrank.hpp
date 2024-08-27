@@ -73,11 +73,9 @@ class Game
     std::unordered_map<Uint8, bool> mousePressedState;
     std::unordered_map<Uint8, bool> mouseReleasedState;
 
-    std::list<std::unique_ptr<RenderObject>> children;
+    std::list<std::shared_ptr<RenderObject>> children;
 
-    Game();
-
-    void AddChildObject(std::unique_ptr<RenderObject> child);
+    void AddChildObject(std::shared_ptr<RenderObject> child);
 
     [[nodiscard]] SDL_Window *GetWindow() const;
     [[nodiscard]] SDL_Renderer *GetRenderer() const;
@@ -140,7 +138,7 @@ class RenderObject
     bool isInputHovered = false;
     bool isInputActive = false;
 
-    std::list<std::unique_ptr<RenderObject>> children;
+    std::list<std::shared_ptr<RenderObject>> children;
 
     std::function<void(RenderObject *)> startFunction;
 
@@ -164,7 +162,7 @@ class RenderObject
     void Disable();
     [[nodiscard]] const bool IsEnabled() const;
 
-    void AddChildObject(std::unique_ptr<RenderObject> child);
+    void AddChildObject(std::shared_ptr<RenderObject> child);
 
     void SetStart(const std::function<void(RenderObject *)> &_func);
     void SetUpdate(const std::function<void(RenderObject *, double)> &_func);
@@ -209,25 +207,13 @@ class RenderObject
     void Destroy();
 };
 
-Game::Game()
-{
-    window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED, width, height,
-                              SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-
-    renderer = SDL_CreateRenderer(
-        window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
-    SetScreenSize(width, height);
-}
-
-void Game::AddChildObject(std::unique_ptr<RenderObject> child)
+void Game::AddChildObject(std::shared_ptr<RenderObject> child)
 {
     child->parent = nullptr;
 
     child->game = this;
 
-    children.push_back(std::move(child));
+    children.push_back(child);
 }
 
 [[nodiscard]] SDL_Window *Game::GetWindow() const { return window; }
@@ -242,6 +228,27 @@ inline bool Game::Setup()
     {
         return false;
     }
+
+    window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width, height,
+                              SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
+
+    if (window == NULL)
+    {
+        SDL_Log("SDL_CreateWindow %s", SDL_GetError());
+        return false;
+    }
+
+    renderer = SDL_CreateRenderer(
+        window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    if (renderer == NULL)
+    {
+        SDL_Log("SDL_CreateRenderer %s", SDL_GetError());
+        return false;
+    }
+
+    SetScreenSize(width, height);
 
     return true;
 }
@@ -450,8 +457,8 @@ void Game::Render()
 
         SDL_RenderSetViewport(renderer, viewport);
 
-        children.sort([](const std::unique_ptr<RenderObject> &a,
-                         const std::unique_ptr<RenderObject> &b)
+        children.sort([](const std::shared_ptr<RenderObject> &a,
+                         const std::shared_ptr<RenderObject> &b)
                       { return a->z < b->z; });
 
         for (auto &iter : children)
@@ -534,13 +541,13 @@ void RenderObject::Disable() { isEnabled = false; }
 
 const bool RenderObject::IsEnabled() const { return isEnabled; }
 
-void RenderObject::AddChildObject(std::unique_ptr<RenderObject> child)
+void RenderObject::AddChildObject(std::shared_ptr<RenderObject> child)
 {
     child->parent = this;
 
     child->game = game;
 
-    children.push_back(std::move(child));
+    children.push_back(child);
 }
 
 void RenderObject::SetStart(
@@ -716,8 +723,8 @@ void RenderObject::SetScale(double _scale) { scale = _scale; }
 
 void RenderObject::Render(SDL_Renderer *_renderer)
 {
-    children.sort([](const std::unique_ptr<RenderObject> &a,
-                     const std::unique_ptr<RenderObject> &b)
+    children.sort([](const std::shared_ptr<RenderObject> &a,
+                     const std::shared_ptr<RenderObject> &b)
                   { return a->z < b->z; });
 
     auto boundingBox = CalculateBoundingBox();

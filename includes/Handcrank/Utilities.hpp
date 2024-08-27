@@ -3,16 +3,27 @@
 
 #pragma once
 
+#include <algorithm>
 #include <string>
 
-extern std::string LeftPad(const std::string &content, const char pad,
-                           int length)
+namespace Handcrank
+{
+
+std::string LeftPad(const std::string &content, const char pad, int length)
 {
     return std::string(length - content.size(), pad) + content;
 }
 
-extern std::string RightPad(const std::string &content, const char pad,
-                            int length)
+std::string RightPad(const std::string &content, const char pad, int length)
 {
     return content + std::string(length - content.size(), pad);
 }
+
+float Lerp(float a, float b, float t) { return (1 - t) * a + b * t; }
+
+float InverseLerp(float a, float b, float v)
+{
+    return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
+}
+
+} // namespace Handcrank

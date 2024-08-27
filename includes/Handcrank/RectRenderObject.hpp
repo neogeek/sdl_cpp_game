@@ -12,7 +12,7 @@ namespace Handcrank
 
 class RectRenderObject : public RenderObject
 {
-  private:
+  protected:
     SDL_Color *borderColor;
     SDL_Color *fillColor;
 
