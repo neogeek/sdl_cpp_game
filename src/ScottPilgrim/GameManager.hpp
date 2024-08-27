@@ -40,4 +40,12 @@ class GameManager : public RenderObject
 
         game->AddChildObject(std::move(roxzilla));
     }
+
+    void Update(double deltaTime) override
+    {
+        if (game->keyState[SDLK_ESCAPE])
+        {
+            game->Quit();
+        }
+    }
 };
