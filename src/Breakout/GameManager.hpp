@@ -4,33 +4,17 @@
 #include "Handcrank/RectRenderObject.hpp"
 
 #include "Ball.hpp"
+#include "Paddle.hpp"
 
 using namespace Handcrank;
-
-struct Brick
-{
-    std::shared_ptr<RectRenderObject> rectRenderObject;
-
-    int x;
-    int y;
-    int width;
-    int height;
-
-    inline bool CheckCollisionAABB(SDL_FRect *rect)
-    {
-        auto test = !(rect->x > x + width || rect->x + rect->w < x ||
-                      rect->y > y + height || rect->y + rect->h < y);
-
-        return test;
-    }
-};
 
 class GameManager : public RenderObject
 {
 
   private:
     std::shared_ptr<Ball> ball = std::make_shared<Ball>();
-    std::vector<Brick> bricks;
+    std::shared_ptr<Paddle> paddle = std::make_shared<Paddle>();
+    std::vector<std::shared_ptr<RectRenderObject>> bricks;
 
   public:
     void Start() override
@@ -46,21 +30,15 @@ class GameManager : public RenderObject
         {
             for (auto x = 0; x < 10; x += 1)
             {
-                Brick brick;
 
-                brick.rectRenderObject = std::make_shared<RectRenderObject>();
-                brick.x = (width + padding) * x + padding;
-                brick.y = (height + padding) * y + padding;
-                brick.width = width;
-                brick.height = height;
+                auto brick = std::make_shared<RectRenderObject>();
+                brick->SetRect((width + padding) * x + padding,
+                               (height + padding) * y + padding, width, height);
 
-                brick.rectRenderObject->SetRect(brick.x, brick.y, brick.width,
-                                                brick.height);
+                brick->SetFillColor(255, 255 - (x * colorStep),
+                                    255 - (y * colorStep), 255);
 
-                brick.rectRenderObject->SetFillColor(
-                    255, 255 - (x * colorStep), 255 - (y * colorStep), 255);
-
-                game->AddChildObject(brick.rectRenderObject);
+                game->AddChildObject(brick);
 
                 bricks.push_back(brick);
             }
@@ -70,6 +48,10 @@ class GameManager : public RenderObject
         ball->SetFillColor(255, 255, 255, 255);
 
         game->AddChildObject(ball);
+
+        paddle = std::make_shared<Paddle>();
+
+        game->AddChildObject(paddle);
     }
 
     void Update(double deltaTime) override
@@ -81,11 +63,11 @@ class GameManager : public RenderObject
 
         for (auto i = 0; i < bricks.size(); i += 1)
         {
-            if (bricks[i].CheckCollisionAABB(ball->GetRect()))
+            if (bricks[i]->CheckCollisionAABB(ball.get()))
             {
                 ball->ChangeDirection();
 
-                bricks[i].rectRenderObject->Destroy();
+                bricks[i]->Destroy();
 
                 std::swap(bricks[i], bricks.back());
 
@@ -94,6 +76,10 @@ class GameManager : public RenderObject
                 break;
             }
         }
+
+        if (paddle->CheckCollisionAABB(ball.get()))
+        {
+            ball->ChangeDirection();
+        }
     }
-    void FixedUpdate(double deltaTime) override {}
 };

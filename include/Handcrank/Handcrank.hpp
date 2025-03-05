@@ -200,6 +200,8 @@ class RenderObject
     template <typename T> std::vector<T *> GetChildrenByType();
     template <typename T> T *GetChildByType();
 
+    bool CheckCollisionAABB(RenderObject *otherRenderObject);
+
     SDL_FRect *CalculateBoundingBox() const;
 
     void DestroyChildObjects();
@@ -814,6 +816,18 @@ SDL_FRect *RenderObject::CalculateBoundingBox() const
     }
 
     return boundingBox;
+}
+
+bool RenderObject::CheckCollisionAABB(RenderObject *otherRenderObject)
+{
+    auto otherRect = otherRenderObject->GetRect();
+
+    auto test = !(otherRect->x > rect->x + rect->w ||
+                  otherRect->x + otherRect->w < rect->x ||
+                  otherRect->y > rect->y + rect->h ||
+                  otherRect->y + otherRect->h < rect->y);
+
+    return test;
 }
 
 void RenderObject::DestroyChildObjects()
