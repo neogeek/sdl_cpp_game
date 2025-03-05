@@ -20,14 +20,14 @@ namespace Handcrank
  */
 SDL_Texture *SDL_LoadTexture(SDL_Renderer *renderer, const char *path)
 {
-    SDL_Surface *surface = IMG_Load(path);
+    auto surface = IMG_Load(path);
 
     if (!surface)
     {
         return nullptr;
     }
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    auto texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
 
@@ -49,16 +49,16 @@ SDL_Texture *SDL_LoadTexture(SDL_Renderer *renderer, const char *path)
 SDL_Texture *SDL_LoadTextureRW(SDL_Renderer *renderer, const void *mem,
                                const int size)
 {
-    SDL_RWops *rw = SDL_RWFromConstMem(mem, size);
+    auto rw = SDL_RWFromConstMem(mem, size);
 
-    SDL_Surface *surface = IMG_Load_RW(rw, 1);
+    auto surface = IMG_Load_RW(rw, 1);
 
     if (!surface)
     {
         return nullptr;
     }
 
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+    auto texture = SDL_CreateTextureFromSurface(renderer, surface);
 
     SDL_FreeSurface(surface);
 

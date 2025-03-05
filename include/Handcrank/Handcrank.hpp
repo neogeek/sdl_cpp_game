@@ -8,6 +8,7 @@
 #define HANDCRANK_VERSION_PATCH 0
 
 #include <chrono>
+#include <functional>
 #include <iostream>
 #include <list>
 #include <memory>
@@ -74,6 +75,9 @@ class Game
     std::unordered_map<Uint8, bool> mouseReleasedState;
 
     std::list<std::shared_ptr<RenderObject>> children;
+
+    Game();
+    ~Game();
 
     void AddChildObject(std::shared_ptr<RenderObject> child);
 
@@ -207,6 +211,10 @@ class RenderObject
     void Destroy();
 };
 
+Game::Game() { Setup(); }
+
+inline Game::~Game() = default;
+
 void Game::AddChildObject(std::shared_ptr<RenderObject> child)
 {
     child->parent = nullptr;
@@ -229,6 +237,11 @@ inline bool Game::Setup()
         return false;
     }
 
+    if (window != NULL)
+    {
+        SDL_DestroyWindow(window);
+    }
+
     window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, width, height,
                               SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
@@ -237,6 +250,11 @@ inline bool Game::Setup()
     {
         SDL_Log("SDL_CreateWindow %s", SDL_GetError());
         return false;
+    }
+
+    if (renderer != NULL)
+    {
+        SDL_DestroyRenderer(renderer);
     }
 
     renderer = SDL_CreateRenderer(
@@ -295,11 +313,6 @@ void Game::SetFrameRate(double _frameRate) { frameRate = _frameRate; }
 
 int Game::Run()
 {
-    if (!Setup())
-    {
-        return 1;
-    }
-
     while (!GetQuit())
     {
         Loop();
@@ -336,9 +349,9 @@ void Game::HandleInput()
 
     while (SDL_PollEvent(&event) != 0)
     {
-        SDL_Keycode keyCode = event.key.keysym.sym;
+        auto keyCode = event.key.keysym.sym;
 
-        Uint8 mouseButtonIndex = event.button.button;
+        auto mouseButtonIndex = event.button.button;
 
         switch (event.type)
         {
@@ -512,7 +525,7 @@ void Game::Clean()
         }
     }
 
-    for (int i = 0; i < TTF_WasInit(); i += 1)
+    for (auto i = 0; i < TTF_WasInit(); i += 1)
     {
         TTF_Quit();
     }

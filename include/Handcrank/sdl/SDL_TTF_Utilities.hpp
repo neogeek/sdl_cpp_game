@@ -25,7 +25,7 @@ TTF_Font *SDL_LoadFont(const char *path, const int ptSize = 24)
         TTF_Init();
     }
 
-    TTF_Font *font = TTF_OpenFont(path, ptSize);
+    auto font = TTF_OpenFont(path, ptSize);
 
     if (!font)
     {
@@ -49,7 +49,7 @@ TTF_Font *SDL_LoadFontRW(const void *mem, const int size, const int ptSize = 24)
         TTF_Init();
     }
 
-    TTF_Font *font = TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
+    auto font = TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
 
     if (!font)
     {

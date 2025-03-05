@@ -17,7 +17,7 @@ class ImageRenderObject : public RenderObject
   private:
     SDL_Texture *texture;
 
-    SDL_Rect *srcRect;
+    const SDL_Rect *srcRect;
 
     SDL_FPoint *centerPoint;
 
@@ -75,17 +75,7 @@ class ImageRenderObject : public RenderObject
 
     void SetSrcRect(const int x, const int y, const int w, const int h)
     {
-        if (srcRect == nullptr)
-        {
-            srcRect = new SDL_Rect{x, y, w, h};
-
-            return;
-        }
-
-        this->srcRect->x = x;
-        this->srcRect->y = y;
-        this->srcRect->w = w;
-        this->srcRect->h = h;
+        srcRect = new SDL_Rect{x, y, w, h};
     }
 
     void SetFlip(const SDL_RendererFlip flip) { this->flip = flip; }
