@@ -1,10 +1,21 @@
 #!/bin/bash
 
-mkdir -p build/
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-g++ -std=c++17 -o build/sdl_cpp_game src/*.cpp -Ifonts -Iimages -Iincludes -Isrc \
-    -I/opt/homebrew/Cellar/sdl2/2.30.8/include/SDL2 -L/opt/homebrew/Cellar/sdl2/2.30.8/lib \
-    -I/opt/homebrew/Cellar/sdl2_image/2.8.2_2/include/SDL2 -L/opt/homebrew/Cellar/sdl2_image/2.8.2_2/lib \
-    -I/opt/homebrew/Cellar/sdl2_ttf/2.22.0/include/SDL2 -L/opt/homebrew/Cellar/sdl2_ttf/2.22.0/lib \
-    -framework CoreMIDI -framework CoreFoundation \
-    -lSDL2 -lSDL2_image -lSDL2_ttf
+(
+
+    mkdir -p build/
+
+    cd "${SCRIPT_DIR}" || exit
+
+    . find-sdl.sh
+
+    cd ..
+
+    g++ -std=c++17 -o build/sdl_cpp_game src/*.cpp -Ifonts -Iimages -Iinclude -Isrc \
+        -I"${SDL2_PATH}/include/SDL2" -L"${SDL2_PATH}/lib" \
+        -I"${SDL2_IMAGE_PATH}/include/SDL2" -L"${SDL2_IMAGE_PATH}/lib" \
+        -I"${SDL2_TTF_PATH}/include/SDL2" -L"${SDL2_TTF_PATH}/lib" \
+        -lSDL2 -lSDL2_image -lSDL2_ttf
+
+)

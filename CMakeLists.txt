@@ -21,10 +21,10 @@ include_directories(${SDL2_INCLUDE_DIR}
 
 include_directories("fonts")
 include_directories("images")
-include_directories("includes")
+include_directories("include")
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE INCLUDES "includes/*.h")
+file(GLOB_RECURSE INCLUDES "include/*.h")
 
 add_executable(sdl_cpp_game ${SOURCES} ${INCLUDES})
 
