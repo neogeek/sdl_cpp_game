@@ -4,10 +4,10 @@
       "name": "Mac",
       "includePath": [
         "${workspaceFolder}/**",
-        "/opt/homebrew/Cellar/sdl2/2.30.8/include/SDL2",
-        "/opt/homebrew/Cellar/sdl2_image/2.8.2_2/include/SDL2",
-        "/opt/homebrew/Cellar/sdl2_ttf/2.22.0/include/SDL2",
-        "/opt/homebrew/Cellar/emscripten/3.1.68/libexec/system/include"
+        "/opt/homebrew/Cellar/sdl2/2.32.2/include/SDL2",
+        "/opt/homebrew/Cellar/sdl2_image/2.8.8/include/SDL2",
+        "/opt/homebrew/Cellar/sdl2_ttf/2.24.0/include/SDL2",
+        "/opt/homebrew/Cellar/emscripten/4.0.1/libexec/system/include"
       ],
       "defines": [],
       "macFrameworkPath": [
