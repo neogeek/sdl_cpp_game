@@ -39,7 +39,7 @@ class ScottPilgrim : public ImageRenderObject
         auto movementSpeed = 500;
 
         auto minX = 0;
-        auto maxX = game->GetWidth() - transformedRect->w;
+        auto maxX = game->GetWidth() - transformedRect.w;
 
         auto minY = 475;
         auto maxY = 825;

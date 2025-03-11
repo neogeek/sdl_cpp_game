@@ -63,7 +63,7 @@ class GameManager : public RenderObject
 
         for (auto i = 0; i < bricks.size(); i += 1)
         {
-            if (bricks[i]->CheckCollisionAABB(ball.get()))
+            if (bricks[i]->CheckCollisionAABB(ball))
             {
                 ball->ChangeDirection();
 
@@ -77,7 +77,7 @@ class GameManager : public RenderObject
             }
         }
 
-        if (paddle->CheckCollisionAABB(ball.get()))
+        if (paddle->CheckCollisionAABB(ball))
         {
             ball->ChangeDirection();
         }

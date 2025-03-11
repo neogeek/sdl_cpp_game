@@ -18,7 +18,7 @@ namespace Handcrank
  * @deprecated DEVELOPMENT USE ONLY! Use SDL_LoadFontRW to load
  * fonts in a release build.
  */
-TTF_Font *SDL_LoadFont(const char *path, const int ptSize = 24)
+std::shared_ptr<TTF_Font> SDL_LoadFont(const char *path, const int ptSize = 24)
 {
     if (!TTF_WasInit())
     {
@@ -32,7 +32,7 @@ TTF_Font *SDL_LoadFont(const char *path, const int ptSize = 24)
         return nullptr;
     }
 
-    return font;
+    return std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
 /**
@@ -42,21 +42,30 @@ TTF_Font *SDL_LoadFont(const char *path, const int ptSize = 24)
  * @param size The buffer size, in bytes.
  * @param ptSize The size of the font.
  */
-TTF_Font *SDL_LoadFontRW(const void *mem, const int size, const int ptSize = 24)
+std::shared_ptr<TTF_Font> SDL_LoadFontRW(const void *mem, const int size,
+                                         const int ptSize = 24)
 {
     if (!TTF_WasInit())
     {
         TTF_Init();
     }
 
-    auto font = TTF_OpenFontRW(SDL_RWFromConstMem(mem, size), 1, ptSize);
+    auto rw = SDL_RWFromConstMem(mem, size);
 
-    if (!font)
+    if (!rw)
     {
         return nullptr;
     }
 
-    return font;
+    auto font = TTF_OpenFontRW(rw, 1, ptSize);
+
+    if (!font)
+    {
+        SDL_RWclose(rw);
+        return nullptr;
+    }
+
+    return std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
 } // namespace Handcrank

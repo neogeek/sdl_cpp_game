@@ -55,9 +55,11 @@ class GalagaShip : public ImageRenderObject
             {
                 auto bullet = std::make_unique<GalagaBullet>();
 
-                bullet->SetRect(GetRect()->x + (GetTransformedRect()->w / 2) -
+                auto transformedRect = GetTransformedRect();
+
+                bullet->SetRect(GetRect()->x + (transformedRect.w / 2) -
                                     (GetRect()->w / 2),
-                                GetRect()->y - GetTransformedRect()->h);
+                                GetRect()->y - transformedRect.h);
 
                 game->AddChildObject(std::move(bullet));
 

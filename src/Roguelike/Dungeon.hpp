@@ -13,7 +13,7 @@ class Dungeon : public RenderObject
     std::vector<std::vector<int>> grid;
 
     explicit Dungeon() { Generate(20, 20); }
-    explicit Dungeon(SDL_FRect *rect) : RenderObject(rect) {}
+    explicit Dungeon(const SDL_FRect _rect) : RenderObject(_rect) {}
 
     ~Dungeon() = default;
 
@@ -39,16 +39,16 @@ class Dungeon : public RenderObject
         }
     };
 
-    void Render(SDL_Renderer *renderer) override
+    void Render(std::shared_ptr<SDL_Renderer> renderer) override
     {
-        SDL_SetRenderDrawBlendMode(renderer, blendMode);
+        SDL_SetRenderDrawBlendMode(renderer.get(), blendMode);
 
         auto fillColor = new SDL_Color{255, 255, 255, 255};
 
         const int width = 20;
         const int height = 20;
 
-        SDL_SetRenderDrawColor(renderer, fillColor->r, fillColor->g,
+        SDL_SetRenderDrawColor(renderer.get(), fillColor->r, fillColor->g,
                                fillColor->b, fillColor->a);
 
         for (int x = 0; x < size(grid); x += 1)
@@ -59,7 +59,7 @@ class Dungeon : public RenderObject
                 {
                     SDL_Rect rect = {x * width, y * width, width, height};
 
-                    SDL_RenderFillRect(renderer, &rect);
+                    SDL_RenderFillRect(renderer.get(), &rect);
                 }
             }
         }

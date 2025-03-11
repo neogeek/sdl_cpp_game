@@ -30,8 +30,8 @@ class Paddle : public RectRenderObject
         const auto minX = 0;
         const auto minY = 0;
 
-        const auto maxX = game->GetWidth() - transformedRect->w;
-        const auto maxY = game->GetHeight() - transformedRect->h;
+        const auto maxX = game->GetWidth() - transformedRect.w;
+        const auto maxY = game->GetHeight() - transformedRect.h;
 
         if (game->keyState[SDLK_RIGHT])
         {

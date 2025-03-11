@@ -34,9 +34,8 @@ class GameManager : public RenderObject
 
         highScoreText = std::make_unique<TextRenderObject>();
 
-        font = SDL_LoadFontRW(fonts_Emulogic_ttf, fonts_Emulogic_ttf_len, 30);
-
-        highScoreText->SetFont(font);
+        highScoreText->LoadFontRW(fonts_Emulogic_ttf, fonts_Emulogic_ttf_len,
+                                  30);
 
         highScoreText->SetRect((game->GetWidth() / 2) - 100, 50, 200, 50);
 

@@ -25,8 +25,8 @@ class Entity : public RectRenderObject
 
         SetRect(0, 0, width, height);
 
-        maxX = game->GetWidth() - transformedRect->w;
-        maxY = game->GetHeight() - transformedRect->h;
+        maxX = game->GetWidth() - transformedRect.w;
+        maxY = game->GetHeight() - transformedRect.h;
 
         SetFillColor(255, 255, 255, 255);
     }

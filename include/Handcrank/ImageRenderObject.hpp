@@ -14,20 +14,22 @@ namespace Handcrank
 
 class ImageRenderObject : public RenderObject
 {
-  private:
-    SDL_Texture *texture;
+  protected:
+    std::shared_ptr<SDL_Texture> texture;
 
-    const SDL_Rect *srcRect;
+    std::unique_ptr<SDL_Rect> srcRect = std::make_unique<SDL_Rect>();
 
-    SDL_FPoint *centerPoint;
+    bool srcRectSet = false;
+
+    std::unique_ptr<SDL_FPoint> centerPoint = std::make_unique<SDL_FPoint>();
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
   public:
     explicit ImageRenderObject() {}
-    explicit ImageRenderObject(SDL_FRect *rect) : RenderObject(rect) {}
+    explicit ImageRenderObject(const SDL_FRect _rect) { SetRect(_rect); }
 
-    ~ImageRenderObject() { SDL_DestroyTexture(texture); }
+    ~ImageRenderObject() = default;
 
     /**
      * Load texture from a path.
@@ -38,8 +40,9 @@ class ImageRenderObject : public RenderObject
      * @deprecated DEVELOPMENT USE ONLY! Use LoadTextureRW to load textures in a
      * release build.
      */
-    void LoadTexture(SDL_Renderer *renderer, const char *path)
+    void LoadTexture(std::shared_ptr<SDL_Renderer> renderer, const char *path)
     {
+        texture.reset();
         texture = SDL_LoadTexture(renderer, path);
 
         UpdateRectSizeFromTexture();
@@ -52,8 +55,10 @@ class ImageRenderObject : public RenderObject
      * @param mem A pointer to a read-only buffer.
      * @param size The buffer size, in bytes.
      */
-    void LoadTextureRW(SDL_Renderer *renderer, const void *mem, const int size)
+    void LoadTextureRW(std::shared_ptr<SDL_Renderer> renderer, const void *mem,
+                       const int size)
     {
+        texture.reset();
         texture = SDL_LoadTextureRW(renderer, mem, size);
 
         UpdateRectSizeFromTexture();
@@ -64,18 +69,31 @@ class ImageRenderObject : public RenderObject
         int textureWidth;
         int textureHeight;
 
-        SDL_QueryTexture(texture, nullptr, nullptr, &textureWidth,
+        SDL_QueryTexture(texture.get(), nullptr, nullptr, &textureWidth,
                          &textureHeight);
 
         rect->w = textureWidth;
         rect->h = textureHeight;
     }
 
-    void SetSrcRect(SDL_Rect *srcRect) { this->srcRect = srcRect; }
+    void SetSrcRect(const SDL_Rect srcRect)
+    {
+        this->srcRect->x = srcRect.x;
+        this->srcRect->y = srcRect.y;
+        this->srcRect->w = srcRect.w;
+        this->srcRect->h = srcRect.h;
+
+        srcRectSet = true;
+    }
 
     void SetSrcRect(const int x, const int y, const int w, const int h)
     {
-        srcRect = new SDL_Rect{x, y, w, h};
+        this->srcRect->x = x;
+        this->srcRect->y = y;
+        this->srcRect->w = w;
+        this->srcRect->h = h;
+
+        srcRectSet = true;
     }
 
     void SetFlip(const SDL_RendererFlip flip) { this->flip = flip; }
@@ -85,18 +103,16 @@ class ImageRenderObject : public RenderObject
      *
      * @param renderer A structure representing rendering state.
      */
-    void Render(SDL_Renderer *renderer) override
+    void Render(std::shared_ptr<SDL_Renderer> renderer) override
     {
-        SDL_RenderCopyExF(renderer, texture, srcRect, GetTransformedRect(), 0,
-                          centerPoint, flip);
+        auto transformedRect = GetTransformedRect();
+
+        SDL_RenderCopyExF(renderer.get(), texture.get(),
+                          srcRectSet ? srcRect.get() : nullptr,
+                          &transformedRect, 0, centerPoint.get(), flip);
 
         RenderObject::Render(renderer);
     }
-
-    /**
-     * Cleanup function to run after the ImageRenderObject is unloaded.
-     */
-    void Clean() override { SDL_DestroyTexture(texture); }
 };
 
 } // namespace Handcrank
