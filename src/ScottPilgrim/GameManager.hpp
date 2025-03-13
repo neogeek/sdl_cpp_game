@@ -28,17 +28,8 @@ class GameManager : public RenderObject
 
         game->AddChildObject(std::move(image));
 
-        auto scott = std::make_unique<ScottPilgrim>();
-
-        scott->SetRect(200, 600);
-
-        game->AddChildObject(std::move(scott));
-
-        auto roxzilla = std::make_unique<Roxzilla>();
-
-        roxzilla->SetRect(700, 600);
-
-        game->AddChildObject(std::move(roxzilla));
+        game->AddChildObject(std::make_shared<ScottPilgrim>());
+        game->AddChildObject(std::make_shared<Roxzilla>());
     }
 
     void Update(double deltaTime) override
