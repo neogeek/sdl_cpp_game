@@ -1,48 +1,45 @@
 #pragma once
 
 #include "../images/scott-pilgrim-idle.h"
+#include "../images/scott-pilgrim-run.h"
 
 #include "Handcrank/Handcrank.hpp"
-#include "Handcrank/ImageRenderObject.hpp"
+#include "Handcrank/SpriteRenderObject.hpp"
 
 using namespace Handcrank;
 
-class ScottPilgrim : public ImageRenderObject
+class ScottPilgrim : public SpriteRenderObject
 {
-
   private:
-    int frame = 1;
+    std::shared_ptr<SDL_Texture> idleTexture;
+    std::shared_ptr<SDL_Texture> runTexture;
 
-    double nextTick;
-
-    const double frameSpeed = 0.15;
+    bool isRunning = false;
 
   public:
     void Start() override
     {
-        LoadTextureRW(game->GetRenderer(), images_scott_pilgrim_idle_png,
-                      images_scott_pilgrim_idle_png_len);
+        idleTexture = SDL_LoadTextureRW(game->GetRenderer(),
+                                        images_scott_pilgrim_idle_png,
+                                        images_scott_pilgrim_idle_png_len);
+
+        runTexture =
+            SDL_LoadTextureRW(game->GetRenderer(), images_scott_pilgrim_run_png,
+                              images_scott_pilgrim_run_png_len);
+
+        SetIdleTexture();
 
         SetScale(5);
 
-        z = 1;
+        SetRect(200, 600);
 
-        SetSrcRect(0, 0, 36, 59);
-
-        SetRect(rect->x, rect->y, 36, 59);
+        Play();
     }
-
     void Update(double deltaTime) override
     {
         auto transformedRect = GetTransformedRect();
 
-        auto movementSpeed = 500;
-
-        auto minX = 0;
-        auto maxX = game->GetWidth() - transformedRect.w;
-
-        auto minY = 475;
-        auto maxY = 825;
+        auto movementSpeed = 600;
 
         auto rect = GetRect();
 
@@ -59,6 +56,25 @@ class ScottPilgrim : public ImageRenderObject
             SetFlip(SDL_FLIP_HORIZONTAL);
         }
 
+        if (game->keyState[SDLK_RIGHT] || game->keyState[SDLK_LEFT])
+        {
+            if (!isRunning)
+            {
+                isRunning = true;
+
+                SetRunTexture();
+            }
+        }
+        else
+        {
+            if (isRunning)
+            {
+                isRunning = false;
+
+                SetIdleTexture();
+            }
+        }
+
         if (game->keyState[SDLK_UP])
         {
             rect->y -= movementSpeed * deltaTime;
@@ -67,26 +83,15 @@ class ScottPilgrim : public ImageRenderObject
         {
             rect->y += movementSpeed * deltaTime;
         }
-
-        rect->x = std::clamp<float>(rect->x, minX, maxX);
-        rect->y = std::clamp<float>(rect->y, minY, maxY);
-
-        nextTick += deltaTime;
-
-        if (nextTick < frameSpeed)
-        {
-            return;
-        }
-
-        SetSrcRect(36 * (frame - 1), 0, 36, 59);
-
-        frame += 1;
-
-        if (frame > 8)
-        {
-            frame = 1;
-        }
-
-        nextTick = 0;
+    }
+    void SetIdleTexture()
+    {
+        SetTexture(idleTexture);
+        CalculateFrames(288, 59, 8, 1, Vector2(0, 0), Vector2(0, 0));
+    }
+    void SetRunTexture()
+    {
+        SetTexture(runTexture);
+        CalculateFrames(424, 60, 8, 1, Vector2(0, 0), Vector2(0, 0));
     }
 };

@@ -94,6 +94,8 @@ class Game
 
     void SetClearColor(SDL_Color color);
 
+    double GetDeltaTime() const;
+
     [[nodiscard]] int GetWidth() const;
     [[nodiscard]] int GetHeight() const;
 
@@ -366,6 +368,8 @@ inline void Game::SetTitle(const char *name)
 }
 
 void Game::SetClearColor(const SDL_Color color) { this->clearColor = color; }
+
+[[nodiscard]] double Game::GetDeltaTime() const { return deltaTime; }
 
 [[nodiscard]] int Game::GetWidth() const { return width; }
 

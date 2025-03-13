@@ -3,19 +3,12 @@
 #include "../images/roxzilla-idle.h"
 
 #include "Handcrank/Handcrank.hpp"
-#include "Handcrank/ImageRenderObject.hpp"
+#include "Handcrank/SpriteRenderObject.hpp"
 
 using namespace Handcrank;
 
-class Roxzilla : public ImageRenderObject
+class Roxzilla : public SpriteRenderObject
 {
-
-  private:
-    int frame = 1;
-
-    double nextTick;
-
-    const double frameSpeed = 0.15;
 
   public:
     void Start() override
@@ -25,29 +18,12 @@ class Roxzilla : public ImageRenderObject
 
         SetScale(5);
 
-        SetSrcRect(0, 0, 65, 83);
+        z = 1;
 
-        SetRect(rect->x, rect->y, 65, 83);
-    }
+        SetRect(700, 600);
 
-    void Update(double deltaTime) override
-    {
-        nextTick += deltaTime;
+        CalculateFrames(348, 80, 6, 1, Vector2(0, 0), Vector2(0, 0));
 
-        if (nextTick < frameSpeed)
-        {
-            return;
-        }
-
-        SetSrcRect(59 * (frame - 1), 0, 59, 80);
-
-        frame += 1;
-
-        if (frame > 6)
-        {
-            frame = 1;
-        }
-
-        nextTick = 0;
+        Play();
     }
 };
