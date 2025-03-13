@@ -32,6 +32,19 @@ class ImageRenderObject : public RenderObject
     ~ImageRenderObject() = default;
 
     /**
+     * Set texture from an existing texture reference.
+     *
+     * @param texture A texture.
+     */
+    void SetTexture(std::shared_ptr<SDL_Texture> _texture)
+    {
+        texture.reset();
+        texture = _texture;
+
+        UpdateRectSizeFromTexture();
+    }
+
+    /**
      * Load texture from a path.
      *
      * @param renderer A structure representing rendering state.

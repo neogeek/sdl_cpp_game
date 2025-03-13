@@ -538,8 +538,8 @@ void Game::Render()
 
         SDL_RenderSetViewport(renderer.get(), &viewport);
 
-        children.sort([](const std::shared_ptr<RenderObject> &a,
-                         const std::shared_ptr<RenderObject> &b)
+        children.sort([](const std::shared_ptr<RenderObject> a,
+                         const std::shared_ptr<RenderObject> b)
                       { return a->z < b->z; });
 
         for (auto &iter : children)
