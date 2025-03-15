@@ -9,7 +9,7 @@ using namespace Handcrank;
 // #include "MidiGame/GameManager.hpp"
 // #include "Breakout/GameManager.hpp"
 
-Game *game = new Game();
+auto game = std::make_shared<Game>();
 
 int main()
 {
