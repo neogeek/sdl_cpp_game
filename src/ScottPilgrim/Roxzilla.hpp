@@ -16,7 +16,7 @@ class Roxzilla : public SpriteRenderObject
         LoadTextureRW(game->GetRenderer(), images_roxzilla_idle_png,
                       images_roxzilla_idle_png_len);
 
-        SetScale(5);
+        SetScale(4);
 
         z = 1;
 

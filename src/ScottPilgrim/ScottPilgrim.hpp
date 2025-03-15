@@ -29,7 +29,7 @@ class ScottPilgrim : public SpriteRenderObject
 
         SetIdleTexture();
 
-        SetScale(5);
+        SetScale(4);
 
         SetRect(200, 600);
 
