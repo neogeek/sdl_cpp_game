@@ -186,8 +186,8 @@ class RenderObject
     virtual void OnMouseDown();
     virtual void OnMouseUp();
 
-    void InternalUpdate(double deltaTime);
-    void InternalFixedUpdate(double fixedDeltaTime);
+    virtual void InternalUpdate(double deltaTime);
+    virtual void InternalFixedUpdate(double fixedDeltaTime);
 
     [[nodiscard]] std::shared_ptr<SDL_FRect> GetRect() const;
     void SetRect(const SDL_FRect _rect);
@@ -199,6 +199,7 @@ class RenderObject
 
     [[nodiscard]] const SDL_FRect GetTransformedRect();
 
+    bool CanRender();
     virtual void Render(std::shared_ptr<SDL_Renderer> renderer);
 
     bool CheckCollisionAABB(std::shared_ptr<RenderObject> otherRenderObject);
@@ -490,7 +491,7 @@ void Game::CalculateDeltaTime()
 
 inline void Game::Update()
 {
-    for (auto &iter : children)
+    for (auto iter : children)
     {
         auto child = iter.get();
 
@@ -510,7 +511,7 @@ void Game::FixedUpdate()
 
     if (fixedUpdateDeltaTime > fixedFrameTime)
     {
-        for (auto &iter : children)
+        for (auto iter : children)
         {
             if (const auto child = iter.get(); child != nullptr)
             {
@@ -542,7 +543,7 @@ void Game::Render()
                          const std::shared_ptr<RenderObject> b)
                       { return a->z < b->z; });
 
-        for (auto &iter : children)
+        for (auto iter : children)
         {
             if (const auto child = iter.get(); child != nullptr)
             {
@@ -762,7 +763,7 @@ void RenderObject::InternalUpdate(const double deltaTime)
         updateFunction(this, deltaTime);
     }
 
-    for (auto &iter : children)
+    for (auto iter : children)
     {
         if (const auto child = iter.get(); child != nullptr)
         {
@@ -783,7 +784,7 @@ void RenderObject::InternalFixedUpdate(const double fixedDeltaTime)
         fixedUpdateFunction(this, fixedDeltaTime);
     }
 
-    for (auto &iter : children)
+    for (auto iter : children)
     {
         if (const auto child = iter.get(); child != nullptr)
         {
@@ -846,22 +847,27 @@ void RenderObject::SetScale(double _scale) { scale = _scale; }
     return transformedRect;
 }
 
-void RenderObject::Render(std::shared_ptr<SDL_Renderer> renderer)
+bool RenderObject::CanRender()
 {
-    children.sort([](const std::shared_ptr<RenderObject> &a,
-                     const std::shared_ptr<RenderObject> &b)
-                  { return a->z < b->z; });
-
     auto boundingBox = CalculateBoundingBox();
 
     auto viewport = game->GetViewport();
 
-    if (!SDL_HasIntersectionF(&boundingBox, &viewport))
+    return SDL_HasIntersectionF(&boundingBox, &viewport);
+}
+
+void RenderObject::Render(std::shared_ptr<SDL_Renderer> renderer)
+{
+    if (!CanRender())
     {
         return;
     }
 
-    for (auto &iter : children)
+    children.sort([](const std::shared_ptr<RenderObject> a,
+                     const std::shared_ptr<RenderObject> b)
+                  { return a->z < b->z; });
+
+    for (auto iter : children)
     {
         if (const auto child = iter.get(); child != nullptr)
         {
@@ -877,7 +883,7 @@ void RenderObject::Render(std::shared_ptr<SDL_Renderer> renderer)
 {
     auto boundingBox = GetTransformedRect();
 
-    for (auto &iter : children)
+    for (auto iter : children)
     {
         if (const auto child = iter.get(); child != nullptr)
         {

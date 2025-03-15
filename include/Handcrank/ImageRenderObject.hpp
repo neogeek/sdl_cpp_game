@@ -118,6 +118,11 @@ class ImageRenderObject : public RenderObject
      */
     void Render(std::shared_ptr<SDL_Renderer> renderer) override
     {
+        if (!CanRender())
+        {
+            return;
+        }
+
         auto transformedRect = GetTransformedRect();
 
         SDL_RenderCopyExF(renderer.get(), texture.get(),

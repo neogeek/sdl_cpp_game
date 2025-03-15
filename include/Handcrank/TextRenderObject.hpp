@@ -162,6 +162,11 @@ class TextRenderObject : public RenderObject
      */
     void Render(std::shared_ptr<SDL_Renderer> renderer) override
     {
+        if (!CanRender())
+        {
+            return;
+        }
+
         if (textTexture == nullptr)
         {
             textTexture = std::shared_ptr<SDL_Texture>(

@@ -98,6 +98,11 @@ class RectRenderObject : public RenderObject
      */
     void Render(std::shared_ptr<SDL_Renderer> renderer) override
     {
+        if (!CanRender())
+        {
+            return;
+        }
+
         SDL_SetRenderDrawBlendMode(renderer.get(), blendMode);
 
         auto transformedRect = GetTransformedRect();
