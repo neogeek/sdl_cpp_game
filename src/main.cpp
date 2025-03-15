@@ -7,9 +7,10 @@ using namespace Handcrank;
 // #include "ScottPilgrim/GameManager.hpp"
 // #include "Roguelike/GameManager.hpp"
 // #include "MidiGame/GameManager.hpp"
-#include "Breakout/GameManager.hpp"
+// #include "Breakout/GameManager.hpp"
+#include "KenneyPico8Level/GameManager.hpp"
 
-Game *game = new Game();
+auto game = std::make_shared<Game>();
 
 int main()
 {
