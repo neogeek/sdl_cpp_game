@@ -5,9 +5,8 @@
 
 #include <SDL.h>
 
-#include "sdl/SDL_Image_Utilities.hpp"
-
 #include "Handcrank.hpp"
+#include "Handcrank/sdl/SDL_Image_Utilities.hpp"
 
 namespace Handcrank
 {

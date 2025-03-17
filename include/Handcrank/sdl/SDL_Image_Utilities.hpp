@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -18,7 +20,7 @@ namespace Handcrank
  * @deprecated DEVELOPMENT USE ONLY! Use SDL_LoadTextureRW to load textures in a
  * release build.
  */
-std::shared_ptr<SDL_Texture>
+inline std::shared_ptr<SDL_Texture>
 SDL_LoadTexture(std::shared_ptr<SDL_Renderer> renderer, const char *path)
 {
     auto surface = IMG_Load(path);
@@ -49,7 +51,7 @@ SDL_LoadTexture(std::shared_ptr<SDL_Renderer> renderer, const char *path)
  * @param mem A pointer to a read-only buffer.
  * @param size The buffer size, in bytes.
  */
-std::shared_ptr<SDL_Texture>
+inline std::shared_ptr<SDL_Texture>
 SDL_LoadTextureRW(std::shared_ptr<SDL_Renderer> renderer, const void *mem,
                   const int size)
 {

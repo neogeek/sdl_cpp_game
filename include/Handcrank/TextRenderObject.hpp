@@ -8,9 +8,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "sdl/SDL_TTF_Utilities.hpp"
-
 #include "Handcrank.hpp"
+#include "Handcrank/sdl/SDL_TTF_Utilities.hpp"
 
 namespace Handcrank
 {

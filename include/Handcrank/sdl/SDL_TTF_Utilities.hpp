@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 
@@ -18,7 +20,8 @@ namespace Handcrank
  * @deprecated DEVELOPMENT USE ONLY! Use SDL_LoadFontRW to load
  * fonts in a release build.
  */
-std::shared_ptr<TTF_Font> SDL_LoadFont(const char *path, const int ptSize = 24)
+inline std::shared_ptr<TTF_Font> SDL_LoadFont(const char *path,
+                                              const int ptSize = 24)
 {
     if (!TTF_WasInit())
     {
@@ -42,8 +45,8 @@ std::shared_ptr<TTF_Font> SDL_LoadFont(const char *path, const int ptSize = 24)
  * @param size The buffer size, in bytes.
  * @param ptSize The size of the font.
  */
-std::shared_ptr<TTF_Font> SDL_LoadFontRW(const void *mem, const int size,
-                                         const int ptSize = 24)
+inline std::shared_ptr<TTF_Font> SDL_LoadFontRW(const void *mem, const int size,
+                                                const int ptSize = 24)
 {
     if (!TTF_WasInit())
     {
