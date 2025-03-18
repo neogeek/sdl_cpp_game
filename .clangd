@@ -1,0 +1,14 @@
+CompileFlags:
+  Add:
+    - "-std=c++17"
+    - "-Ifonts"
+    - "-Iimages"
+    - "-Iinclude"
+    - "-Isrc"
+    - "-I/opt/homebrew/Cellar/sdl2/2.32.2/include/SDL2"
+    - "-I/opt/homebrew/Cellar/sdl2_image/2.8.8/include/SDL2"
+    - "-I/opt/homebrew/Cellar/sdl2_ttf/2.24.0/include/SDL2"
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add: [performance-*, modernize-*, readability-*]
