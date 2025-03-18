@@ -28,11 +28,11 @@ inline float InverseLerp(float a, float b, float v)
     return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
 }
 
-inline int randomNumberRange(int min, int max)
+inline int RandomNumberRange(int min, int max)
 {
     return rand() % (max - min + 1) + min;
 }
 
-inline bool randomBoolean() { return rand() > (RAND_MAX / 2); }
+inline bool RandomBoolean() { return rand() > (RAND_MAX / 2); }
 
 } // namespace Handcrank
