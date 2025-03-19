@@ -27,7 +27,7 @@ class SpriteRenderObject : public ImageRenderObject
     double nextTick;
 
   public:
-    explicit SpriteRenderObject() {}
+    explicit SpriteRenderObject() = default;
     explicit SpriteRenderObject(const SDL_FRect _rect) { SetRect(_rect); }
 
     ~SpriteRenderObject() = default;
@@ -87,7 +87,7 @@ class SpriteRenderObject : public ImageRenderObject
             return;
         }
 
-        auto spriteFramesSize = spriteFrames.get()->size();
+        auto spriteFramesSize = spriteFrames->size();
 
         nextTick += deltaTime;
 
@@ -113,14 +113,14 @@ class SpriteRenderObject : public ImageRenderObject
             return;
         }
 
-        auto spriteFramesSize = spriteFrames.get()->size();
+        auto spriteFramesSize = spriteFrames->size();
 
         if (spriteFramesSize <= frame)
         {
             return;
         }
 
-        auto srcRect = spriteFrames.get()->at(frame);
+        auto srcRect = spriteFrames->at(frame);
 
         SetSrcRect(srcRect);
 

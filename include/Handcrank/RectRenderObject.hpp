@@ -24,7 +24,7 @@ class RectRenderObject : public RenderObject
     SDL_BlendMode blendMode = SDL_BLENDMODE_BLEND;
 
   public:
-    explicit RectRenderObject() {}
+    explicit RectRenderObject() = default;
     explicit RectRenderObject(const SDL_FRect _rect) { SetRect(_rect); }
 
     ~RectRenderObject() = default;
@@ -55,7 +55,7 @@ class RectRenderObject : public RenderObject
         borderColorSet = true;
     }
 
-    std::shared_ptr<SDL_Color> GetBorderColor() const
+    [[nodiscard]] auto GetBorderColor() const -> std::shared_ptr<SDL_Color>
     {
         return borderColorSet ? borderColor : nullptr;
     }
@@ -86,7 +86,7 @@ class RectRenderObject : public RenderObject
         fillColorSet = true;
     }
 
-    std::shared_ptr<SDL_Color> GetFillColor() const
+    [[nodiscard]] auto GetFillColor() const -> std::shared_ptr<SDL_Color>
     {
         return fillColorSet ? fillColor : nullptr;
     }

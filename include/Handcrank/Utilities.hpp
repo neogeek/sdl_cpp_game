@@ -9,30 +9,33 @@
 namespace Handcrank
 {
 
-inline std::string LeftPad(const std::string &content, const char pad,
-                           int length)
+inline auto LeftPad(const std::string &content, const char pad, int length)
+    -> std::string
 {
     return std::string(length - content.size(), pad) + content;
 }
 
-inline std::string RightPad(const std::string &content, const char pad,
-                            int length)
+inline auto RightPad(const std::string &content, const char pad, int length)
+    -> std::string
 {
     return content + std::string(length - content.size(), pad);
 }
 
-inline float Lerp(float a, float b, float t) { return (1 - t) * a + b * t; }
-
-inline float InverseLerp(float a, float b, float v)
+inline auto Lerp(float a, float b, float t) -> float
 {
-    return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
+    return ((1 - t) * a) + (b * t);
 }
 
-inline int RandomNumberRange(int min, int max)
+inline auto InverseLerp(float a, float b, float v) -> float
 {
-    return rand() % (max - min + 1) + min;
+    return std::clamp(((v - a) / (b - a)), 0.0F, 1.0F);
 }
 
-inline bool RandomBoolean() { return rand() > (RAND_MAX / 2); }
+inline auto RandomNumberRange(int min, int max) -> int
+{
+    return (rand() % (max - min + 1)) + min;
+}
+
+inline auto RandomBoolean() -> bool { return rand() > (RAND_MAX / 2); }
 
 } // namespace Handcrank

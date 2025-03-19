@@ -20,12 +20,12 @@ namespace Handcrank
  * @deprecated DEVELOPMENT USE ONLY! Use SDL_LoadTextureRW to load textures in a
  * release build.
  */
-inline std::shared_ptr<SDL_Texture>
-SDL_LoadTexture(std::shared_ptr<SDL_Renderer> renderer, const char *path)
+inline auto SDL_LoadTexture(std::shared_ptr<SDL_Renderer> renderer,
+                            const char *path) -> std::shared_ptr<SDL_Texture>
 {
-    auto surface = IMG_Load(path);
+    auto *surface = IMG_Load(path);
 
-    if (!surface)
+    if (surface == nullptr)
     {
         return nullptr;
     }
@@ -36,7 +36,7 @@ SDL_LoadTexture(std::shared_ptr<SDL_Renderer> renderer, const char *path)
 
     SDL_FreeSurface(surface);
 
-    if (!texture)
+    if (texture == nullptr)
     {
         return nullptr;
     }
@@ -51,15 +51,15 @@ SDL_LoadTexture(std::shared_ptr<SDL_Renderer> renderer, const char *path)
  * @param mem A pointer to a read-only buffer.
  * @param size The buffer size, in bytes.
  */
-inline std::shared_ptr<SDL_Texture>
-SDL_LoadTextureRW(std::shared_ptr<SDL_Renderer> renderer, const void *mem,
-                  const int size)
+inline auto SDL_LoadTextureRW(std::shared_ptr<SDL_Renderer> renderer,
+                              const void *mem, const int size)
+    -> std::shared_ptr<SDL_Texture>
 {
-    auto rw = SDL_RWFromConstMem(mem, size);
+    auto *rw = SDL_RWFromConstMem(mem, size);
 
-    auto surface = IMG_Load_RW(rw, 1);
+    auto *surface = IMG_Load_RW(rw, 1);
 
-    if (!surface)
+    if (surface == nullptr)
     {
         return nullptr;
     }
@@ -70,7 +70,7 @@ SDL_LoadTextureRW(std::shared_ptr<SDL_Renderer> renderer, const void *mem,
 
     SDL_FreeSurface(surface);
 
-    if (!texture)
+    if (texture == nullptr)
     {
         return nullptr;
     }
@@ -92,7 +92,7 @@ class ImageRenderObject : public RenderObject
     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
   public:
-    explicit ImageRenderObject() {}
+    explicit ImageRenderObject() = default;
     explicit ImageRenderObject(const SDL_FRect _rect) { SetRect(_rect); }
 
     ~ImageRenderObject() = default;

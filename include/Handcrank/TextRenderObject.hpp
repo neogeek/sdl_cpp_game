@@ -22,17 +22,17 @@ namespace Handcrank
  * @deprecated DEVELOPMENT USE ONLY! Use SDL_LoadFontRW to load
  * fonts in a release build.
  */
-inline std::shared_ptr<TTF_Font> SDL_LoadFont(const char *path,
-                                              const int ptSize = 24)
+inline auto SDL_LoadFont(const char *path, const int ptSize = 24)
+    -> std::shared_ptr<TTF_Font>
 {
-    if (!TTF_WasInit())
+    if (TTF_WasInit() == 0)
     {
         TTF_Init();
     }
 
-    auto font = TTF_OpenFont(path, ptSize);
+    auto *font = TTF_OpenFont(path, ptSize);
 
-    if (!font)
+    if (font == nullptr)
     {
         return nullptr;
     }
@@ -47,24 +47,24 @@ inline std::shared_ptr<TTF_Font> SDL_LoadFont(const char *path,
  * @param size The buffer size, in bytes.
  * @param ptSize The size of the font.
  */
-inline std::shared_ptr<TTF_Font> SDL_LoadFontRW(const void *mem, const int size,
-                                                const int ptSize = 24)
+inline auto SDL_LoadFontRW(const void *mem, const int size,
+                           const int ptSize = 24) -> std::shared_ptr<TTF_Font>
 {
-    if (!TTF_WasInit())
+    if (TTF_WasInit() == 0)
     {
         TTF_Init();
     }
 
-    auto rw = SDL_RWFromConstMem(mem, size);
+    auto *rw = SDL_RWFromConstMem(mem, size);
 
-    if (!rw)
+    if (rw == nullptr)
     {
         return nullptr;
     }
 
-    auto font = TTF_OpenFontRW(rw, 1, ptSize);
+    auto *font = TTF_OpenFontRW(rw, 1, ptSize);
 
-    if (!font)
+    if (font == nullptr)
     {
         SDL_RWclose(rw);
         return nullptr;
@@ -80,7 +80,7 @@ class TextRenderObject : public RenderObject
 
     SDL_Color color{255, 255, 255, 255};
 
-    std::string text = "";
+    std::string text;
 
     std::shared_ptr<SDL_Surface> textSurface;
 
@@ -89,7 +89,7 @@ class TextRenderObject : public RenderObject
   public:
     explicit TextRenderObject()
     {
-        if (!TTF_WasInit())
+        if (TTF_WasInit() == 0)
         {
             TTF_Init();
         }
@@ -147,7 +147,7 @@ class TextRenderObject : public RenderObject
     {
         if (font == nullptr)
         {
-            std::cerr << "ERROR! Missing font reference." << std::endl;
+            std::cerr << "ERROR! Missing font reference.\n";
 
             return;
         }
@@ -163,7 +163,7 @@ class TextRenderObject : public RenderObject
 
         if (!textSurface)
         {
-            std::cerr << "ERROR! Failed to generate text surface." << std::endl;
+            std::cerr << "ERROR! Failed to generate text surface.\n";
 
             return;
         }
@@ -183,7 +183,7 @@ class TextRenderObject : public RenderObject
     {
         if (font == nullptr)
         {
-            std::cerr << "ERROR! Missing font reference." << std::endl;
+            std::cerr << "ERROR! Missing font reference.\n";
 
             return;
         }
@@ -200,7 +200,7 @@ class TextRenderObject : public RenderObject
 
         if (!textSurface)
         {
-            std::cerr << "ERROR! Failed to generate text surface." << std::endl;
+            std::cerr << "ERROR! Failed to generate text surface.\n";
 
             return;
         }
@@ -211,7 +211,7 @@ class TextRenderObject : public RenderObject
         textTexture = nullptr;
     }
 
-    std::string GetText() { return text; }
+    auto GetText() -> std::string { return text; }
 
     /**
      * Render text to the scene.

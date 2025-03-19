@@ -17,39 +17,39 @@ struct Vector2
     explicit Vector2(const SDL_FPoint point) : x(point.x), y(point.y) {}
     explicit Vector2(const SDL_FRect rect) : x(rect.x), y(rect.y) {}
 
-    Vector2 operator+(const Vector2 &other) const
+    auto operator+(const Vector2 &other) const -> Vector2
     {
-        return Vector2(x + other.x, y + other.y);
+        return {x + other.x, y + other.y};
     }
 
-    Vector2 operator-(const Vector2 &other) const
+    auto operator-(const Vector2 &other) const -> Vector2
     {
-        return Vector2(x - other.x, y - other.y);
+        return {x - other.x, y - other.y};
     }
 
-    Vector2 operator*(const float number) const
+    auto operator*(const float number) const -> Vector2
     {
-        return Vector2(x * number, y * number);
+        return {x * number, y * number};
     }
 
-    Vector2 operator/(const float number) const
+    auto operator/(const float number) const -> Vector2
     {
         if (number == 0)
         {
             throw std::invalid_argument("Can't divide by zero.\n");
         }
 
-        return Vector2(x / number, y / number);
+        return {x / number, y / number};
     }
 
-    static Vector2 Lerp(const Vector2 &start, const Vector2 &destination,
-                        const float t)
+    static auto Lerp(const Vector2 &start, const Vector2 &destination,
+                     const float t) -> Vector2
     {
         return LerpUnclamped(start, destination, std::clamp<float>(t, 0, 1));
     }
 
-    static Vector2 LerpUnclamped(const Vector2 &start,
-                                 const Vector2 &destination, const float t)
+    static auto LerpUnclamped(const Vector2 &start, const Vector2 &destination,
+                              const float t) -> Vector2
     {
         auto newPosition = Vector2(start);
 
@@ -59,9 +59,9 @@ struct Vector2
         return newPosition;
     }
 
-    SDL_FPoint ToFPoint() const { return {x, y}; }
+    [[nodiscard]] auto ToFPoint() const -> SDL_FPoint { return {x, y}; }
 
-    SDL_FRect ToFRect() const { return {x, y}; }
+    [[nodiscard]] auto ToFRect() const -> SDL_FRect { return {x, y}; }
 };
 
 } // namespace Handcrank
